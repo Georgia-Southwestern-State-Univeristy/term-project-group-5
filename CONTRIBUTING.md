@@ -49,17 +49,11 @@ docker compose ps
 Test backend:
 curl -i http://localhost:5001
 ## Run formatter & linter
-From backend directory:
+From the project root:
+
 ```bash
-cd backend
-npm run format
 npm run lint
-```
-From frontend directory:
-```bash
-cd backend
 npm run format
-npm run lint
 ```
 
 ## Testing a teammate’s branch
