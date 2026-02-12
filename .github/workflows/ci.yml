@@ -33,17 +33,17 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           PORT: ${{ secrets.PORT }}
-        run: docker-compose build
+        run: docker compose build
 
       - name: Verify Containers Start
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           PORT: ${{ secrets.PORT }}
         run: |
-          docker-compose up -d
+          docker compose up -d
           sleep 20
-          docker-compose ps
-          docker-compose down
+          docker compose ps
+          docker compose down
 
       - name: Deploy (e.g. to Render)
         run: echo "Add deploy script or use Render GitHub integration"
