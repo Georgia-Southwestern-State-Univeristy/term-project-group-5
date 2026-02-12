@@ -1,7 +1,7 @@
 FROM node:24.13.0
 
 # Set the working directory
-WORKDIR /term-project-group-5/backend
+WORKDIR /term-project-group-5
 
 COPY package.json ./
 
