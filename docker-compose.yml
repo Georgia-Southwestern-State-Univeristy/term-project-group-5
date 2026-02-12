@@ -2,15 +2,15 @@ services:
   backend:
     build: ./backend
     env_file:
-      - .env
+      - path: ./.env
+        required: false 
     ports:
-      - "5001:5001" 
+      - "5001:5001"
     networks:
       - mern_network
-    # environment:
-    #   MONGO_URI: mongodb://mongo:27017/mydatabase  
-    depends_on:
-      - mongodb
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PORT=${PORT}
 
   frontend:
     build: ./frontend
