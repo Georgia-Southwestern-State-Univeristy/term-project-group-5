@@ -1,0 +1,39 @@
+services:
+  backend:
+    build: ./backend
+    env_file:
+      - path: ./.env
+        required: false 
+    ports:
+      - "5001:5001"
+    networks:
+      - mern_network
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PORT=${PORT}
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"  
+    networks:
+      - mern_network
+    environment:
+      REACT_APP_API_URL: http://backend:5001
+
+  mongodb:
+    image: mongo:latest  
+    ports:
+      - "27017:27017"  
+    networks:
+      - mern_network
+    volumes:
+      - mongo-data:/data/db  
+
+networks:
+  mern_network:
+    driver: bridge 
+
+volumes:
+  mongo-data:
+    driver: local  # Persist MongoDB data locally
