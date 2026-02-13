@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const CreatePage = () => {
-  return (
-    <div>CreatePage</div>
-  )
-}
+  return <div>CreatePage</div>;
+};
 
-export default CreatePage
+export default CreatePage;

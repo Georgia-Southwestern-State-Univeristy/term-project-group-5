@@ -47,3 +47,6 @@ jobs:
 
       - name: Deploy (e.g. to Render)
         run: echo "Add deploy script or use Render GitHub integration"
+      - name: Run Lint
+        run: npm run lint
+

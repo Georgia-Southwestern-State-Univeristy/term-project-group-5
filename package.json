@@ -1,0 +1,33 @@
+{
+  "name": "term-project-group-5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint backend frontend",
+    "lint:fix": "eslint backend frontend --fix",
+    "format": "prettier --write backend frontend",
+    "check": "npm run lint && npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/issues"
+  },
+  "homepage": "https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5#readme",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1"
+  }
+}
