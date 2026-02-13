@@ -17,6 +17,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "24.13.0"
+      - name: Install root dependencies
+        run: npm ci
+      - name: Run Lint
+        run: npm run lint
 
       - name: Build Frontend
         run: |
@@ -47,6 +51,4 @@ jobs:
 
       - name: Deploy (e.g. to Render)
         run: echo "Add deploy script or use Render GitHub integration"
-      - name: Run Lint
-        run: npm run lint
-
+      
