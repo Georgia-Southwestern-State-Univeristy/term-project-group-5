@@ -46,4 +46,4 @@ jobs:
           docker compose down
 
       - name: Deploy (e.g. to Render)
-        run: echo "Add deploy script or use Render GitHub integration"
+        run: echo "Add deploy or use Render GitHub integration"
