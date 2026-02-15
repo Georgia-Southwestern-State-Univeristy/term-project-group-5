@@ -2,6 +2,7 @@ name: MERN CI/CD Pipeline
 
 on:
   pull_request:
+  push:
     branches:
       - main
 
@@ -16,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.13.0"
+          node-version: "20"
       - name: Install root dependencies
         run: npm ci
       - name: Run Lint
