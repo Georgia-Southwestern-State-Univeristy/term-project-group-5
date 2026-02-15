@@ -5,4 +5,5 @@ The following required checklist items are our team's definition of done:
 * CI checks pass
 * Code follows team standards
 * Any new behavior has at least starter-level tests OR a written test plan note
+* Any updates to main have been merged into new code for seamless remote merging.
 * Docs updated if behavior changes
