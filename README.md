@@ -24,9 +24,12 @@ docker compose version
     cp .env.example .env
 ```
 Your .env should include at least:
+
     MONGO_URI=mongodb://mongodb:27017/mern-db
     PORT=5001
+    
     Inside Docker, use mongodb (not localhost or mongo).
+
 3) Start services
 ```bash
 docker compose up --build
@@ -46,6 +49,7 @@ docker compose ps
 curl -i http://localhost:5001
 ```
 Seeing Cannot GET / is expected — it means the backend is running.
+
 3)  Check Mongo from backend logs:
 ```bash
 docker compose logs -f backend
@@ -59,7 +63,9 @@ Run:
 cp .env.example .env
 ```
 2) Backend can’t connect to Mongo
+
 Make sure .env uses: mongodb://mongodb:27017/mern-db
+
 Then restart:
 ```bash
 docker compose down
@@ -68,8 +74,13 @@ docker compose up --build
 
 ## Repo layout
 backend/      Node + Express API
+
 frontend/     React UI
+
 docs/         ADRs and team docs
+
 docker-compose.yml
+
 .env.example
+
 README.md
