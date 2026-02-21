@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: Travel API
+  description: API for matching users with travel destinations based on attribute preferences.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5001/api/attributes
+
+paths:
+  /attributes:
+    get:
+      summary: Get all available search tags
+      description: Returns a list of attributes (e.g., 'Beach', 'Quiet') for the user to select from.
+      responses:
+        '200':
+          description: Successful list of attributes
+          content:
+            application/json:
+              example:
+                - id: "attr_1"
+                  label: "Beach"
+                  type: "Feature"
+                - id: "attr_2"
+                  label: "Budget-friendly"
+                  type: "Price"
+    post:
+      summary: Create a new attribute tag
+      description: Adds a new category or label (e.g., 'Tourist Spot') that can be linked to destinations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeInput'
+      responses:
+        '201':
+          description: Attribute created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attribute'
+        '400':
+          description: Invalid input 
+#placeholder
+  /auth/login:
+    post:
+      summary: Authenticate user via MongoDB
+      description: Validates email and password against the USER collection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+      responses:
+        '200':
+          description: Login successful, returns JWT
+          content:
+            application/json:
+              example:
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          description: Invalid credentials
+          
+components:
+  schemas:
+    Attribute:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        label:
+          type: string
+          example: "Tourist Spot"
+        type:
+          type: string
+          example: "Popularity"
+
+    AttributeInput:
+      type: object
+      required:
+        - label
+      properties:
+        label:
+          type: string
+        type:
+          type: string
+          
+    Destination:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        country:
+          type: string
+        description:
+          type: string
+        image_url:
+          type: string
+        match_score:
+          type: number
+          description: How closely the destination matched the criteria (0-1).
+  
+  #placeholder
+  securitySchemes:
+    MongoAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        Enter your JWT token. 
+        The backend validates this token against the `USER` entity in MongoDB.
+
+security:
+  - MongoAuth: []
