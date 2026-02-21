@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   getAttributes,
-  createAttribute
+  createAttribute,
 } from '../controllers/attributesController.js';
 
 const router = express.Router();

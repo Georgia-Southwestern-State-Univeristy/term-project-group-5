@@ -10,14 +10,14 @@ export async function getAttributes(req, res) {
   }
 }
 export async function createAttribute(req, res) {
-    try {
-      const { label, type } = req.body;
-      const newAttribute = new Attribute({ label, type });
-  
-      const savedAttribute = await newAttribute.save();
-      res.status(201).json(savedAttribute);
-    } catch (error) {
-      console.error('error in create Attribute controller: ', error);
-      res.status(500).json({ message: 'internal server error' });
-    }
+  try {
+    const { label, type } = req.body;
+    const newAttribute = new Attribute({ label, type });
+
+    const savedAttribute = await newAttribute.save();
+    res.status(201).json(savedAttribute);
+  } catch (error) {
+    console.error('error in create Attribute controller: ', error);
+    res.status(500).json({ message: 'internal server error' });
   }
+}
