@@ -3,6 +3,7 @@ name: MERN CI/CD Pipeline
 on:
   pull_request:
     branches:
+      - test
       - main
 
 jobs:
@@ -22,16 +23,29 @@ jobs:
       - name: Run Lint
         run: npm run lint
 
-      - name: Build Frontend
-        run: |
-          cd frontend
-          npm install
-          npm run build
-
       - name: Install Backend Dependencies
         run: |
           cd backend
           npm install
+          
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run Frontend Tests
+        run: |
+          cd frontend
+          npm run test
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
+      - name: Create dummy .env
+        run: |
+         echo "MONGO_URI=mongodb://mongodb:27017/test-db" >> .env
+         echo "PORT=5001" >> .env
 
       - name: Build Docker Images
         env:
@@ -52,3 +66,4 @@ jobs:
       - name: Deploy (e.g. to Render)
         run: echo "Add deploy script or use Render GitHub integration"
       
+     
