@@ -1,5 +1,6 @@
 import express from 'express';
 import notesRoutes from './routes/notesRoutes.js';
+import attributeRoutes from './routes/attributeRoutes.js';
 import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 
@@ -12,6 +13,7 @@ connectDB();
 //middleware
 app.use(express.json());
 app.use('/api/notes/', notesRoutes);
+app.use('/api/attributes/', attributeRoutes);
 //app.use("/api/product", productRoutes)
 
 app.listen(PORT, () => {
