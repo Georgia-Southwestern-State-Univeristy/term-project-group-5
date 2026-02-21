@@ -32,6 +32,21 @@ jobs:
         run: |
           cd backend
           npm install
+          
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run Frontend Tests
+        run: |
+          cd frontend
+          npm run test
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
 
       - name: Build Docker Images
         env:
@@ -52,3 +67,4 @@ jobs:
       - name: Deploy (e.g. to Render)
         run: echo "Add deploy script or use Render GitHub integration"
       
+     
