@@ -54,15 +54,15 @@ jobs:
           PORT: ${{ secrets.PORT }}
         run: docker compose build
 
-      - name: Verify Containers Start
+      - name: Start Services
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           PORT: ${{ secrets.PORT }}
+        run: docker compose up -d
+
+      - name: Wait for Health Check
         run: |
-          docker compose up -d
-          sleep 20
-          docker compose ps
-          docker compose down
+          timeout 60s bash -c 'until curl -s http://localhost:5001/api/attributes; do sleep 5; done'
 
       - name: Run API Smoke Test
         run: |
@@ -73,5 +73,7 @@ jobs:
             echo "Failure: API response was unexpected: $RESPONSE"
             exit 1
           fi
-      - name: Deploy (e.g. to Render)
-        run: echo "Add deploy script or use Render GitHub integration"
+
+      - name: Shutdown
+        if: always()
+        run: docker compose down
