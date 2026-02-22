@@ -50,15 +50,15 @@ jobs:
           echo "PORT=5001" >> .env
 
       - name: Build Docker Images
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          PORT: ${{ secrets.PORT }}
-        run: docker compose up --build
+        # env:
+        #   MONGO_URI: ${{ secrets.MONGO_URI }}
+        #   PORT: ${{ secrets.PORT }}
+        run: docker compose build
 
       - name: Start Services
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          PORT: ${{ secrets.PORT }}
+        # env:
+        #   MONGO_URI: ${{ secrets.MONGO_URI }}
+        #   PORT: ${{ secrets.PORT }}
         run: docker compose up -d
 
       - name: Wait for Health Check

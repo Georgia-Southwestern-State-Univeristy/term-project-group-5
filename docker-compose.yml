@@ -1,16 +1,16 @@
 services:
   backend:
     build: ./backend
-    # env_file:
-    #   - path: ./.env
-    #     required: false 
+    env_file:
+      - path: ./.env
+        required: false 
     ports:
       - "5001:5001"
     networks:
       - mern_network
-    environment:
-      - MONGO_URI=${MONGO_URI}
-      - PORT=${PORT}
+    # environment:
+    #   - MONGO_URI=${MONGO_URI}
+    #   - PORT=${PORT}
 
   frontend:
     build: ./frontend
