@@ -1,11 +1,11 @@
 ```mermaid
 erDiagram
-    
+
     USER ||--o{ SEARCH_REQUEST : "submits"
-    
+
     SEARCH_REQUEST ||--o{ REQUEST_CRITERIA : "contains"
     REQUEST_CRITERIA }o--|| ATTRIBUTE : "selected"
-    
+
     DESTINATION ||--o{ DESTINATION_ATTRIBUTE : "has"
     DESTINATION_ATTRIBUTE }o--|| ATTRIBUTE : "defines"
 
@@ -33,6 +33,7 @@ erDiagram
     ATTRIBUTE {
         id string PK
         label string "e.g., 'Cheap', 'Beach', 'Quiet'"
+        type string
     }
 
     DESTINATION_ATTRIBUTE {
@@ -44,5 +45,19 @@ erDiagram
         request_id string FK "refers. SEARCH_REQUEST.id"
         attribute_id string FK "refers. ATTRIBUTE.id"
     }
-    ```
+
     %%FK = Foreign Key, PK = Primary Key, refers. = references
+
+
+%% SIMPLIFICATIONS/ASSUMPTIONS
+%%Purposefully simplifying the country attribute in Destination instead of making a new table to avoid complex joins.
+
+%%We are treating all attributes as equal when we could implement logic to require one selection per type.
+
+%%If a user enters a search request that was acquired from a saved request, a whole new request will be put in instead of updating the exiswting one.
+
+%%Images could be saved in the database, but we are choosing to just return a url.
+
+%%We are only allowing one image per destination to avoid adding another tanble linking destination to multiple images.
+
+```
