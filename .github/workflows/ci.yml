@@ -52,7 +52,7 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           PORT: ${{ secrets.PORT }}
-        run: docker compose build
+        run: docker compose up --build
 
       - name: Start Services
         env:
@@ -70,6 +70,7 @@ jobs:
           if [[ $RESPONSE == *"["* ]]; then
             echo "Success: API returned an array of attributes."
           else
+            docker compose logs backend --tail 50
             echo "Failure: API response was unexpected: $RESPONSE"
             exit 1
           fi
