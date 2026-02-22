@@ -45,20 +45,13 @@ jobs:
 
       - name: Create dummy .env
         run: |
-          # Use the 'mongodb' service name from your docker-compose.yml
           echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" > .env
           echo "PORT=5001" >> .env
 
       - name: Build Docker Images
-        # env:
-        #   MONGO_URI: ${{ secrets.MONGO_URI }}
-        #   PORT: ${{ secrets.PORT }}
         run: docker compose build
 
       - name: Start Services
-        # env:
-        #   MONGO_URI: ${{ secrets.MONGO_URI }}
-        #   PORT: ${{ secrets.PORT }}
         run: docker compose up -d
 
       - name: Wait for Health Check
