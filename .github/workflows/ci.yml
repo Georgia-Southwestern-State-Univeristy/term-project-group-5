@@ -45,8 +45,8 @@ jobs:
 
       - name: Create dummy .env
         run: |
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" >> .env
+          echo "PORT=5001" >> .env
 
       - name: Build Docker Images
         env:
@@ -66,13 +66,17 @@ jobs:
 
       - name: Run API Smoke Test
         run: |
-          RESPONSE=$(curl -s http://backend:5001/api/attributes)
+          RESPONSE=$(curl -s http://localhost:5001/api/attributes)
           if [[ $RESPONSE == *"["* ]]; then
             echo "Success: API returned an array of attributes."
           else
             echo "Failure: API response was unexpected: $RESPONSE"
             exit 1
           fi
+
+      - name: Debug Backend on Failure
+        if: failure()
+        run: docker compose logs backend
 
       - name: Shutdown
         if: always()
