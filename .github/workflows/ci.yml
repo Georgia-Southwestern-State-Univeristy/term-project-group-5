@@ -45,7 +45,8 @@ jobs:
 
       - name: Create dummy .env
         run: |
-          echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" >> .env
+          # Use the 'mongodb' service name from your docker-compose.yml
+          echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" > .env
           echo "PORT=5001" >> .env
 
       - name: Build Docker Images
