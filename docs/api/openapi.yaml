@@ -4,9 +4,9 @@ info:
   description: API for matching users with travel destinations based on attribute preferences.
   version: 1.0.0
 servers:
-  - url: http://localhost:5001/api/attributes
+  - url: http://localhost:5001/api
     description: Access from your Host machine (Browser/Postman)
-  - url: http://backend:5001/api/attributes
+  - url: http://backend:5001/api
     description: Access from within the Docker network (Frontend container)
 
 paths:
@@ -34,7 +34,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AttributeInput'
+              type: object
+              required:
+                - label
+                - type
+              properties:
+                label:
+                  type: string
+                  example: 'Activity'
+                type:
+                  type: string
+                  example: 'Beach'
       responses:
         '201':
           description: Attribute created successfully
@@ -44,26 +54,45 @@ paths:
                 $ref: '#/components/schemas/Attribute'
         '400':
           description: Invalid input
-  /destinations:
-    get:
-      summary: Get all returned destinations
-      description: Returns a list of destinations for the user to select. e.g. San Juan, Puerto Rico
+
+  /search:
+    post:
+      summary: Submit search criteria and get matching destinations
+      description: Creates a SEARCH_REQUEST and returns destinations matching selected ATTRIBUTEs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - attribute_ids
+              properties:
+                user_id:
+                  type: string
+                  format: uuid
+                  example: '550e8400-e29b-41d4-a716-446655440000'
+                attribute_ids:
+                  type: array
+                  items:
+                    type: string 
+                  example: ["64a7b1...", "64a7b2..."]
       responses:
-        '200':
-          description: Successful list of attributes
+        '201':
+          description: Search processed successfully
           content:
             application/json:
-              example:
-                - id: 'dest_1'
-                  name: 'San Juan'
-                  country: 'Puerto Rico'
-                  description: 'A fun tropical paradise'
-                  image_url: 'http://image.com'
-                - id: 'dest_1'
-                  name: 'San Somewhere'
-                  country: 'Madagascar'
-                  description: 'A not very fun tropical paradise'
-                  image_url: 'http://notFunImage.com'
+              schema:
+                type: object
+                properties:
+                  search_id:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Destination'
+        '400':
+          description: Invalid input (e.g., empty attribute list)
 
   #placeholder
   /auth/login:
@@ -105,16 +134,6 @@ components:
           type: string
           example: 'Popularity'
 
-    AttributeInput:
-      type: object
-      required:
-        - label
-      properties:
-        label:
-          type: string
-        type:
-          type: string
-
     Destination:
       type: object
       properties:
@@ -128,9 +147,11 @@ components:
           type: string
         image_url:
           type: string
-        match_score:
-          type: number
-          description: How closely the destination matched the criteria (0-1).
+        attributes:
+          type: array
+            items:
+              type: string 
+            example: ["64a7b1...", "64a7b2..."]
 
   #placeholder
   securitySchemes:
