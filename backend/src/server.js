@@ -1,6 +1,7 @@
 import express from 'express';
 import notesRoutes from './routes/notesRoutes.js';
 import attributeRoutes from './routes/attributeRoutes.js';
+import destinationRoutes from './routes/destinationRoutes.js';
 import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 
@@ -14,12 +15,10 @@ connectDB();
 app.use(express.json());
 app.use('/api/notes/', notesRoutes);
 app.use('/api/attributes/', attributeRoutes);
-//app.use("/api/product", productRoutes)
+app.use('/api/search/', destinationRoutes);
+
 
 app.listen(PORT, () => {
   console.log('Server running on PORT: ', PORT);
 });
 
-//app.listen(5001, "0.0.0.0", () => {
-//  console.log("Server running");
-//});

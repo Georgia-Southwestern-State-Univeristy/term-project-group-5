@@ -20,6 +20,7 @@ erDiagram
         id string PK
         user_id UUID FK "refers. USER.id"
         created_at datetime
+        attribute_ids array string
     }
 
     DESTINATION {
@@ -28,6 +29,7 @@ erDiagram
         country string
         description string
         image_url string
+        attributes array string
     }
 
     ATTRIBUTE {
@@ -36,15 +38,6 @@ erDiagram
         type string
     }
 
-    DESTINATION_ATTRIBUTE {
-        destination_id string FK "refers. DESTINATION.id"
-        attribute_id string FK "refers. ATTRIBUTE.id"
-    }
-
-    REQUEST_CRITERIA {
-        request_id string FK "refers. SEARCH_REQUEST.id"
-        attribute_id string FK "refers. ATTRIBUTE.id"
-    }
 
     %%FK = Foreign Key, PK = Primary Key, refers. = references
 
