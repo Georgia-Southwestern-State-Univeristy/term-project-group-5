@@ -18,10 +18,10 @@ const destinationSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      attributes: {
+      attributes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Attribute',
-      }
+      }]
   },
   { timestamps: true }
 );
