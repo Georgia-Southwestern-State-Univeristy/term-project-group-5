@@ -74,7 +74,7 @@ describe("AttributesPage Tests", () => {
       "1"
     );
 
-    await userEvent.click(screen.getByText("Submit"));
+    await userEvent.click(screen.getByRole("button", { name: /find my destination/i }));
 
     expect(global.fetch).toHaveBeenCalledWith(
       "/api/search",
@@ -101,9 +101,9 @@ describe("AttributesPage Tests", () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => screen.getByText("Submit"));
+    await waitFor(() => screen.getByRole("button", { name: /find my destination/i }));
 
-    await userEvent.click(screen.getByText("Submit"));
+    await userEvent.click(screen.getByRole("button", { name: /find my destination/i }));
 
     expect(
       screen.getByText(/You must select at least one attribute/i)
