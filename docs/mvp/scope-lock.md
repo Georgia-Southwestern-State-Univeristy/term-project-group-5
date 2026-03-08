@@ -22,27 +22,28 @@ Link to our GitHub Project Board showing user story status: https://github.com/o
 
 Step 1 - Access Homepage:
 * Open the deployed web application.
-* Homepage loads with a clearly visible destination suggestion form.
+* Homepage loads with a "Find Flight" section at the top of the page that is currently just a placeholder for a feature that is scheduled for a future sprint, and a "Find Your Next Destination" section at the bottom of the page.
+* Click on the "Start Here" button to navigate to the next page to the "Search Preferences" or destination suggestion form.
 
-Step 2 - Enter Preferences:
-* Enter required fields (e.g., origin city).
-* Enter optional fields (e.g., vibe = “relaxing”, budget = “moderate”).
-* Leave one optional field blank to demonstrate flexibility.
-
-Step 3 - Validate Form Behavior:
-* Attempt submission with a required field missing.
+Step 2 - Validate Form Behavior:
+* On the "Search Preferences" page, attempt submission by clicking "Find My Destination" without selecting an option from any of the drop-down menus.
 * System displays validation error message.
-* Fill in required field correctly.
-* Click “Submit”.
+  
+Step 3 - Enter Preferences:
+* Select an option from at least one of the drop-down menus (e.g., vibe = “relaxing”).
+* Select an option from the remaining optional drop-down menus (e.g., budget = “moderate”).
+* Leave one drop-down menu unselected to demonstrate flexibility.
+* Click "Find My Destination".
 
 Step 4 - View Destination Suggestions:
 * System navigates to results page.
-* A list of destination suggestions is displayed.
+* A search flight form is displayed at the top of the page as a placeholder for a feature that is scheduled for a future sprint.
+* A list of destination suggestions is displayed at the bottom of the page below the search flight form.
 * Each suggestion includes:
   * Destination name
   * Short description
   * Representative image
-  * Estimated budget category
+  * "View Details" button 
 
 </br>
 
