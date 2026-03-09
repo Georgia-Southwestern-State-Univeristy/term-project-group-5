@@ -118,65 +118,59 @@ export default function AttributesPage() {
 
 return (
   <>
-    <div style={{ padding: "2rem", maxWidth: "600px" }}>
-      <h2>Search Preferences</h2>
+    <div style={pageWrapperStyle}>
+        <button
+          onClick={() => navigate(-1)}
+          style={floatingBackButtonStyle}
+        >
+          ←
+        </button>
+        
+      <div style={cardStyle}>
+        <h2 style={titleStyle}>Search Preferences</h2>
 
-      {Object.entries(groupedAttributes).map(([type, values]) => (
-        <div key={type} style={{ marginTop: "1.5rem" }}>
-          <label
-            style={{
-              display: "block",
-              marginBottom: "0.5rem",
-              fontWeight: "bold"
-            }}
-          >
-            {type}
-          </label>
+        {Object.entries(groupedAttributes).map(([type, values]) => (
+          <div key={type} style={sectionStyle}>
+            <label style={sectionLabelStyle}>{type}</label>
 
-          <select
-            style={{ width: "100%", padding: "0.5rem" }}
-            value={selected[type] || ""}
-            onChange={(e) =>
-              setSelected({
-                ...selected,
-                [type]: e.target.value
-              })
-            }
-          >
-            <option value="">Select {type}</option>
-            {values.map((attr) => (
-              <option key={attr._id} value={attr._id}>
-                {attr.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      ))}
+            <select
+              style={selectStyle}
+              value={selected[type] || ""}
+              onChange={(e) =>
+                setSelected({
+                  ...selected,
+                  [type]: e.target.value
+                })
+              }
+            >
+              <option value="">Select {type}</option>
+              {values.map((attr) => (
+                <option key={attr._id} value={attr._id}>
+                  {attr.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
 
-      <button
-        style={{
-          marginTop: "2rem",
-          padding: "0.75rem",
-          width: "100%",
-          backgroundColor: "#007bff",
-          color: "white",
-          border: "none",
-          cursor: "pointer"
-        }}
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+        <button style={submitButtonStyle} onClick={handleSubmit}>
+          Find My Destination
+        </button>
+      </div>
     </div>
 
     {showModal && (
       <div style={overlayStyle}>
         <div style={modalStyle}>
-          <h3>Please Select Preferences</h3>
-          <p>You must select at least one attribute before submitting.</p>
+          <h3 style={{ marginBottom: "0.5rem" }}>
+            Please Select Preferences
+          </h3>
+          <p style={{ color: "#666", fontSize: "0.9rem" }}>
+            You must select at least one attribute before submitting.
+          </p>
           <button
             onClick={() => setShowModal(false)}
-            style={buttonStyle}
+            style={modalButtonStyle}
           >
             OK
           </button>
@@ -185,5 +179,96 @@ return (
     )}
   </>
 );
-
 }
+/* ===== Page Layout ===== */
+
+const pageWrapperStyle = {
+  minHeight: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  paddingTop: "4rem",
+  backgroundColor: "#f8f9fa"
+};
+
+const cardStyle = {
+  backgroundColor: "white",
+  padding: "2.5rem",
+  borderRadius: "16px",
+  width: "100%",
+  maxWidth: "600px",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.08)"
+};
+
+const titleStyle = {
+  textAlign: "center",
+  marginBottom: "2rem"
+};
+
+/* ===== Sections ===== */
+
+const sectionStyle = {
+  marginBottom: "1.5rem"
+};
+
+const sectionLabelStyle = {
+  display: "block",
+  marginBottom: "0.5rem",
+  fontWeight: "600",
+  fontSize: "0.95rem"
+};
+
+const selectStyle = {
+  width: "100%",
+  height: "42px",
+  padding: "0 12px",
+  borderRadius: "8px",
+  border: "1px solid #ddd",
+  fontSize: "0.95rem",
+  backgroundColor: "white",
+  cursor: "pointer"
+};
+
+/* ===== Submit Button ===== */
+
+const submitButtonStyle = {
+  width: "100%",
+  height: "44px",
+  marginTop: "1.5rem",
+  backgroundColor: "#1a73e8",
+  color: "white",
+  border: "none",
+  borderRadius: "10px",
+  fontWeight: "600",
+  cursor: "pointer",
+  fontSize: "1rem"
+};
+
+/* ===== Modal Upgrade ===== */
+
+const modalButtonStyle = {
+  marginTop: "1.5rem",
+  padding: "0.6rem 1.5rem",
+  backgroundColor: "#1a73e8",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer"
+};
+
+const floatingBackButtonStyle = {
+  position: "fixed",
+  top: "24px",
+  left: "24px",
+  width: "44px",
+  height: "44px",
+  borderRadius: "50%",
+  border: "none",
+  backgroundColor: "white",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+  cursor: "pointer",
+  fontSize: "1.2rem",
+  fontWeight: "600",
+  zIndex: 1000,
+  transition: "all 0.2s ease"
+};
