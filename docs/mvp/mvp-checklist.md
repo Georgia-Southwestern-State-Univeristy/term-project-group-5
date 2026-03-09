@@ -71,4 +71,35 @@ Link to our GitHub Project Board showing user story status: https://github.com/o
 
 ----
 
-# Top 3 Risks Heading into Beta & Mitigation Plan
+# Top 3 Risks
+The following are the top 3 risks heading into beta and their mitigation plan.
+
+**1. API or Data Availability Issues**
+
+Risk: Destination suggestions depend on Amadeus API. Users may experience empty results or long loading times if the API fails, returns incomplete data, or responds slowly.
+
+Mitigation Plan:
+* Implement fallback data or mock destination results for testing and demo purposes.
+* Add loading indicators and error messages to improve user experience.
+* Monitor API responses and implement basic retry logic if requests fail.
+* Validate backend responses before rendering results.
+
+**2. Frontend–Backend Integration Issues**
+
+Risk: The frontend and backend are being developed in parallel. The frontend may fail to properly display destination suggestions or submit search data if the API endpoints, request formats, or response structures change. 
+
+Mitigation Plan:
+* Define and maintain clear API contracts between frontend and backend teams.
+* Use mock API responses during frontend development to simulate backend data.
+* Test integration early using Postman or local API testing.
+* Implement error handling on the frontend to gracefully manage failed API calls.
+
+**3. Search Form Validation and User Input Errors**
+
+Risk: Users may submit incomplete or invalid search inputs (missing dates, incorrect traveler count, invalid locations), which could cause errors in the application or incorrect results.
+
+Mitigation Plan:
+* Implement client-side validation for required fields before submission.
+* Display clear validation messages if inputs are missing or invalid.
+* Ensure date inputs follow proper formats and logical constraints (e.g., return date after departure).
+* Sanitize and validate inputs again on the backend.
