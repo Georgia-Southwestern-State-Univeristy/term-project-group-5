@@ -6,10 +6,10 @@ The following is a 5–7 minute MVP demo path.
 
 1. Open the deployed application URL
 2. Confirm the homepage loads successfully
-3. Confirm the destination suggestion form is visible above the fold
-4. Briefly explain:
-   - Required fields
-   - Optional preference fields
+3. Briefly provide an overview of the "Find Flight" section at the top of the page that is currently just a placeholder for a feature that is scheduled for a future sprint, and explain the fields within this section.
+5. Discuss the "Find Your Next Destination" section at the bottom of the page.
+6. Click on the "Start Here" button to navigate to the next page to the "Search Preferences" or destination suggestion form.
+
 
 **Checkpoints:**
 
@@ -18,36 +18,26 @@ The following is a 5–7 minute MVP demo path.
   
 ##
 
-**Step 2 — Enter Preferences (1:00–2:30)**
+**Step 2 — Validate Form Behavior (1:00–2:00)**
 
-Use these pre-tested demo inputs:
-
-* Origin City (Required): Atlanta
-* Budget (Optional): Low
-* Vibe (Optional): Relaxing
-* Travel Interest: Beach
-* Leave one optional field blank to demonstrate flexibility
-
-Narration: “Optional fields refine the recommendation engine but are not required.”
-
-## 
-
-**Step 3 — Validate Form Behavior (2:30–3:30)**
-
-1. Clear required field
-
-2. Click Submit
-
-3. Confirm validation error appears
-
-4. Re-enter required field correctly
-
-5. Click Submit again
+* On the "Search Preferences" page, attempt submission by clicking "Find My Destination" without selecting an option from any of the drop-down menus.
+* System displays validation error message.
 
 Expected:
 - Error message displays
 - No navigation until valid
 - No console errors
+
+## 
+
+**Step 3 — Enter Preferences (2:00–3:30)** 
+
+1. Select an option from at least one of the drop-down fields (e.g., vibe = “relaxing”).
+2. Select an option from the remaining optional drop-down fields (e.g., budget = “moderate”).
+3. Leave one drop-down menu unselected to demonstrate flexibility.
+4. Click "Find My Destination".
+
+Narration: “Optional fields refine the recommendation engine but are not required.”
 
 ## 
 
@@ -57,24 +47,22 @@ System navigates to Results Page.
 
 Verify:
 
-* Destination list appears
-* Each suggestion contains:
-    * Destination name
-    * Short description
-    * Representative image
-    * Estimated budget 
+* A search flight form is displayed at the top of the page where users can enter travel dates and the number of travelers using input fields.
+* A list of destination suggestions is displayed at the bottom of the page below the search flight form.
+* Each suggestion includes:
+   * Destination name
+   * Short description
+   * Representative image
+   * "View Details" button
 
 Narration: “Results reflect the selected preferences using predefined mapping logic.”
 
 ## 
 
 **Step 5 — Update Dates & Travelers (5:00–6:30)**
-1. Modify travel dates
-
-2. Adjust traveler count
-
-3. Confirm results refresh dynamically
-
+1. Enter departure and arrival destinations
+2. Modify travel dates
+3. Adjust traveler count
 4. Confirm no page reload
 
 Narration: “Users can refine their search without returning to the homepage.”
