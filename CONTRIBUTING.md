@@ -22,9 +22,10 @@ When opening a PR:
 2. The PR title should clearly describe the change.
 3. In the PR description, list every feature or change included.
 4. Keep PRs small and focused (ideally one feature per PR).
-5. Direct pushes to main are not allowed. All changes must go through a pull request.Target the agreed branch “test” not “main”.
+5. Direct pushes to main are not allowed. All changes must go through a pull request. Target the agreed branch “test” not “main”.
 6. Request at least one teammate review before merging.
 7. Ensure CI checks pass before merging.
+8. Zengtao owns merging everything in the "test" branch to "main" branch by 10pm ET each Sunday for the duration of this project.
 
 ## Review Expectations
 
