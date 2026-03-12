@@ -1,7 +1,7 @@
 import Destination from '../models/Destination.js';
 import SearchRequest from '../models/SearchRequest.js';
 import mongoose from 'mongoose';
-import { logInfo, logWarn, logError } from '../../utils/logger.js';
+import { logInfo, logWarn } from '../../utils/logger.js';
 
 export async function getDestinations(req, res, next) {
   try {

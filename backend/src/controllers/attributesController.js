@@ -1,5 +1,5 @@
 import Attribute from '../models/Attribute.js';
-import { logInfo, logError } from '../../utils/logger.js';
+import { logInfo } from '../../utils/logger.js';
 
 export async function getAttributes(req, res, next) {
   const startTime = Date.now();

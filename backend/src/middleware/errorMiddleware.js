@@ -1,6 +1,6 @@
 import { logError } from '../../utils/logger.js';
 
-export function globalErrorHandler(err, req, res, next) {
+export function globalErrorHandler(err, req, res, _next) {
   logError("UNHANDLED_SERVER_ERROR", req.requestId, {
     endpoint: req.originalUrl,
     method: req.method,
