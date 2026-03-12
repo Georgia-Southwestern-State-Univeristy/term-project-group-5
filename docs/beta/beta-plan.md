@@ -14,18 +14,21 @@ Sprint 1 (week 9 - 10):
 
 - Integrate Amadeus API for flight search and return (Riskiest)
 - Create page/popup for flight results
+  (Quality Sprint Item): Tests for amadeus queries
+
+Sprint 2
+
 - User registration
 - User authentication
 - Login/Registration page
-  (Quality Sprint Item): Tests for amadeus queries
 
-Sprint 2:
+Sprint 3:
 
 - Previous search retrieval by user + UI to view
 - Rate limiting
   (Quality Sprint Item): Tests for searches being returned to frontend
 
-Sprint 3 (Hardening):
+Sprint 4 (Hardening):
 
 - Query optimization
 - UI optimization
