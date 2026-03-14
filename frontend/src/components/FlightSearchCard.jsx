@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 export default function FlightSearchCard({ onSubmit }) {
   const [formData, setFormData] = useState({
     departure: "",
@@ -9,7 +10,7 @@ export default function FlightSearchCard({ onSubmit }) {
     travelers: 1
   });
   const [showModal, setShowModal] = useState(false);
-
+  const [modalMessage, setModalMessage] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -21,9 +22,19 @@ export default function FlightSearchCard({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.departure || !formData.destination) {
-        setShowModal(true);
-        return;
-    }
+    setModalMessage("Departure and Destination are required.");
+    setShowModal(true);
+    return;
+  }
+    if (
+    formData.departureDate &&
+    formData.returnDate &&
+    formData.returnDate < formData.departureDate
+  ) {
+    setModalMessage("Return date must be after departure date.");
+    setShowModal(true);
+    return;
+  }
     onSubmit(formData);
   };
 
@@ -95,21 +106,21 @@ export default function FlightSearchCard({ onSubmit }) {
       </form>
     </div>
     {showModal && (
-        <div style={overlayStyle}>
-            <div style={modalStyle}>
-                <h3>Please Fill Required Fields</h3>
-                <p style={{ color: "#666", fontSize: "0.9rem" }}>
-                    Departure and Destination are required.
-                </p>
-                <button
-                onClick={() => setShowModal(false)}
-                style={modalButtonStyle}
-                >
-                    OK
-                </button>
-            </div>
-        </div>
-    )}
+  <div style={overlayStyle}>
+    <div style={modalStyle}>
+      <h3>Validation Error</h3>
+      <p style={{ color: "#666", fontSize: "0.9rem" }}>
+        {modalMessage}
+      </p>
+      <button
+        onClick={() => setShowModal(false)}
+        style={modalButtonStyle}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
     </>
   );
 }

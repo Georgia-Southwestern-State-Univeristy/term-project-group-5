@@ -12,11 +12,11 @@ export async function getAllnotes(req, res) {
 export async function getNoteById(req, res) {
   try {
     const note = await Note.findById(req.params.id);
-    if (!note) return res.status(404).json({ message: 'Notqr3re not found' });
+    if (!note) return res.status(404).json({ message: 'Note not found' });
     res.status(200).json(note);
   } catch (error) {
-    console.error('Errot in GetbyId controller');
-    res.status(500).json({ message: 'interawefnal server error' });
+    console.error('Error in getNoteById controller');
+    res.status(500).json({ message: 'Internal server error' });
   }
 }
 export async function createNotes(req, res) {
@@ -28,7 +28,7 @@ export async function createNotes(req, res) {
     res.status(201).json(savedNote);
   } catch (error) {
     console.error('error in create note controller: ', error);
-    res.status(500).json({ message: 'internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 }
 export async function updateNote(req, res) {
