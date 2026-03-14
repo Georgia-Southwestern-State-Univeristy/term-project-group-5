@@ -95,8 +95,8 @@ paths:
           description: Invalid input (e.g., empty attribute list)
   /flights/search:
     post:
-      summary: Get real-time flight offers for a destination
-      description: Connects to Amadeus API to return flight options including airline, price, and duration.
+      summary: Get real-time flight offers (RapidAPI Version)
+      description: Connects to Flights Scraper Sky to return options. Note: Backend now handles IATA-to-EntityID mapping.
       security:
         - MongoAuth: []
       requestBody:
@@ -107,34 +107,19 @@ paths:
               type: object
               required: [originCode, destinationCode, departureDate]
               properties:
-                originCode:
-                  type: string
-                  description: IATA code of departure city (e.g., NYC)
-                  example: "NYC"
-                destinationCode:
-                  type: string
-                  description: IATA code of destination city (e.g., PAR)
-                  example: "PAR"
-                departureDate:
-                  type: string
-                  format: date
-                  example: "2026-06-15"
-                adults:
-                  type: integer
-                  default: 1
+                originCode: { type: string, example: "JFK" }
+                destinationCode: { type: string, example: "PARI" }
+                departureDate: { type: string, format: date, example: "2026-06-15" }
+                adults: { type: integer, default: 1 }
       responses:
         '200':
-          description: A list of flight offers
+          description: List of flight offers
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/FlightOffer'
-        '400':
-          description: Missing required parameters
-        '502':
-          description: Error communicating with Amadeus API
           
   #placeholder
   /auth/login:
