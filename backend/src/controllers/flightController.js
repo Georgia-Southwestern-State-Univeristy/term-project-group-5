@@ -1,49 +1,53 @@
-const Amadeus = require('amadeus');
+import axios from 'axios';
 
-const amadeus = new Amadeus({
-  clientId: process.env.AMADEUS_CLIENT_ID,
-  clientSecret: process.env.AMADEUS_CLIENT_SECRET
-});
-
-const getFlightOffers = async (req, res) => {
-  const { originCode, destinationCode, departureDate, adults } = req.body;
+export async function getFlightOffers  (req, res) {
+  // 1. Get info from your React frontend
+  const { originCode, destinationCode, departureDate } = req.body;
 
   try {
-    const response = await amadeus.shopping.flightOffersSearch.get({
-      originLocationCode: originCode,
-      destinationLocationCode: destinationCode,
-      departureDate: departureDate,
-      adults: adults || '1',
-      // this is to limit results
-      max: 10 
-    });
-
-    // AMADEUS DICTIONARY: Map carrier codes to names
-    const carriers = response.result.dictionaries.carriers;
-
-    const cleanedOffers = response.data.map(offer => ({
-      id: offer.id,
-      airline: carriers[offer.itineraries[0].segments[0].carrierCode],
-      airlineCode: offer.itineraries[0].segments[0].carrierCode,
-      price: {
-        total: offer.price.total,
-        currency: offer.price.currency
+    // 2. Setup the request to Flights Sky
+    const options = {
+      method: 'GET',
+      url: 'https://flights-sky.p.rapidapi.com/flights/search-one-way', 
+      params: {
+        fromEntityId: originCode, 
+        toEntityId: destinationCode,
+        departDate: departureDate,
+        currency: 'USD'
       },
-      duration: offer.itineraries[0].duration.replace('PT', '').toLowerCase(),
-      numberOfBookableSeats: offer.numberOfBookableSeats,
-      segments: offer.itineraries[0].segments.map(seg => ({
-        departure: seg.departure,
-        arrival: seg.arrival,
-        blacklistedInEU: seg.blacklistedInEU,
-        stops: seg.numberOfStops
+      headers: {
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY,
+        'x-rapidapi-host': 'flights-sky.p.rapidapi.com'
+      }
+    };
+
+    // 3. Execute the search
+    const response = await axios.request(options);
+    
+    // 4. Data Extraction (Path depends on the exact JSON structure of Flights Sky)
+    const rawFlights = response.data.data?.itineraries || [];
+
+    // 5. Transform for your Frontend (Matching your API Contract)
+    const cleanedOffers = rawFlights.map(flight => ({
+      id: flight.id,
+      airline: flight.legs[0].carriers.marketing[0].name,
+      price: {
+        total: flight.price.raw,
+        currency: "USD"
+      },
+      duration: `${Math.floor(flight.legs[0].durationInMinutes / 60)}h ${flight.legs[0].durationInMinutes % 60}m`,
+      segments: flight.legs[0].segments.map(s => ({
+        departure: { iataCode: s.origin.displayCode, at: s.departure },
+        arrival: { iataCode: s.destination.displayCode, at: s.arrival },
+        numberOfStops: flight.legs[0].stopCount
       }))
     }));
 
     res.status(200).json(cleanedOffers);
+
   } catch (error) {
-    console.error("Amadeus Error:", error);
-    res.status(500).json({ message: "Failed to fetch flight data", error: error.code });
+    console.error("Flight Search Error:", error.message);
+    res.status(502).json({ message: "Error fetching flights from provider" });
   }
 };
 
-module.exports = { getFlightOffers };
