@@ -1,0 +1,63 @@
+.container {
+  padding: 40px;
+}
+
+.search-box {
+  background: #f5f5f5;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+}
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.search-grid input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.search-grid button {
+  background: #2f6fdd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.flight-card {
+  border-radius: 12px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.price {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.seats {
+  font-size: 14px;
+  color: #666;
+}
+
+.details-btn {
+  margin-top: 12px;
+  background: #2f6fdd;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+}
