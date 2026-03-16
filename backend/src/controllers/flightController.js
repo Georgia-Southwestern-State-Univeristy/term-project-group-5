@@ -2,18 +2,20 @@ import axios from 'axios';
 
 export async function getFlightOffers  (req, res) {
   // 1. Get info from your React frontend
-  const { originCode, destinationCode, departureDate } = req.body;
+  const { originCode, destinationCode, departureDate, returnDate, adults} = req.body;
 
   try {
     // 2. Setup the request to Flights Sky
     const options = {
       method: 'GET',
-      url: 'https://flights-sky.p.rapidapi.com/flights/search-one-way', 
+      url: 'https://flights-sky.p.rapidapi.com/flights/search-roundtrip', 
       params: {
-        fromEntityId: originCode, 
-        toEntityId: destinationCode,
-        departDate: departureDate,
-        currency: 'USD'
+        fromEntityId: originCode.toUpperCase(),
+        toEntityId: destinationCode.toUpperCase(),
+        departDate: departureDate, // YYYY-MM-DD
+        returnDate: returnDate,    // MANDATORY for this endpoint
+        currency: 'USD',
+        adults: adults
       },
       headers: {
         'x-rapidapi-key': process.env.RAPIDAPI_KEY,

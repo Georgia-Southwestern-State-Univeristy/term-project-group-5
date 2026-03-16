@@ -4,6 +4,6 @@ import {
 } from '../controllers/flightController.js';
 
 const router = express.Router();
-router.get('/search', getFlightOffers);
+router.post('/search', getFlightOffers);
 
 export default router;

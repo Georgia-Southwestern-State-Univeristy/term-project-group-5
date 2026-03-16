@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 app.use("/api/notes", notesRoutes);
 app.use("/api/attributes", attributeRoutes);
 app.use("/api/search", destinationRoutes);
-app.use("/api/flight", flightRoutes)
+app.use("/api/flights", flightRoutes)
 
 // Global error handler
 app.use(globalErrorHandler);
