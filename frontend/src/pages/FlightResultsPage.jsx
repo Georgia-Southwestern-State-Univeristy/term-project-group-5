@@ -7,6 +7,7 @@ export default function FlightResultsPage() {
   const [originCode, setOriginCode] = useState("");
   const [destinationCode, setDestinationCode] = useState("");
   const [departureDate, setDepartureDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
   const [adults, setAdults] = useState(1);
 
   const [flights, setFlights] = useState([]);
@@ -20,16 +21,16 @@ export default function FlightResultsPage() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`${API_BASE}/flights/search`, {
+      const res = await fetch("/api/flights/search", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           originCode,
           destinationCode,
           departureDate,
+          returnDate,
           adults,
         }),
       });
@@ -74,6 +75,11 @@ export default function FlightResultsPage() {
             onChange={(e) => setDepartureDate(e.target.value)}
           />
 
+          <input
+            type="date"
+            value={returnDate}
+            onChange={(e) => setReturnDate(e.target.value)}
+          />
           <input
             type="number"
             min="1"
