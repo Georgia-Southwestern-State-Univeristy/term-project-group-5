@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/flights.css";
 
 const API_BASE = "http://backend:5001/api";
 
