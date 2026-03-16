@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../FlightResults.css";
+import { useLocation } from "react-router-dom";
+import FlightSearchCard from "../components/FlightSearchCard";
+const API_BASE = "/api";
 
-const API_BASE = "http://backend:5001/api";
+
 
 export default function FlightResultsPage() {
+
+  const location = useLocation();
   const [originCode, setOriginCode] = useState("");
   const [destinationCode, setDestinationCode] = useState("");
   const [departureDate, setDepartureDate] = useState("");
@@ -13,80 +18,81 @@ export default function FlightResultsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSearch = async () => {
-    setLoading(true);
-    setError("");
+const handleSearch = async (
+  originParam,
+  destinationParam,
+  dateParam,
+  adultsParam
+) => {
+  const finalOrigin = originParam || originCode;
+  const finalDestination = destinationParam || destinationCode;
+  const finalDate = dateParam || departureDate;
+  const finalAdults = adultsParam || adults;
 
-    try {
-      const token = localStorage.getItem("token");
+  setLoading(true);
+  setError("");
 
-      const res = await fetch(`${API_BASE}/flights/search`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          originCode,
-          destinationCode,
-          departureDate,
-          adults,
-        }),
-      });
+  try {
+    const token = localStorage.getItem("token");
 
-      if (!res.ok) {
-        throw new Error("Flight search failed");
-      }
+    const res = await fetch(`${API_BASE}/flights/search`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        originCode: finalOrigin,
+        destinationCode: finalDestination,
+        departureDate: finalDate,
+        adults: finalAdults,
+      }),
+    });
 
-      const data = await res.json();
-      setFlights(data);
-    } catch (err) {
-      console.error(err);
-      setError("Unable to load flight offers.");
+    if (!res.ok) {
+      throw new Error("Flight search failed");
     }
 
-    setLoading(false);
-  };
+    const data = await res.json();
+    setFlights(data);
+  } catch (err) {
+    console.error(err);
+    setError("Unable to load flight offers.");
+  }
+
+  setLoading(false);
+};
+useEffect(() => {
+  const params = new URLSearchParams(location.search);
+
+  const origin = params.get("departure");
+  const destination = params.get("destination");
+  const date = params.get("departureDate");
+  const travelers = params.get("travelers");
+
+  if (origin && destination && date) {
+    setOriginCode(origin);
+    setDestinationCode(destination);
+    setDepartureDate(date);
+    setAdults(travelers || 1);
+
+    
+    handleSearch(origin, destination, date, travelers || 1);
+  }
+}, [location.search]);
 
   return (
     <div className="container">
-
+      <FlightSearchCard onSubmit={(data) => {
+  handleSearch(
+    data.departure,
+    data.destination,
+    data.departureDate,
+    data.travelers
+  );
+}} />
       {/* SEARCH BAR */}
-      <div className="search-box">
-        <h2>Find Flights</h2>
-
-        <div className="search-grid">
-          <input
-            placeholder="Origin (JFK)"
-            value={originCode}
-            onChange={(e) => setOriginCode(e.target.value)}
-          />
-
-          <input
-            placeholder="Destination (PARI)"
-            value={destinationCode}
-            onChange={(e) => setDestinationCode(e.target.value)}
-          />
-
-          <input
-            type="date"
-            value={departureDate}
-            onChange={(e) => setDepartureDate(e.target.value)}
-          />
-
-          <input
-            type="number"
-            min="1"
-            value={adults}
-            onChange={(e) => setAdults(e.target.value)}
-          />
-
-          <button onClick={handleSearch}>
-            Search Flights
-          </button>
-        </div>
-      </div>
-
+      
       {loading && <p>Loading flights...</p>}
       {error && <p className="error">{error}</p>}
 

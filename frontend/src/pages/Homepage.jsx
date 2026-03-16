@@ -5,8 +5,11 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   const handleSearch = (data) => {
+    const filtered = Object.fromEntries(
+    Object.entries(data).filter(([_, value]) => value)
+  );
     const query = new URLSearchParams(data).toString();
-    navigate(`/results?${query}`);
+    navigate(`/flights?${query}`);
   };
 
   return (
