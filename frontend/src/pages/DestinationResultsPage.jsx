@@ -75,7 +75,7 @@ export default function DestinationResultsPage() {
       <FlightSearchCard
         onSubmit={(data) => {
           const query = new URLSearchParams(data).toString();
-          navigate(`/results?${query}`);
+          navigate(`/flights?${query}`);
         }}
       />
     </div>
