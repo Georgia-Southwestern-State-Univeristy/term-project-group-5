@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../styles/flights.css";
 
 const API_BASE = "http://backend:5001/api";
 
@@ -24,14 +23,14 @@ export default function FlightResultsPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           originCode,
           destinationCode,
           departureDate,
-          adults
-        })
+          adults,
+        }),
       });
 
       if (!res.ok) {
@@ -40,7 +39,6 @@ export default function FlightResultsPage() {
 
       const data = await res.json();
       setFlights(data);
-
     } catch (err) {
       console.error(err);
       setError("Unable to load flight offers.");
@@ -64,7 +62,7 @@ export default function FlightResultsPage() {
           />
 
           <input
-            placeholder="Destination (PAR)"
+            placeholder="Destination (PARI)"
             value={destinationCode}
             onChange={(e) => setDestinationCode(e.target.value)}
           />
@@ -95,16 +93,12 @@ export default function FlightResultsPage() {
       <div className="results-grid">
 
         {flights.map((flight) => {
-
-          const itinerary = flight.itineraries?.[0];
-          const segment = itinerary?.segments?.[0];
+          const segment = flight.segments?.[0]; // Access segments directly
 
           return (
             <div className="flight-card" key={flight.id}>
 
-              <h3>
-                {flight.airline} ({flight.airlineCode})
-              </h3>
+              <h3>{flight.airline}</h3>
 
               <p>
                 <strong>Route:</strong>{" "}
@@ -122,7 +116,7 @@ export default function FlightResultsPage() {
               </p>
 
               <p>
-                <strong>Duration:</strong> {itinerary?.duration}
+                <strong>Duration:</strong> {flight.duration}
               </p>
 
               <p>
@@ -134,7 +128,7 @@ export default function FlightResultsPage() {
               </p>
 
               <p className="seats">
-                Seats Available: {flight.numberOfBookableSeats}
+                Seats Available: {flight.numberOfBookableSeats ?? "N/A"}
               </p>
 
               <button className="details-btn">
