@@ -47,12 +47,11 @@ jobs:
         run: |
           echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" > .env
           echo "PORT=5001" >> .env
-
       - name: Build Docker Images
-        run: docker compose build
+        run: docker compose -f docker-compose.yml build
 
       - name: Start Services
-        run: docker compose up -d
+        run: docker compose -f docker-compose.yml up -d
 
       - name: Wait for Health Check
         run: |
@@ -71,8 +70,8 @@ jobs:
 
       - name: Debug Backend on Failure
         if: failure()
-        run: docker compose logs backend
+        run: docker compose -f docker-compose.yml logs backend
 
       - name: Shutdown
         if: always()
-        run: docker compose down
+        run: docker compose -f docker-compose.yml down

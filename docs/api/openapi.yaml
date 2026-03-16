@@ -93,7 +93,34 @@ paths:
                       $ref: '#/components/schemas/Destination'
         '400':
           description: Invalid input (e.g., empty attribute list)
-
+  /flights/search:
+    post:
+      summary: Get real-time flight offers (RapidAPI Version)
+      description: Connects to Flights Scraper Sky to return options. Note: Backend now handles IATA-to-EntityID mapping.
+      security:
+        - MongoAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [originCode, destinationCode, departureDate]
+              properties:
+                originCode: { type: string, example: "JFK" }
+                destinationCode: { type: string, example: "PARI" }
+                departureDate: { type: string, format: date, example: "2026-06-15" }
+                adults: { type: integer, default: 1 }
+      responses:
+        '200':
+          description: List of flight offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FlightOffer'
+          
   #placeholder
   /auth/login:
     post:
@@ -152,6 +179,62 @@ components:
             items:
               type: string 
             example: ["64a7b1...", "64a7b2..."]
+    FlightOffer:
+      type: object
+      properties:
+        id:
+          type: string
+        airline:
+          type: string
+          description: Full name of the airline (mapped from carrierCode)
+          example: "Lufthansa"
+        airlineCode:
+          type: string
+          example: "LH"
+        price:
+          type: object
+          properties:
+            total:
+              type: string
+              example: "450.50"
+            currency:
+              type: string
+              example: "EUR"
+        itineraries:
+          type: array
+          items:
+            type: object
+            properties:
+              duration:
+                type: string
+                description: Formatted duration (e.g., 8h 15m)
+                example: "8h 15m"
+              segments:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FlightSegment'
+        numberOfBookableSeats:
+          type: integer
+          example: 5
+
+    FlightSegment:
+      type: object
+      properties:
+        departure:
+          type: object
+          properties:
+            iataCode: { type: string, example: "JFK" }
+            at: { type: string, format: date-time, example: "2026-06-15T14:30:00" }
+        arrival:
+          type: object
+          properties:
+            iataCode: { type: string, example: "FRA" }
+            at: { type: string, format: date-time, example: "2026-06-16T05:45:00" }
+        blacklistedInEU:
+          type: boolean
+        numberOfStops:
+          type: integer
+          example: 0
 
   #placeholder
   securitySchemes:
