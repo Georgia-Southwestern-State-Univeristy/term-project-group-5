@@ -121,11 +121,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/FlightOffer'
           
-  #placeholder
   /auth/login:
     post:
       summary: Authenticate user via MongoDB
-      description: Validates email and password against the USER collection.
+      description: Validates email and password
       requestBody:
         required: true
         content:
@@ -145,6 +144,27 @@ paths:
                 token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
         '401':
           description: Invalid credentials
+
+  /auth/register:
+    post:
+      summary: Register a new user
+      description: Creates a new USER in MongoDB with a hashed password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email, example: "dev@group5.com" }
+                password: { type: string, format: password, example: "P@ssword123" }
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: User already exists
+
 
 components:
   schemas:
