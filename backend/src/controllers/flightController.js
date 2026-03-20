@@ -3,7 +3,21 @@ import axios from 'axios';
 export async function getFlightOffers  (req, res) {
   // 1. Get info from your React frontend
   const { originCode, destinationCode, departureDate, returnDate, adults} = req.body;
+  if (!originCode || !destinationCode || !departureDate || !returnDate) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
 
+  if (typeof originCode !== "string" || typeof destinationCode !== "string") {
+    return res.status(400).json({ message: "Invalid airport codes" });
+  }
+
+  if (adults && (isNaN(adults) || adults < 1)) {
+    return res.status(400).json({ message: "Invalid number of travelers" });
+  }
+
+  if (returnDate < departureDate) {
+    return res.status(400).json({ message: "Return date must be after departure date" });
+  }
   try {
     // 2. Setup the request to Flights Sky
     const options = {

@@ -26,7 +26,7 @@ describe("Auth API", () => {
       .post("/api/auth/register")
       .send({
         email,
-        password: "123456",
+        password: "Test123",
       });
 
     expect(res.statusCode).toBe(201);
@@ -38,12 +38,12 @@ describe("Auth API", () => {
 
     await request(app).post("/api/auth/register").send({
       email,
-      password: "123456",
+      password: "Test123",
     });
 
     const res = await request(app).post("/api/auth/login").send({
       email,
-      password: "123456",
+      password: "Test123",
     });
 
     expect(res.statusCode).toBe(200);
