@@ -3,9 +3,11 @@ import HomePage from "./pages/Homepage";
 import AttributesPage from "./pages/AttributesPage";
 import DestinationResultsPage from "./pages/DestinationResultsPage";
 import FlightResultsPage from "./pages/FlightResultsPage";
+import { AuthProvider } from "./context/authContext.jsx";
 
 function App() {
   return (
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/attributes" element={<AttributesPage />} />
@@ -15,6 +17,7 @@ function App() {
         />
         <Route path="/flights" element={<FlightResultsPage />} />
       </Routes>
+    </AuthProvider>
   );
 }
 

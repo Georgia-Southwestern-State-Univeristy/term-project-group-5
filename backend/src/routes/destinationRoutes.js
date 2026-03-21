@@ -6,6 +6,7 @@ import {
   updateDestination,
   searchDestinations
 } from '../controllers/destinationController.js';
+import { protect, admin }from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
