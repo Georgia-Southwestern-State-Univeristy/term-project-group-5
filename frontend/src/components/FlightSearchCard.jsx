@@ -192,6 +192,7 @@ const searchButtonStyle = {
   cursor: "pointer",
   fontWeight: "600"
 };
+
 const overlayStyle = {
   position: "fixed",
   top: 0,
