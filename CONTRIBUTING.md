@@ -20,11 +20,12 @@ When opening a PR:
 
 1. The PR must come from your feature branch.
 2. The PR title should contain the following format:
-* Week of deliverable
-* Sprint number (if applicable) OR section letter owned for that week's deliverable
+* Week of deliverable or changes
+* (If applicable) Sprint number OR section letter owned for that week's deliverable
 * Short and clear description of change
-* Ex1: Week10 - Sprint2 - Created Registration Page
-* Ex2: Week10 - SectionB - Auth + Access Control
+* Ex1: Week10 - Updated CONTRIBUTING.md
+* Ex2: Week10 - Sprint2 - Created Registration Page
+* Ex3: Week10 - SectionB - Auth + Access Control
 3. In the PR description, list every feature or change included.
 4. Keep PRs small and focused (ideally one feature per PR).
 5. Direct pushes to main are not allowed. All changes must go through a pull request. Target the agreed branch “test” not “main”.
