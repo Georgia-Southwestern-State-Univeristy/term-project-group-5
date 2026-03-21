@@ -16,6 +16,8 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
+      setError(null);
+
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
         headers: {
@@ -24,19 +26,17 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-      if (!res.ok) {
+      if (!res.ok || !data.token) {
         throw new Error("Invalid credentials");
       }
 
-      // Store token + email
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify({ email }));
 
-      navigate("/"); // Go back to homepage after login
-
-    } catch (err) {
+      navigate("/");
+    } catch {
       setError("Login failed. Please try again.");
     }
   };
