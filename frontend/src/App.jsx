@@ -4,6 +4,8 @@ import AttributesPage from "./pages/AttributesPage";
 import DestinationResultsPage from "./pages/DestinationResultsPage";
 import FlightResultsPage from "./pages/FlightResultsPage";
 import { AuthProvider } from "./context/authContext.jsx";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           element={<DestinationResultsPage />}
         />
         <Route path="/flights" element={<FlightResultsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </AuthProvider>
   );

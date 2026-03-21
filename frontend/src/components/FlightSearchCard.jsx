@@ -133,8 +133,9 @@ export default function FlightSearchCard({ onSubmit }) {
 function Field({ label, children }) {
   return (
     <div style={{ width: "100%" }}>
-      <label style={labelStyle}>{label}</label>
+      <label style={labelStyle}>{label}
       {children}
+      </label>
     </div>
   );
 }
@@ -195,6 +196,7 @@ const searchButtonStyle = {
   cursor: "pointer",
   fontWeight: "600"
 };
+
 const overlayStyle = {
   position: "fixed",
   top: 0,
