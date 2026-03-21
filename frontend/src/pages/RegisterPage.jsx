@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,6 +19,8 @@ export default function RegisterPage() {
     }
 
     try {
+      setLoading(true); // Start loading
+
       const res = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
         headers: {
@@ -26,9 +29,22 @@ export default function RegisterPage() {
         body: JSON.stringify({ email, password })
       });
 
-      if (!res.ok) {
-        throw new Error("User already exists");
+      // Safer fetch handling
+      const data = await res.json().catch(() => ({}));
+
+      // Handle specific backend errors first
+      if (res.status === 400) {
+        setError("An account with this email already exists.");
+        setLoading(false); // Stop loading
+        return;
       }
+
+      // Handle any other errors
+      if (!res.ok) {
+        throw new Error("Registration failed");
+      }
+
+      setLoading(false); // Stop loading
 
       // Redirect to login with success message
       navigate("/login", {
@@ -36,6 +52,7 @@ export default function RegisterPage() {
       });
 
     } catch {
+      setLoading(false); // Stop loading
       setError("Unable to create account. Try a different email.");
     }
   };
@@ -93,8 +110,12 @@ export default function RegisterPage() {
         )}
 
         {/* Submit */}
-        <button style={submitButtonStyle} onClick={handleRegister}>
-          Create Account
+        <button
+          style={submitButtonStyle}
+          onClick={handleRegister}
+          disabled={loading}
+        >
+          {loading ? "Creating..." : "Create Account"}
         </button>
 
         {/* Back to Login */}
