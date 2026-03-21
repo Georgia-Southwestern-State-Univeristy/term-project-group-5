@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import FlightSearchCard from "../components/FlightSearchCard";
+import Navbar from "../components/NavBar";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -11,6 +12,12 @@ export default function HomePage() {
 
   return (
     <div style={{ maxWidth: "1200px", margin: "2rem auto" }}>
+
+      {/* ===== Reusable Navigation Bar ===== */}
+      <>
+        <Navbar />
+        {/* Existing Homepage Navigation Bar */}
+      </>
       
       {/* ===== Title ===== */}
       <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>
