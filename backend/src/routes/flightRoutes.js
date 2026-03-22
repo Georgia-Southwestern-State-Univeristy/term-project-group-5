@@ -17,6 +17,6 @@ const flightLimiter = rateLimit({
 });
 
 // Apply limiter ONLY to flight search endpoint
-router.post('/search', flightLimiter, getFlightOffers);
+router.post('/search',protect, flightLimiter, getFlightOffers);
 
 export default router;
