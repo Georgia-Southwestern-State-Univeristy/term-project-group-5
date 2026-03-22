@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from '../context/authContext.jsx';
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function FlightSearchCard({ onSubmit }) {
   const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ export default function FlightSearchCard({ onSubmit }) {
     travelers: 1
   });
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const handleChange = (e) => {
