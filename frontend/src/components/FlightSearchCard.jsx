@@ -101,7 +101,7 @@ export default function FlightSearchCard({ onSubmit }) {
           </Field>
 
           {user ? (
-            <button onClick={() => navigate('/flights')}>Go to Dashboard</button>
+            <button onClick={() => navigate('/flights')}>Search</button>
           ) : (
             <p>Please login to access this feature.</p>
           )}

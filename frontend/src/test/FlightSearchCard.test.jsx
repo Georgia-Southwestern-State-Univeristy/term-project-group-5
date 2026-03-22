@@ -4,6 +4,8 @@ import { vi } from "vitest";
 import { AuthProvider } from "../context/authContext";
 
 test("shows error when departure or destination is empty", () => {
+  const user = { email: 'test@test.com', token: 'fake-token' };
+  localStorage.setItem('user', JSON.stringify(user));
   render(<AuthProvider><FlightSearchCard onSubmit={() => {}} /></AuthProvider>);
 
   fireEvent.click(screen.getByText("Search"));
@@ -13,6 +15,8 @@ test("shows error when departure or destination is empty", () => {
   ).toBeInTheDocument();
 });
 test("shows error when return date is before departure date", () => {
+  const user = { email: 'test@test.com', token: 'fake-token' };
+  localStorage.setItem('user', JSON.stringify(user));
   render(<AuthProvider><FlightSearchCard onSubmit={() => {}} /></AuthProvider>);
 
   const inputs = screen.getAllByPlaceholderText("City or airport");
@@ -42,7 +46,8 @@ test("shows error when return date is before departure date", () => {
 });
 test("calls onSubmit when form is valid", () => {
   const mockSubmit = vi.fn();
-
+  const user = { email: 'test@test.com', token: 'fake-token' };
+  localStorage.setItem('user', JSON.stringify(user));
   render(<AuthProvider><FlightSearchCard onSubmit={mockSubmit} /></AuthProvider>);
 
   const inputs = screen.getAllByPlaceholderText("City or airport");
@@ -60,7 +65,8 @@ test("calls onSubmit when form is valid", () => {
   expect(mockSubmit).toHaveBeenCalled();
 });
 test("does not submit when validation fails", () => {
-  
+const user = { email: 'test@test.com', token: 'fake-token' };
+localStorage.setItem('user', JSON.stringify(user));
 
 const mockSubmit = vi.fn();
 
