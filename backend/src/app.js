@@ -12,9 +12,9 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-  origin: 'http://localhost:5173', // Your React/Vite dev server URL
+  origin: 'http://localhost:5173', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true // Required if you decide to use cookies for auth later
+  credentials: true 
 }));
 
 app.use(express.json());

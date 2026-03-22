@@ -22,5 +22,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// This is your Custom Hook
 export const useAuth = () => useContext(AuthContext);
