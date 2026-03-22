@@ -45,7 +45,6 @@ jobs:
 
       - name: Create dummy .env
         run: |
-          cd ..
           echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" > .env
           echo "PORT=5001" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
