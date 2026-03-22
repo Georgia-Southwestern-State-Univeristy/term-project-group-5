@@ -47,11 +47,13 @@ jobs:
         run: |
           echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" > .env
           echo "PORT=5001" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "RAPIDAPI_KEY=${{ secrets.RAPIDAPI_KEY }}" >> .env
       - name: Build Docker Images
-        run: docker compose -f docker-compose.yml build
+        run: docker compose build
 
       - name: Start Services
-        run: docker compose -f docker-compose.yml up -d
+        run: docker compose up -d
 
       - name: Wait for Health Check
         run: |
@@ -70,8 +72,8 @@ jobs:
 
       - name: Debug Backend on Failure
         if: failure()
-        run: docker compose -f docker-compose.yml logs backend
+        run: docker compose logs backend
 
       - name: Shutdown
         if: always()
-        run: docker compose -f docker-compose.yml down
+        run: docker compose down
