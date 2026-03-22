@@ -51,10 +51,10 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "RAPIDAPI_KEY=${{ secrets.RAPIDAPI_KEY }}" >> .env
       - name: Build Docker Images
-        run: docker compose build
+        run: docker compose -f docker-compose.yml build
 
       - name: Start Services
-        run: docker compose up -d
+        run: docker compose -f docker-compose.yml up -d
 
       - name: Wait for Health Check
         run: |
@@ -66,15 +66,15 @@ jobs:
           if [[ $RESPONSE == *"["* ]]; then
             echo "Success: API returned an array of attributes."
           else
-            docker compose logs backend --tail 50
+            docker compose -f docker-compose.yml logs backend --tail 50
             echo "Failure: API response was unexpected: $RESPONSE"
             exit 1
           fi
 
       - name: Debug Backend on Failure
         if: failure()
-        run: docker compose logs backend
+        run: docker compose -f docker-compose.yml logs backend
 
       - name: Shutdown
         if: always()
-        run: docker compose down
+        run: docker compose -f docker-compose.yml down
