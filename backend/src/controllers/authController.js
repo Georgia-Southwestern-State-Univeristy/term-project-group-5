@@ -19,14 +19,24 @@ export async function logInUser(req, res, next){
         res.status(401).json({ message: 'Invalid email or password' });
       }
     } catch (error) {
-      res.status(500).json({ message: 'Server error' });
-      console.error(error);
+      next(error);
     }
   };
 export async function registerUser(req, res, next){
     const { email, password } = req.body;
 
     try {
+      if (!password || password.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters long",
+      });
+    }
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message: "Password must include letters and numbers",
+      });
+    }
       const userExists = await User.findOne({ email });
   
       if (userExists) {
@@ -52,7 +62,6 @@ export async function registerUser(req, res, next){
         res.status(400).json({ message: 'Invalid user data' });
       }
     } catch (error) {
-      console.error("Registration Error:", error);
-      res.status(500).json({ message: 'Server error during registration' });
+      next(error);
     }
 };
