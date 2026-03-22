@@ -51,9 +51,10 @@ export default function RegisterPage() {
         state: { message: "Account created! Please sign in." }
       });
 
-    } catch {
+    } catch (err){
       setLoading(false); // Stop loading
-      setError("Unable to create account. Try a different email.");
+      setError("Unable to create account. Try a different email.", err);
+      console.log(err)
     }
   };
 

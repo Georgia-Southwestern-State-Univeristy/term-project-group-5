@@ -6,8 +6,16 @@ import flightRoutes from "./routes/flightRoutes.js";
 import authRoutes from "./routes/authRoutes.js"
 import { v4 as uuidv4 } from "uuid";
 import { globalErrorHandler } from "./middleware/errorMiddleware.js";
+import cors from "cors";
 
 const app = express();
+
+// Configure CORS
+app.use(cors({
+  origin: 'http://localhost:5173', // Your React/Vite dev server URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // Required if you decide to use cookies for auth later
+}));
 
 app.use(express.json());
 

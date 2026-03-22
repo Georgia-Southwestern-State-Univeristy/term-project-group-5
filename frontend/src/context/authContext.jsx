@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // On mount, check if user info is in localStorage
-    const savedUser = JSON.parse(localStorage.getItem('userInfo'));
+    const savedUser = JSON.parse(localStorage.getItem('user'));
     if (savedUser) {
       setUser(savedUser);
     }
