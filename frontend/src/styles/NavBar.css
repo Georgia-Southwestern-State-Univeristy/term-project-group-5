@@ -1,0 +1,18 @@
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 40px;
+}
+
+.sign-in-btn {
+  background: transparent;
+  border: 2px solid #2f6fdd;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.welcome-text {
+  margin-right: 12px;
+  font-weight: 500;
+}

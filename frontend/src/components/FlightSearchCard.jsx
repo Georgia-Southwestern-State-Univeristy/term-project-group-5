@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useAuth } from '../context/authContext.jsx';
 
 export default function FlightSearchCard({ onSubmit }) {
   const [formData, setFormData] = useState({
@@ -9,6 +9,8 @@ export default function FlightSearchCard({ onSubmit }) {
     returnDate: "",
     travelers: 1
   });
+  const { user } = useAuth();
+
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const handleChange = (e) => {
@@ -99,9 +101,11 @@ export default function FlightSearchCard({ onSubmit }) {
             />
           </Field>
 
-          <button type="submit" style={searchButtonStyle}>
-            Search
-          </button>
+          {user ? (
+            <button >Search</button>
+          ) : (
+            <p>Please login to access this feature.</p>
+          )}
         </div>
       </form>
     </div>
@@ -130,8 +134,9 @@ export default function FlightSearchCard({ onSubmit }) {
 function Field({ label, children }) {
   return (
     <div style={{ width: "100%" }}>
-      <label style={labelStyle}>{label}</label>
+      <label style={labelStyle}>{label}
       {children}
+      </label>
     </div>
   );
 }
@@ -192,6 +197,7 @@ const searchButtonStyle = {
   cursor: "pointer",
   fontWeight: "600"
 };
+
 const overlayStyle = {
   position: "fixed",
   top: 0,

@@ -1,11 +1,23 @@
 import axios from 'axios';
 
 export async function getFlightOffers  (req, res) {
-  // 1. Get info from your React frontend
   const { originCode, destinationCode, departureDate, returnDate, adults} = req.body;
+  if (!originCode || !destinationCode || !departureDate || !returnDate) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
 
+  if (typeof originCode !== "string" || typeof destinationCode !== "string") {
+    return res.status(400).json({ message: "Invalid airport codes" });
+  }
+
+  if (adults && (isNaN(adults) || adults < 1)) {
+    return res.status(400).json({ message: "Invalid number of travelers" });
+  }
+
+  if (returnDate < departureDate) {
+    return res.status(400).json({ message: "Return date must be after departure date" });
+  }
   try {
-    // 2. Setup the request to Flights Sky
     const options = {
       method: 'GET',
       url: 'https://flights-sky.p.rapidapi.com/flights/search-roundtrip', 
@@ -23,13 +35,10 @@ export async function getFlightOffers  (req, res) {
       }
     };
 
-    // 3. Execute the search
     const response = await axios.request(options);
     
-    // 4. Data Extraction (Path depends on the exact JSON structure of Flights Sky)
     const rawFlights = response.data.data?.itineraries || [];
 
-    // 5. Transform for your Frontend (Matching your API Contract)
     const cleanedOffers = rawFlights.map(flight => ({
       id: flight.id,
       airline: flight.legs[0].carriers.marketing[0].name,
