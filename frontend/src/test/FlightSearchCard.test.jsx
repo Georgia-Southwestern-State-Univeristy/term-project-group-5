@@ -1,9 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import FlightSearchCard from "../components/FlightSearchCard";
 import { vi } from "vitest";
+import { AuthProvider } from "../context/authContext";
 
 test("shows error when departure or destination is empty", () => {
-  render(<FlightSearchCard onSubmit={() => {}} />);
+  const user = { email: 'test@test.com', token: 'fake-token' };
+  localStorage.setItem('user', JSON.stringify(user));
+  render(<AuthProvider><FlightSearchCard onSubmit={() => {}} /></AuthProvider>);
 
   fireEvent.click(screen.getByText("Search"));
 
@@ -12,7 +15,9 @@ test("shows error when departure or destination is empty", () => {
   ).toBeInTheDocument();
 });
 test("shows error when return date is before departure date", () => {
-  render(<FlightSearchCard onSubmit={() => {}} />);
+  const user = { email: 'test@test.com', token: 'fake-token' };
+  localStorage.setItem('user', JSON.stringify(user));
+  render(<AuthProvider><FlightSearchCard onSubmit={() => {}} /></AuthProvider>);
 
   const inputs = screen.getAllByPlaceholderText("City or airport");
 
@@ -41,8 +46,9 @@ test("shows error when return date is before departure date", () => {
 });
 test("calls onSubmit when form is valid", () => {
   const mockSubmit = vi.fn();
-
-  render(<FlightSearchCard onSubmit={mockSubmit} />);
+  const user = { email: 'test@test.com', token: 'fake-token' };
+  localStorage.setItem('user', JSON.stringify(user));
+  render(<AuthProvider><FlightSearchCard onSubmit={mockSubmit} /></AuthProvider>);
 
   const inputs = screen.getAllByPlaceholderText("City or airport");
 
@@ -59,11 +65,12 @@ test("calls onSubmit when form is valid", () => {
   expect(mockSubmit).toHaveBeenCalled();
 });
 test("does not submit when validation fails", () => {
-  
+const user = { email: 'test@test.com', token: 'fake-token' };
+localStorage.setItem('user', JSON.stringify(user));
 
 const mockSubmit = vi.fn();
 
-  render(<FlightSearchCard onSubmit={mockSubmit} />);
+  render(<AuthProvider><FlightSearchCard onSubmit={mockSubmit} /></AuthProvider>);
 
   fireEvent.click(screen.getByText("Search"));
 

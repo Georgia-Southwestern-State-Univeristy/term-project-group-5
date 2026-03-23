@@ -24,7 +24,8 @@ export default function FlightResultsPage() {
       const res = await fetch("/api/flights/search", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           originCode,

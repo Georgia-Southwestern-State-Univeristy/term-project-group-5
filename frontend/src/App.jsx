@@ -3,11 +3,13 @@ import HomePage from "./pages/Homepage";
 import AttributesPage from "./pages/AttributesPage";
 import DestinationResultsPage from "./pages/DestinationResultsPage";
 import FlightResultsPage from "./pages/FlightResultsPage";
+import { AuthProvider } from "./context/authContext.jsx";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/attributes" element={<AttributesPage />} />
@@ -19,6 +21,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
+    </AuthProvider>
   );
 }
 

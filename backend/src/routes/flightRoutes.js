@@ -3,6 +3,7 @@ import rateLimit from 'express-rate-limit';
 import {
   getFlightOffers
 } from '../controllers/flightController.js';
+import { protect, admin }from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -16,6 +17,6 @@ const flightLimiter = rateLimit({
 });
 
 // Apply limiter ONLY to flight search endpoint
-router.post('/search', flightLimiter, getFlightOffers);
+router.post('/search',protect, flightLimiter, getFlightOffers);
 
 export default router;
