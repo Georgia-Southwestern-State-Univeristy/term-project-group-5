@@ -17,6 +17,11 @@ export default function LoginPage() {
   const handleLogin = async () => {
     try {
       setError(null);
+      
+      if (!email || !password) {
+      setError("Please enter both email and password");
+      return;
+    }
 
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
@@ -28,17 +33,21 @@ export default function LoginPage() {
 
       const data = await res.json().catch(() => ({}));
 
-      if (!res.ok || !data.token) {
-        throw new Error("Invalid credentials");
-      }
+      if (!res.ok) {
+      throw new Error(data.message || "Login failed");
+    }
+
+    if (!data.token) {
+      throw new Error("Login failed. No token returned");
+    }
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify({ email }));
 
       navigate("/");
-    } catch {
-      setError("Login failed. Please try again.");
-    }
+    } catch (err) {
+    setError(err.message || "Login failed. Please try again.");
+  }
   };
 
   return (
