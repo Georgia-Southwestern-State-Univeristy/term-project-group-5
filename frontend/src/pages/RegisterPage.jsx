@@ -13,10 +13,34 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+    setError(null);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email.trim()) {
+    setError("Email is required.");
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
+    setError("Please enter a valid email address.");
+    return;
+  }
+
+  if (!password) {
+    setError("Password is required.");
+    return;
+  }
+
+  if (password.length < 6) {
+    setError("Password must be at least 6 characters long.");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    setError("Passwords do not match.");
+    return;
+  }
 
     try {
       setLoading(true); // Start loading
@@ -30,12 +54,14 @@ export default function RegisterPage() {
       });
 
       // Safer fetch handling
-      const data = await res.json().catch(() => ({}));
+      
 
       // Handle specific backend errors first
-      if (res.status === 400) {
-        setError("An account with this email already exists.");
-        setLoading(false); // Stop loading
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setError(data.message || "Registration failed");
+        setLoading(false);
         return;
       }
 
@@ -53,7 +79,7 @@ export default function RegisterPage() {
 
     } catch (err){
       setLoading(false); // Stop loading
-      setError("Unable to create account. Try a different email.", err);
+      setError("Unable to create account. Please try again.");
       console.log(err)
     }
   };
@@ -77,7 +103,10 @@ export default function RegisterPage() {
             type="email"
             placeholder="Enter your email"
             style={inputStyle}
-            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            onChange={(e) => {setEmail(e.target.value);
+              setError(null);
+            }}
           />
         </div>
 
@@ -88,6 +117,7 @@ export default function RegisterPage() {
             type="password"
             placeholder="Create a password"
             style={inputStyle}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
@@ -99,6 +129,7 @@ export default function RegisterPage() {
             type="password"
             placeholder="Re-enter your password"
             style={inputStyle}
+            value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
