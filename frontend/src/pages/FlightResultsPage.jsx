@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FlightSearchCard from "../components/FlightSearchCard";
 import "../FlightResults.css";
 
 const API_BASE = "http://backend:5001/api";
@@ -53,46 +54,8 @@ export default function FlightResultsPage() {
   return (
     <div className="container">
 
-      {/* SEARCH BAR */}
-      <div className="search-box">
-        <h2>Find Flights</h2>
-
-        <div className="search-grid">
-          <input
-            placeholder="Origin (JFK)"
-            value={originCode}
-            onChange={(e) => setOriginCode(e.target.value)}
-          />
-
-          <input
-            placeholder="Destination (PARI)"
-            value={destinationCode}
-            onChange={(e) => setDestinationCode(e.target.value)}
-          />
-
-          <input
-            type="date"
-            value={departureDate}
-            onChange={(e) => setDepartureDate(e.target.value)}
-          />
-
-          <input
-            type="date"
-            value={returnDate}
-            onChange={(e) => setReturnDate(e.target.value)}
-          />
-          <input
-            type="number"
-            min="1"
-            value={adults}
-            onChange={(e) => setAdults(e.target.value)}
-          />
-
-          <button onClick={handleSearch}>
-            Search Flights
-          </button>
-        </div>
-      </div>
+      {/* ===== Reusable Search Card ===== */}
+      <FlightSearchCard onSubmit={handleSearch} />
 
       {loading && <p>Loading flights...</p>}
       {error && <p className="error">{error}</p>}
