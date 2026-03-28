@@ -15,9 +15,15 @@ export default function FlightResultsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSearch = async () => {
+  const handleSearch = async (formData) => {
     setLoading(true);
     setError("");
+
+    setOriginCode(formData.departure);
+    setDestinationCode(formData.destination);
+    setDepartureDate(formData.departureDate);
+    setReturnDate(formData.returnDate);
+    setAdults(formData.travelers);
 
     try {
       const token = localStorage.getItem("token");
@@ -29,12 +35,12 @@ export default function FlightResultsPage() {
           "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
-          originCode,
-          destinationCode,
-          departureDate,
-          returnDate,
-          adults,
-        }),
+          originCode: formData.departure,
+          destinationCode: formData.destination,
+          departureDate: formData.departureDate,
+          returnDate: formData.returnDate,
+          adults: formData.travelers,
+      }),
       });
 
       if (!res.ok) {
