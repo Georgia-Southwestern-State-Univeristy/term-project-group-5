@@ -113,8 +113,8 @@ All tests were executed through GitHub Actions CI pipeline:
 - Result: ✅ Passed
 
 **Evidence:**
-- PR: 
-- CI Run: 
+- PR: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/86
+- CI Run: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/actions/runs/23695184490/job/69029220143
 
 ---
 
