@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/authContext.jsx";
-
+import { useNavigate } from "react-router-dom";
 export default function FlightSearchCard({ onSubmit }) {
   const location = useLocation();
   const { user } = useAuth();
@@ -13,7 +13,7 @@ export default function FlightSearchCard({ onSubmit }) {
     returnDate: "",
     travelers: 1
   };
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem("flightSearch");
     return saved ? JSON.parse(saved) : emptyForm;
@@ -50,6 +50,12 @@ export default function FlightSearchCard({ onSubmit }) {
       return;
     }
 
+    if (!formData.departureDate || !formData.returnDate) {
+      setModalMessage("Departure and Return dates are required.");
+      setShowModal(true);
+      return;
+    }
+
     if (
       formData.departureDate &&
       formData.returnDate &&
@@ -61,7 +67,8 @@ export default function FlightSearchCard({ onSubmit }) {
     }
 
     localStorage.setItem("flightSearch", JSON.stringify(formData));
-    onSubmit(formData);
+    const query = new URLSearchParams(formData).toString();
+    navigate(`/results?search=flight&${query}`);
   };
 
   return (

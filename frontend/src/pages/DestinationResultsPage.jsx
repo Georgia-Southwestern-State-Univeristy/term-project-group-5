@@ -1,10 +1,29 @@
 import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlightSearchCard from "../components/FlightSearchCard";
 export default function DestinationResultsPage() {
   const navigate = useNavigate();
+
+
+  
+
+  const [flights, setFlights] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [searchParams] = useSearchParams();
+  const originCode = searchParams.get("departure");
+  const destinationCode = searchParams.get("destination");
+  const departureDate = searchParams.get("departureDate");
+  const returnDate = searchParams.get("returnDate");
+  const adults = Number(searchParams.get("travelers")) || 1;
+  const searchType = searchParams.get("search");
   const location = useLocation();
-  const results = location.state?.results || [];
+  let results = [];
+
+  if (searchType === "destination") {
+      results = location.state?.results || [];
+  }
   //const [searchParams] = useSearchParams();
   //const queryObject = Object.fromEntries(searchParams.entries());
   /*const attributeMap = {
@@ -67,6 +86,54 @@ export default function DestinationResultsPage() {
     });
   });
 */
+useEffect(() => {
+  if (searchType !== "flight") return;
+
+  const fetchFlights = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("/api/flights/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          originCode,
+          destinationCode,
+          departureDate,
+          returnDate,
+          adults,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Flight search failed");
+      }
+
+      const data = await res.json();
+      setFlights(data);
+      console.log("API response:", data);
+
+    } catch (err) {
+      console.error(err);
+      setError("Unable to load flight offers.");
+    }
+
+    setLoading(false);
+  };
+  console.log("calling flight API", {
+  originCode,
+  destinationCode,
+  departureDate,
+  returnDate,
+});
+  fetchFlights();
+}, [searchType, originCode, destinationCode, departureDate, returnDate, adults]);
   return (
   <div style={pageWrapperStyle}>
     
@@ -75,12 +142,13 @@ export default function DestinationResultsPage() {
       <FlightSearchCard
         onSubmit={(data) => {
           const query = new URLSearchParams(data).toString();
-          navigate("/flights");
+          navigate(`/results?search=flight&${query}`);
         }}
       />
     </div>
 
     {/* Results Section */}
+      
     <div style={resultsSectionStyle}>
       
       <button onClick={() => navigate(-1)} style={backButtonStyle}>
@@ -88,47 +156,94 @@ export default function DestinationResultsPage() {
       </button>
 
       <div style={headerRowStyle}>
-        <h2 style={{ margin: 0 }}>Destination Suggestions</h2>
-        <span style={resultCountStyle}>
-          {results.length} result{results.length !== 1 && "s"}
-        </span>
+        <h2>
+          {searchType === "destination"
+        ? "Destination Suggestions"
+        : "Flight Results"}
+        </h2>
+       <span style={resultCountStyle}>
+        {searchType === "destination"
+          ? `${results.length} result${results.length !== 1 ? "s" : ""}`
+           : `${flights.length} flight${flights.length !== 1 ? "s" : ""}`
+        }
+      </span>
       </div>
 
-      {results.length === 0 && (
-        <div style={emptyStateStyle}>
-          <p>No destinations found.</p>
+      {searchType === "destination" && results.length === 0 && (
+  <div style={emptyStateStyle}>
+    <p>No destinations found.</p>
+  </div>
+)}
+
+{searchType === "flight" && flights.length === 0 && !loading && (
+  <div style={emptyStateStyle}>
+    <p>No flights found.</p>
+  </div>
+)}
+
+ 
+ {searchType === "destination" && (
+  <div style={gridStyle}>
+    {results.map((dest) => (
+      <div key={dest.id} style={cardStyle}>
+        <img src={dest.image_url} alt={dest.name} style={imageStyle} />
+        <div style={{ padding: "1.2rem", flex: 1 }}>
+          <h3>{dest.name}</h3>
+          <p style={descriptionStyle}>{dest.description}</p>
         </div>
-      )}
+        <button style={viewButtonStyle}>
+          View Details
+        </button>
+      </div>
+    ))}
+  </div>
+)}
 
-      <div style={gridStyle}>
-        {results.map((dest) => (
-          <div key={dest.id} style={cardStyle}>
-            
-            <img
-              src={dest.image_url}
-              alt={dest.name}
-              style={imageStyle}
-            />
+{searchType === "flight" && (
+  <>
+    {loading && <p>Loading flights...</p>}
+    {error && <p className="error">{error}</p>}
 
-            <div style={{ padding: "1.2rem", flex: 1 }}>
-              <h3 style={{ marginBottom: "0.5rem" }}>{dest.name}</h3>
-              <p style={descriptionStyle}>
-                {dest.description}
-              </p>
-            </div>
+    <div className="results-grid">
+      {flights.map((flight) => {
+        const segment = flight.segments?.[0];
 
-            <button
-              style={viewButtonStyle}
-              onClick={() => alert(`Viewing details for ${dest.name}`)}
-            >
-              View Details
-            </button>
+        return (
+          <div className="flight-card" key={flight.id}>
+            <h3>{flight.airline}</h3>
 
+            <p>
+              <strong>Route:</strong>{" "}
+              {segment?.departure?.iataCode} → {segment?.arrival?.iataCode}
+            </p>
+
+            <p>
+              <strong>Departure:</strong>{" "}
+              {new Date(segment?.departure?.at).toLocaleString()}
+            </p>
+
+            <p>
+              <strong>Arrival:</strong>{" "}
+              {new Date(segment?.arrival?.at).toLocaleString()}
+            </p>
+
+            <p><strong>Duration:</strong> {flight.duration}</p>
+            <p><strong>Stops:</strong> {segment?.numberOfStops}</p>
+
+            <p className="price">
+              {flight.price.currency} {flight.price.total}
+            </p>
+
+            <button className="details-btn">View Details</button>
           </div>
-        ))}
+        );
+      })}
+    </div>
+  </>
+)}
       </div>
     </div>
-  </div>
+
 );
 }
 /* ===== Page Layout ===== */
