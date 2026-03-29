@@ -5,9 +5,10 @@
 This week focuses on strengthening confidence in our system through automated testing of real workflows, validation, and system behavior.
 
 Based on Week 10 feedback, we improved:
-- Clear demonstration of system behavior through tests
-- Better coverage of real user workflows
-- Explicit validation of API responses and data structures
+- Clear demonstration of system behavior through realistic workflows
+- Explicit testing of protected routes (authentication & authorization)
+- Better frontend–backend integration validation
+- Stronger validation of API responses and data contracts
 
 ---
 
@@ -56,18 +57,23 @@ Ensures invalid input is safely rejected.
 - Backend validation prevents incorrect or unsafe requests
 
 ---
-
-### 4. Flight Search Flow Test (Multi-component)
-**File:** `flight.flow.test.js`
+### 4. Flight Auth Protection Test
+**File:** `flight.auth.test.js`
 
 **Purpose:**  
-Validates multi-step request handling across the system.
+Ensures flight search endpoint is properly protected.
 
 **What it verifies:**
-- Data flows correctly from request → controller → response
-- System does not crash under valid structured input
+- Request WITHOUT token → `401 Unauthorized`
+- Request WITH valid token → `200 OK`
+
+**Why this matters:**  
+Directly addresses Week 10 feedback requiring tests for:
+- Authorized vs Unauthorized access
+- Protected API routes
 
 ---
+
 
 ### 5. Auth Validation Test
 **File:** `auth.validation.test.js`
@@ -93,14 +99,41 @@ Ensures duplicate accounts cannot be created.
 
 ---
 
+### 7. Frontend Integration & Multi-Component Test 
+**File:** `flight.integration.test.jsx`
+
+**Purpose:**  
+Simulates a real user interacting with the system across multiple components.
+
+**What it verifies:**
+- Authentication state controls UI access (logged-in vs logged-out)
+- User inputs flight search data through the UI
+- Form submission triggers navigation via React Router
+- Query parameters are correctly passed to the results page
+- Results page correctly reads and renders search parameters
+
+**Components involved:**
+- AuthContext (authentication state)
+- FlightSearchCard (form input + validation)
+- React Router (navigation)
+- Results Page (data rendering)
+
+**Why this matters:**  
+This test validates a full user workflow across multiple layers of the system, ensuring that UI, routing, and state management work together correctly.
+
+This represents a true **multi-component integration test**, directly aligning with Week 10 expectations.
+
+---
+
 ## Requirement Coverage
 
 | Requirement | Status |
 |------------|--------|
-| 4+ new tests | ✅ (6 added) |
-| 2 E2E workflow tests | ✅ (Flight E2E + Schema validation) |
-| 1 integration / multi-component test | ✅ (Flight Flow) |
-| 1 failure-path test | ✅ (Validation tests) |
+| 4+ new tests | ✅ (7 total) |
+| 2 E2E workflow tests | ✅ (Flight E2E + Frontend Integration) |
+| 1 integration / multi-component test | ✅ (Frontend Integration - multi-component) |
+| 1 failure-path test | ✅ (Validation + Unauthorized access) |
+| Auth protected route tests | ✅ (401 vs 200 covered) |
 
 ---
 
