@@ -1,4 +1,5 @@
 import axios from 'axios';
+import SavedFlight from '../models/Flight.js';
 
 export async function getFlightOffers  (req, res) {
   const { originCode, destinationCode, departureDate, returnDate, adults} = req.body;
@@ -59,6 +60,46 @@ export async function getFlightOffers  (req, res) {
   } catch (error) {
     console.error("Flight Search Error:", error.message);
     res.status(502).json({ message: "Error fetching flights from provider" });
+  }
+};
+
+export async function saveFlight (req, res) {
+  try {
+
+    // 1. Validation: Ensure all required fields are present
+    if (!req.body.id || !req.body.airline || !req.body.price) {
+      return res.status(400).json({ message: "Missing required flight data." });
+    }
+
+    // 2. Creation: Create the new document
+    // Note: req.user.id comes from your protect/auth middleware
+    const newSavedFlight = new SavedFlight({
+      userId: req.user._id, // Ensure this matches your Middleware attachment
+      flightId: req.body.id,
+      airline: req.body.airline,
+      price: req.body.price,
+      duration: req.body.duration,
+      segments: req.body.segments
+    });
+
+    // 3. Persistence: Save to MongoDB
+    const saved = await newSavedFlight.save();
+
+    res.status(201).json({
+      message: "Flight saved successfully!",
+      data: saved
+    });
+
+  } catch (error) {
+    // 4. Error Handling: Check for duplicate key error (code 11000)
+    if (error.code === 11000) {
+      return res.status(400).json({ 
+        message: "You have already saved this flight to your profile." 
+      });
+    }
+
+    console.error("Error saving flight:", error);
+    res.status(500).json({ message: "Server error while saving flight." });
   }
 };
 
