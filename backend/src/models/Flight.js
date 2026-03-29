@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const flightSegmentSchema = new mongoose.Schema({
   departure: {
     iataCode: { type: String, required: true },
-    at: { type: Date, required: true } // Mongoose handles ISO strings as Dates
+    at: { type: Date, required: true } 
   },
   arrival: {
     iataCode: { type: String, required: true },
@@ -13,13 +13,11 @@ const flightSegmentSchema = new mongoose.Schema({
 });
 
 const savedFlightSchema = new mongoose.Schema({
-  // Link flight to a specific user
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  // The unique ID from the Flight Scraper Sky API
   flightId: {
     type: String,
     required: true
@@ -37,7 +35,6 @@ const savedFlightSchema = new mongoose.Schema({
   }
 });
 
-// Optional: Ensure a user can't save the exact same flight ID twice
 savedFlightSchema.index({ userId: 1, flightId: 1 }, { unique: true });
 
 const SavedFlight = mongoose.model('SavedFlight', savedFlightSchema);
