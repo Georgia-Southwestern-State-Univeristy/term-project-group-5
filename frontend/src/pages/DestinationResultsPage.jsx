@@ -1,13 +1,9 @@
-import { useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams, useLocation, useNavigate} from "react-router-dom";
+import { useState, useEffect , useMemo} from "react";
 import FlightSearchCard from "../components/FlightSearchCard";
 export default function DestinationResultsPage() {
   const navigate = useNavigate();
-
-
-  
-
+  const [sortBy, setSortBy] = useState("price");
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,6 +16,62 @@ export default function DestinationResultsPage() {
   const searchType = searchParams.get("search");
   const location = useLocation();
   let results = [];
+
+  const sortedFlights = useMemo(() => {
+    const sorted = [...flights]; 
+    return sorted.sort((a, b) => {
+      if (sortBy === "price") {
+        return parseFloat(a.price.total) - parseFloat(b.price.total);
+      }
+      if (sortBy === "duration") {
+        return a.duration.localeCompare(b.duration); 
+      }
+      if (sortBy === "stops") {
+        return (a.segments[0]?.numberOfStops || 0) - (b.segments[0]?.numberOfStops || 0);
+      }
+      if (sortBy === "airline") {
+        return a.airline.localeCompare(b.airline);
+      }
+      return 0;
+    });
+  }, [flights, sortBy]);
+
+  const handleSaveFlight = async (flight) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please log in to save flights!");
+        return;
+      }
+  
+      const res = await fetch("/api/flights/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          id: flight.id,
+          airline: flight.airline,
+          price: flight.price,
+          duration: flight.duration,
+          segments: flight.segments
+        }) // Sends the entire flight object
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        alert("Flight saved to your profile!");
+      } else {
+        // Handles the 400 "already saved" or 500 errors from your controller
+        alert(data.message || "Failed to save flight.");
+      }
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("Network error. Could not save flight.");
+    }
+  };
 
   if (searchType === "destination") {
       results = location.state?.results || [];
@@ -204,8 +256,20 @@ useEffect(() => {
     {loading && <p>Loading flights...</p>}
     {error && <p className="error">{error}</p>}
 
+    {/* 3. Add the Sort Dropdown */}
+    {flights.length > 0 && (
+      <div className="sort-container" style={{ margin: "20px 0" }}>
+        <label htmlFor="sort">Sort by: </label>
+        <select id="sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="price">Price (Lowest)</option>
+          <option value="duration">Duration</option>
+          <option value="stops">Stops (Fewest)</option>
+          <option value="airline">Airline (A-Z)</option>
+        </select>
+      </div>
+    )}
     <div className="results-grid">
-      {flights.map((flight) => {
+      {sortedFlights.map((flight) => {
         const segment = flight.segments?.[0];
 
         return (
@@ -234,7 +298,19 @@ useEffect(() => {
               {flight.price.currency} {flight.price.total}
             </p>
 
-            <button className="details-btn">View Details</button>
+            <div style={buttonGroupStyle}>
+              <button className="details-btn" style={viewBtnOverride}>
+                View Details
+              </button>
+
+              <button 
+                className="details-btn"
+                style={saveBtnOverride}
+                onClick={() => handleSaveFlight(flight)}
+              >
+                Save Flight
+              </button>
+            </div>
           </div>
         );
       })}
@@ -328,7 +404,6 @@ const descriptionStyle = {
 };
 
 const viewButtonStyle = {
-  margin: "1rem",
   padding: "0.6rem",
   backgroundColor: "#1a73e8",
   color: "white",
@@ -336,4 +411,26 @@ const viewButtonStyle = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "500"
+};
+const buttonGroupStyle = {
+  display: "flex",
+  gap: "0.5rem",
+  marginTop: "1rem",
+  padding: "0 1rem 1rem 1rem" 
+};
+
+const viewBtnOverride = {
+  flex: 1, 
+  backgroundColor: "#f1f3f4",
+  color: "#3c4043",
+  border: "1px solid #dadce0",
+  margin: 0
+};
+
+const saveBtnOverride = {
+  flex: 1, 
+  backgroundColor: "#1a73e8",
+  color: "white",
+  border: "none",
+  margin: 0
 };

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import FlightSearchCard from "../components/FlightSearchCard";
 import React, { useState , useMemo} from "react";
 import "../FlightResults.css";
