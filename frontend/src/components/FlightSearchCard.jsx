@@ -67,6 +67,9 @@ export default function FlightSearchCard({ onSubmit }) {
     }
 
     localStorage.setItem("flightSearch", JSON.stringify(formData));
+    if (onSubmit) {
+      onSubmit(formData);
+    }
     const query = new URLSearchParams(formData).toString();
     navigate(`/results?search=flight&${query}`);
   };
