@@ -96,7 +96,9 @@ export default function AttributesPage() {
       const data = await response.json();
 
       // results
-      navigate("/results", { state: { results: data.results } });
+      navigate(`/results?search=destination`, {
+      state: { results: data.results }
+      });
 
     } catch {
       setError("Unable to process search.");

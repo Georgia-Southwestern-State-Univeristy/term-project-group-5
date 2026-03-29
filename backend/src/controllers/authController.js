@@ -34,7 +34,7 @@ export async function logInUser(req, res, next){
 
     res.status(200).json({
       token,
-      email: user.email,
+      user: { email: user.email, id: user._id }
     });
     } catch (error) {
       next(error);

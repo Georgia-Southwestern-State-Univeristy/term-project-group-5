@@ -2,11 +2,17 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import FlightSearchCard from "../components/FlightSearchCard";
 import { vi } from "vitest";
 import { AuthProvider } from "../context/authContext";
+import { MemoryRouter} from "react-router-dom";
 
 test("shows error when departure or destination is empty", () => {
   const user = { email: 'test@test.com', token: 'fake-token' };
   localStorage.setItem('user', JSON.stringify(user));
-  render(<AuthProvider><FlightSearchCard onSubmit={() => {}} /></AuthProvider>);
+  render(
+  <AuthProvider>
+    <MemoryRouter>
+      <FlightSearchCard onSubmit={() => {}} />
+    </MemoryRouter>
+  </AuthProvider>);
 
   fireEvent.click(screen.getByText("Search"));
 
@@ -17,8 +23,12 @@ test("shows error when departure or destination is empty", () => {
 test("shows error when return date is before departure date", () => {
   const user = { email: 'test@test.com', token: 'fake-token' };
   localStorage.setItem('user', JSON.stringify(user));
-  render(<AuthProvider><FlightSearchCard onSubmit={() => {}} /></AuthProvider>);
-
+  render(
+    <AuthProvider>
+      <MemoryRouter>
+        <FlightSearchCard onSubmit={() => {}} />
+      </MemoryRouter>
+    </AuthProvider>);
   const inputs = screen.getAllByPlaceholderText("City or airport");
 
   fireEvent.change(inputs[0], {
@@ -44,11 +54,19 @@ test("shows error when return date is before departure date", () => {
     screen.getByText("Return date must be after departure date.")
   ).toBeInTheDocument();
 });
+
 test("calls onSubmit when form is valid", () => {
   const mockSubmit = vi.fn();
   const user = { email: 'test@test.com', token: 'fake-token' };
   localStorage.setItem('user', JSON.stringify(user));
-  render(<AuthProvider><FlightSearchCard onSubmit={mockSubmit} /></AuthProvider>);
+
+  render(
+    <AuthProvider>
+      <MemoryRouter>
+        <FlightSearchCard onSubmit={mockSubmit} />
+      </MemoryRouter>
+    </AuthProvider>
+  );
 
   const inputs = screen.getAllByPlaceholderText("City or airport");
 
@@ -60,18 +78,33 @@ test("calls onSubmit when form is valid", () => {
     target: { value: "NYC" },
   });
 
+  fireEvent.change(screen.getByLabelText("Departure Date"), {
+    target: { value: "2026-03-28" },
+  });
+
+  fireEvent.change(screen.getByLabelText("Return Date"), {
+    target: { value: "2026-03-30" },
+  });
+
+
   fireEvent.click(screen.getByText("Search"));
 
   expect(mockSubmit).toHaveBeenCalled();
 });
+
+
 test("does not submit when validation fails", () => {
 const user = { email: 'test@test.com', token: 'fake-token' };
 localStorage.setItem('user', JSON.stringify(user));
 
 const mockSubmit = vi.fn();
 
-  render(<AuthProvider><FlightSearchCard onSubmit={mockSubmit} /></AuthProvider>);
-
+render(
+  <AuthProvider>
+    <MemoryRouter>
+      <FlightSearchCard onSubmit={() => {}} />
+    </MemoryRouter>
+  </AuthProvider>);
   fireEvent.click(screen.getByText("Search"));
 
   expect(mockSubmit).not.toHaveBeenCalled();
