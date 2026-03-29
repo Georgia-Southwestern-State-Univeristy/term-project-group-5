@@ -12,9 +12,9 @@ Based on Week 10 feedback, we improved:
 
 ---
 
-## New Tests Added (6 Total)
+## New Tests Added (7 Total)
 
-We added 6 new automated tests covering flight search, authentication validation, and system reliability.
+We added 7 new automated tests covering flight search, authentication validation, and system reliability.
 
 ---
 
