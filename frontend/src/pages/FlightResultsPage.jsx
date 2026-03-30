@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import FlightSearchCard from "../components/FlightSearchCard";
+import React, { useState , useMemo} from "react";
 import "../FlightResults.css";
 
 const API_BASE = "http://backend:5001/api";
@@ -14,6 +15,63 @@ export default function FlightResultsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const [sortBy, setSortBy] = useState("price");
+
+  const sortedFlights = useMemo(() => {
+    const sorted = [...flights]; 
+    return sorted.sort((a, b) => {
+      if (sortBy === "price") {
+        return parseFloat(a.price.total) - parseFloat(b.price.total);
+      }
+      if (sortBy === "duration") {
+        return a.duration.localeCompare(b.duration); 
+      }
+      if (sortBy === "stops") {
+        return (a.segments[0]?.numberOfStops || 0) - (b.segments[0]?.numberOfStops || 0);
+      }
+      if (sortBy === "airline") {
+        return a.airline.localeCompare(b.airline);
+      }
+      return 0;
+    });
+  }, [flights, sortBy]);
+
+  const handleSaveFlight = async (flight) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please log in to save flights!");
+        return;
+      }
+  
+      const res = await fetch("/api/flights/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          id: flight.id,
+          airline: flight.airline,
+          price: flight.price,
+          duration: flight.duration,
+          segments: flight.segments
+        }) // Sends the entire flight object
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        alert("Flight saved to your profile!");
+      } else {
+        // Handles the 400 "already saved" or 500 errors from your controller
+        alert(data.message || "Failed to save flight.");
+      }
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("Network error. Could not save flight.");
+    }
+  };
   const handleSearch = async () => {
     setLoading(true);
     setError("");
@@ -53,54 +111,29 @@ export default function FlightResultsPage() {
   return (
     <div className="container">
 
-      {/* SEARCH BAR */}
-      <div className="search-box">
-        <h2>Find Flights</h2>
-
-        <div className="search-grid">
-          <input
-            placeholder="Origin (JFK)"
-            value={originCode}
-            onChange={(e) => setOriginCode(e.target.value)}
-          />
-
-          <input
-            placeholder="Destination (PARI)"
-            value={destinationCode}
-            onChange={(e) => setDestinationCode(e.target.value)}
-          />
-
-          <input
-            type="date"
-            value={departureDate}
-            onChange={(e) => setDepartureDate(e.target.value)}
-          />
-
-          <input
-            type="date"
-            value={returnDate}
-            onChange={(e) => setReturnDate(e.target.value)}
-          />
-          <input
-            type="number"
-            min="1"
-            value={adults}
-            onChange={(e) => setAdults(e.target.value)}
-          />
-
-          <button onClick={handleSearch}>
-            Search Flights
-          </button>
-        </div>
-      </div>
+      {/* ===== Reusable Search Card ===== */}
+      <FlightSearchCard onSubmit={handleSearch} />
 
       {loading && <p>Loading flights...</p>}
       {error && <p className="error">{error}</p>}
 
+      {/* 3. Add the Sort Dropdown */}
+      {flights.length > 0 && (
+        <div className="sort-container" style={{ margin: "20px 0" }}>
+          <label htmlFor="sort">Sort by: </label>
+          <select id="sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="price">Price (Lowest)</option>
+            <option value="duration">Duration</option>
+            <option value="stops">Stops (Fewest)</option>
+            <option value="airline">Airline (A-Z)</option>
+          </select>
+        </div>
+      )}
+
       {/* FLIGHT RESULTS */}
       <div className="results-grid">
 
-        {flights.map((flight) => {
+        {sortedFlights.map((flight) => {
           const segment = flight.segments?.[0]; // Access segments directly
 
           return (
@@ -141,6 +174,12 @@ export default function FlightResultsPage() {
 
               <button className="details-btn">
                 View Details
+              </button>
+              <button 
+                className="details-btn"
+                onClick={() => handleSaveFlight(flight)}
+              >
+                Save Flight
               </button>
 
             </div>

@@ -6,18 +6,36 @@ export async function logInUser(req, res, next){
     const { email, password } = req.body;
 
     try {
+      if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
       const user = await User.findOne({ email });
   
-      if (user && (await user.matchPassword(password))) {
-        // Create Token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-          expiresIn: '30d',
-        });
+      if (!user || !(await user.matchPassword(password))) {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
   
-        res.json({ token, email: user.email });
-      } else {
-        res.status(401).json({ message: 'Invalid email or password' });
-      }
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET is not configured");
+    }
+
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
+
+
+    res.status(200).json({
+      token,
+      user: { email: user.email, id: user._id }
+    });
     } catch (error) {
       next(error);
     }
@@ -40,7 +58,7 @@ export async function registerUser(req, res, next){
       const userExists = await User.findOne({ email });
   
       if (userExists) {
-        return res.status(400).json({ message: 'User already exists' });
+        return res.status(400).json({ message: 'An account with this email already exists.' });
       }
   
       const user = await User.create({

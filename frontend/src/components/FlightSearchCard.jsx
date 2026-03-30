@@ -1,43 +1,77 @@
-import { useState } from "react";
-import { useAuth } from '../context/authContext.jsx';
-
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/authContext.jsx";
+import { useNavigate } from "react-router-dom";
 export default function FlightSearchCard({ onSubmit }) {
-  const [formData, setFormData] = useState({
+  const location = useLocation();
+  const { user } = useAuth();
+
+  const emptyForm = {
     departure: "",
     destination: "",
     departureDate: "",
     returnDate: "",
     travelers: 1
+  };
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem("flightSearch");
+    return saved ? JSON.parse(saved) : emptyForm;
   });
-  const { user } = useAuth();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      localStorage.removeItem("flightSearch");
+      setFormData(emptyForm);
+    }
+  }, [location.pathname]);
 
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+
+    const updated = {
+      ...formData,
       [name]: value
-    }));
+    };
+
+    setFormData(updated);
+    localStorage.setItem("flightSearch", JSON.stringify(updated));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!formData.departure || !formData.destination) {
-    setModalMessage("Departure and Destination are required.");
-    setShowModal(true);
-    return;
-  }
+      setModalMessage("Departure and Destination are required.");
+      setShowModal(true);
+      return;
+    }
+
+    if (!formData.departureDate || !formData.returnDate) {
+      setModalMessage("Departure and Return dates are required.");
+      setShowModal(true);
+      return;
+    }
+
     if (
-    formData.departureDate &&
-    formData.returnDate &&
-    formData.returnDate < formData.departureDate
-  ) {
-    setModalMessage("Return date must be after departure date.");
-    setShowModal(true);
-    return;
-  }
-    onSubmit(formData);
+      formData.departureDate &&
+      formData.returnDate &&
+      formData.returnDate < formData.departureDate
+    ) {
+      setModalMessage("Return date must be after departure date.");
+      setShowModal(true);
+      return;
+    }
+
+    localStorage.setItem("flightSearch", JSON.stringify(formData));
+    if (onSubmit) {
+      onSubmit(formData);
+    }
+    const query = new URLSearchParams(formData).toString();
+    navigate(`/results?search=flight&${query}`);
   };
 
   return (
