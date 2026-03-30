@@ -38,8 +38,8 @@
 
 4. Evidence:
 
-- PR link: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/63
+- PR link: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/87
 
 - Run notes: To run, follow README documentation to start. Once page is loaded, register an account and login if you are not already logged in. Next, navigate to FlightResultsPage by filling out the "Find Flight" form and pressing the "Search" button. You should be navigated to annother page. Flights should be returned after a few seconds. From this page, you can alter your flight form to look for another location.
 
-- Passing CI link: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/actions/runs/23127058438/job/67172283413
+- Passing CI link: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/actions/runs/23700734855/job/69043847427
