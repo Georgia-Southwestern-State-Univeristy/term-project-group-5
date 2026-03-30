@@ -1,3 +1,12 @@
+Weekly beta plan and Project Board ownership for the duration of this project:
+1) Quinnie to:
+  - Create all beta-plan.md files and populate with their respective weekly requirements
+  - Create all Project Board views and update items on Board by Tuesday of each week
+2) Keenan to:
+  - Update and push changes to all beta-plan.md files from #1 above
+  - Update items on all Project Board views by 9pm ET on Sunday of each week
+
+
 Backlog items (ranked):
 
 - Integrate Amadeus API for flight search and return
