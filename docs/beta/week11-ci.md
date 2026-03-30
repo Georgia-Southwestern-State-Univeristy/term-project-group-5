@@ -172,18 +172,6 @@ After fixes, all tests passed successfully.
 
 We improved our testing approach by:
 
-- Making system behavior explicitly testable and visible
-- Verifying real workflows instead of isolated logic
-- Ensuring API responses are validated (not just status codes)
-- Aligning tests with actual system behavior and design decisions
+- Adding explicit authorization enforcement tests for protected routes (401 vs 200 responses)
+- Verifying that only authenticated users can access the flight search endpoint
 
----
-
-## Conclusion
-
-These tests provide confidence in:
-
-- Core feature functionality (flight search)
-- Data correctness between backend and frontend
-- Input validation and failure handling
-- System stability under normal and invalid conditions
