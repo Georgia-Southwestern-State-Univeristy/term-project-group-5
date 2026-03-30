@@ -19,13 +19,13 @@ Committed Items (Ranked):
 
 - Acceptance criteria: A user is able to sort flights by price, duration, number of stops, or airline, and then sorts results to compare options.
 - Owner: Keenan
-- Status: In Progress
+- Status: Done
 
 4. Save flights for later
 
 - Acceptance criteria: A user is able to enter a username and password to create an account where they can save selected flights to a personal list.
 - Owner: Keenan
-- Status: In Progress
+- Status: Done
 
 5. Save flight searches for later
 
