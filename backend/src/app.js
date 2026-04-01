@@ -12,7 +12,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',                   
-  'https://your-frontend-name.onrender.com' 
+  'https://term-project-group-5-front.onrender.com' 
 ];
 
 app.use(cors({
