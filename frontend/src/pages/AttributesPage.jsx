@@ -1,36 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const overlayStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0,0,0,0.4)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 1000
-};
 
-const modalStyle = {
-  backgroundColor: "white",
-  padding: "2rem",
-  borderRadius: "12px",
-  width: "300px",
-  textAlign: "center",
-  boxShadow: "0 4px 12px rgba(0,0,0,0.2)"
-};
-
-const buttonStyle = {
-  marginTop: "1rem",
-  padding: "0.5rem 1rem",
-  backgroundColor: "#007bff",
-  color: "white",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer"
-};
 export default function AttributesPage() {
  /* const mockAttributes = [
   { id: "1", type: "Budget", label: "Low" },
@@ -45,6 +15,7 @@ export default function AttributesPage() {
   //const [attributes] = useState(mockAttributes);
   //const [loading] = useState(false);
   //const [error] = useState(null);
+  const API_BASE = import.meta.env.VITE_API_URL || "";
   const [attributes, setAttributes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,7 +23,7 @@ export default function AttributesPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    fetch("/api/attributes")
+    fetch(`${API_BASE}/api/attribute`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch attributes");
@@ -79,7 +50,7 @@ export default function AttributesPage() {
     }
 
     try {
-      const response = await fetch("/api/search", {
+      const response = await fetch(`${API_BASE}/api/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -273,4 +244,35 @@ const floatingBackButtonStyle = {
   fontWeight: "600",
   zIndex: 1000,
   transition: "all 0.2s ease"
+};
+const overlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0,0,0,0.4)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000
+};
+
+const modalStyle = {
+  backgroundColor: "white",
+  padding: "2rem",
+  borderRadius: "12px",
+  width: "300px",
+  textAlign: "center",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.2)"
+};
+
+const buttonStyle = {
+  marginTop: "1rem",
+  padding: "0.5rem 1rem",
+  backgroundColor: "#007bff",
+  color: "white",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer"
 };

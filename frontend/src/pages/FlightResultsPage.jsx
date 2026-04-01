@@ -2,7 +2,7 @@ import FlightSearchCard from "../components/FlightSearchCard";
 import React, { useState , useMemo} from "react";
 import "../FlightResults.css";
 
-const API_BASE = "http://backend:5001/api";
+const API_BASE = import.meta.env.VITE_API_URL || "";
 
 export default function FlightResultsPage() {
   const [originCode, setOriginCode] = useState("");
