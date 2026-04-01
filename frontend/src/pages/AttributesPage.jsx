@@ -23,7 +23,7 @@ export default function AttributesPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    fetch(`${API_BASE}/api/attribute`)
+    fetch(`${API_BASE}/api/attributes`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch attributes");
