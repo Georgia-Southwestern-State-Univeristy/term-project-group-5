@@ -93,19 +93,68 @@ test("calls onSubmit when form is valid", () => {
 });
 
 
-test("does not submit when validation fails", () => {
-const user = { email: 'test@test.com', token: 'fake-token' };
-localStorage.setItem('user', JSON.stringify(user));
+test("does not submit when user is not logged in", () => {
+  localStorage.removeItem("user");
 
-const mockSubmit = vi.fn();
+  const mockSubmit = vi.fn();
 
-render(
-  <AuthProvider>
-    <MemoryRouter>
-      <FlightSearchCard onSubmit={() => {}} />
-    </MemoryRouter>
-  </AuthProvider>);
+  render(
+    <AuthProvider>
+      <MemoryRouter>
+        <FlightSearchCard onSubmit={mockSubmit} />
+      </MemoryRouter>
+    </AuthProvider>
+  );
+
   fireEvent.click(screen.getByText("Search"));
 
   expect(mockSubmit).not.toHaveBeenCalled();
+});
+
+test("search button is disabled when user is not logged in", () => {
+  localStorage.removeItem("user");
+
+  render(
+    <AuthProvider>
+      <MemoryRouter>
+        <FlightSearchCard onSubmit={() => {}} />
+      </MemoryRouter>
+    </AuthProvider>
+  );
+
+  expect(screen.getByText("Search")).toBeDisabled();
+});
+
+
+
+test("search becomes disabled after logout", () => {
+
+  const user = { email: "test@test.com" };
+  localStorage.setItem("user", JSON.stringify(user));
+
+  const { rerender } = render(
+    <AuthProvider>
+      <MemoryRouter>
+        <FlightSearchCard onSubmit={() => {}} />
+      </MemoryRouter>
+    </AuthProvider>
+  );
+
+ 
+  expect(screen.getByText("Search")).not.toBeDisabled();
+
+
+  localStorage.removeItem("user");
+
+ 
+  rerender(
+    <AuthProvider>
+      <MemoryRouter>
+        <FlightSearchCard onSubmit={() => {}} />
+      </MemoryRouter>
+    </AuthProvider>
+  );
+
+
+  expect(screen.getByText("Search")).toBeDisabled();
 });
