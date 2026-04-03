@@ -90,6 +90,6 @@ test("should block flight search if user is not logged in", async () => {
   );
 
  
-  const message = await screen.findByText(/please login/i);
+  const message = await screen.findByText(/please sign in/i);
   expect(message).toBeInTheDocument();
 });

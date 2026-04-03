@@ -4,48 +4,53 @@
 
 Our automated tests are categorized as follows:
 
-### Unit Tests
-- 0  
+### Unit / Component Tests
+| Component            | Tests |
+|---------------------|------|
+| FlightSearchCard     | 6    |
+| AttributesPage       | 4    |
+| **Total**            | **10** |
 
-(Current testing focuses on integration and workflow validation rather than isolated unit-level functions.)
+These tests focus on isolated frontend component behavior, including:
+- FlightSearchCard validation logic
+- Search button enabled/disabled behavior based on authentication state
+- Submission behavior when the form is valid or invalid
+- AttributesPage rendering
 
 ---
 
 ### Integration Tests
-- Frontend: 2  
-- Backend: 10  
+| Layer      | Tests |
+|------------|------|
+| Frontend   | 2    |
+| Backend    | 10    |
+| **Total**  | **12** |
 
-Total Integration Tests: 12  
+Total Integration Tests: 12
 
-These tests validate interactions across multiple components, including API endpoints, authentication flows, database operations, and frontend-backend communication.
+These tests verify interactions across multiple components:
 
----
-
-### UI / Component Tests
-- 8  
-
-These tests verify user interface behavior, form validation, and component rendering, including:
-
-- FlightSearchCard interactions  
-- AttributesPage rendering  
+- UI → navigation → results flow
+- Authentication-protected API endpoints
+- Request validation and error handling
+- Backend logic and database interaction
 
 ---
 
 ### End-to-End (E2E) Tests
-- 1  
+    | Test File              | Count |
+|-----------------------|------|
+| `flight.e2e.test.js`  | 1    |
 
-- flight.e2e.test.js  
 
 This test simulates a complete system workflow and validates real-world API behavior.
 
 ---
 
 ### Total Tests
-- 21
+- 23
 
 ---
-
-## 2. Core Workflows Covered
 
 ## 2. Core Workflows Covered
 
@@ -132,37 +137,52 @@ To improve Beta confidence, we added tests focusing on authentication-related us
 - Verified that search functionality is disabled after logout and UI state updates accordingly  
 
     test("search becomes disabled after logout", () => {
+  let mockUser = { email: "test@example.com" };
 
-    const user = { email: "test@test.com" };
-  localStorage.setItem("user", JSON.stringify(user));
+  vi.spyOn(AuthContext, "useAuth").mockImplementation(() => ({
+    user: mockUser,
+  }));
 
   const { rerender } = render(
-    <AuthProvider>
-      <MemoryRouter>
-        <FlightSearchCard onSubmit={() => {}} />
-      </MemoryRouter>
-    </AuthProvider>
+    <MemoryRouter>
+      <FlightSearchCard onSubmit={vi.fn()} />
+    </MemoryRouter>
   );
 
- 
+
+  const inputs = screen.getAllByPlaceholderText("City or airport");
+
+  fireEvent.change(inputs[0], {
+    target: { value: "ATL" },
+  });
+
+  fireEvent.change(inputs[1], {
+    target: { value: "NYC" },
+  });
+
+  fireEvent.change(screen.getByLabelText("Departure Date"), {
+    target: { value: "2026-03-10" },
+  });
+
+  fireEvent.change(screen.getByLabelText("Return Date"), {
+    target: { value: "2026-03-20" },
+  });
+
+
   expect(screen.getByText("Search")).not.toBeDisabled();
 
+  // 👉 logout
+  mockUser = null;
 
-  localStorage.removeItem("user");
-
- 
   rerender(
-    <AuthProvider>
-      <MemoryRouter>
-        <FlightSearchCard onSubmit={() => {}} />
-      </MemoryRouter>
-    </AuthProvider>
+    <MemoryRouter>
+      <FlightSearchCard onSubmit={vi.fn()} />
+    </MemoryRouter>
   );
 
 
   expect(screen.getByText("Search")).toBeDisabled();
 });
-
 These tests ensure that authentication state changes are consistently enforced across components and prevent unauthorized actions in the user interface.
 
 ## 6. Regression Protection
