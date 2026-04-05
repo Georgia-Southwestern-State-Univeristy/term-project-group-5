@@ -12,7 +12,7 @@
 - Flight search + aggregation
 - Flight sorting (Price, Airline, Stops, etc.)
 - Registration and Logging in
-- Authorization attached to endpoint
+- Authorization attached to certain endpoints
 - Saving flights to profile
 - Retrieving all saved flights
 - Data transfer between pages when filling out flight search form
