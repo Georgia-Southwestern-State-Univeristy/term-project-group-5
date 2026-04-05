@@ -5,6 +5,7 @@ export default function SavedFlightsModal({ onClose }) {
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const API_BASE = import.meta.env.VITE_API_URL || "";
 
   const token = localStorage.getItem("token");
 
