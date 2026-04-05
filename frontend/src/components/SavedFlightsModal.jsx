@@ -5,7 +5,8 @@ export default function SavedFlightsModal({ onClose }) {
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const API_BASE = import.meta.env.VITE_API_URL || "";
+  
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function SavedFlightsModal({ onClose }) {
       }*/
 
       try {
-        const res = await axios.get("http://localhost:5001/api/flights/saved", {
+        const res = await fetch(`${API_BASE}/api/flights/save`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
