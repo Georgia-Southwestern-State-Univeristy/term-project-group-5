@@ -44,6 +44,12 @@ export default function FlightSearchCard({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!user) {
+    setModalMessage("Please sign in first.");
+    setShowModal(true);
+    return;
+  }
+
     if (!formData.departure || !formData.destination) {
       setModalMessage("Departure and Destination are required.");
       setShowModal(true);
@@ -134,12 +140,25 @@ export default function FlightSearchCard({ onSubmit }) {
                 style={{ ...inputStyle, appearance: "textfield" }}
             />
           </Field>
+        <div style={buttonWrapperStyle}>
+  <button
+    type="submit"
+    style={{
+      ...searchButtonStyle,
+      backgroundColor: user ? "#1a73e8" : "#ccc",
+      cursor: user ? "pointer" : "not-allowed"
+    }}
+    disabled={!user}
+  >
+    Search
+  </button>
 
-          {user ? (
-            <button >Search</button>
-          ) : (
-            <p>Please login to access this feature.</p>
-          )}
+  {!user && (
+    <span style={signinHintStyle}>
+      Please sign in
+    </span>
+  )}
+</div>
         </div>
       </form>
     </div>
@@ -262,4 +281,17 @@ const modalButtonStyle = {
   border: "none",
   borderRadius: "8px",
   cursor: "pointer"
+};
+
+const buttonWrapperStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  height: "42px"
+};
+
+const signinHintStyle = {
+  fontSize: "0.8rem",
+  color: "#888",
+  whiteSpace: "nowrap"
 };

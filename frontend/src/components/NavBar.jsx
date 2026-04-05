@@ -1,28 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext.jsx";
 import "../styles/NavBar.css";
 //import { useState } from "react";
 import SavedFlightsModal from "../components/SavedFlightsModal";
 export default function Navbar() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const { user, logout } = useAuth(); 
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSavedFlights, setShowSavedFlights] = useState(false);
-  useEffect(() => {
+  /*useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, []);*/
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
+    logout(); 
     navigate("/");
     setShowSavedFlights(false);
   };
-
   const getUsername = () => {
     if (!user?.email) return "";
     return user.email.split("@")[0];
