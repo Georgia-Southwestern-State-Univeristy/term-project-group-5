@@ -81,7 +81,7 @@ export default function SavedFlightsModal({ onClose }) {
       }*/
 
       try {
-        const res = await axios.get(`${API_BASE}/api/flights/save`, {
+        const res = await axios.get(`${API_BASE}/api/flights/saved`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
