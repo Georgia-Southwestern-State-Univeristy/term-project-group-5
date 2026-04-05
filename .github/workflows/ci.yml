@@ -5,9 +5,6 @@ on:
     branches:
       - test
       - main
-  push:
-    branches:
-      - week12/deployment
 
 jobs:
   build-deploy:
