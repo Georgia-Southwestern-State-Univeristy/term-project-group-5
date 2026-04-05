@@ -1,6 +1,7 @@
 import { useSearchParams, useLocation, useNavigate} from "react-router-dom";
 import { useState, useEffect , useMemo} from "react";
 import FlightSearchCard from "../components/FlightSearchCard";
+import Navbar from "../components/NavBar";
 export default function DestinationResultsPage() {
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("price");
@@ -189,8 +190,15 @@ useEffect(() => {
   fetchFlights();
 }, [searchType, originCode, destinationCode, departureDate, returnDate, adults]);
   return (
+   
+          
   <div style={pageWrapperStyle}>
-    
+    {/* ===== Reusable Navigation Bar ===== */}
+          <>
+            <Navbar />
+            {/* Existing Homepage Navigation Bar */}
+          </>
+          
     {/* Search Card Section */}
     <div style={searchSectionStyle}>
       <FlightSearchCard
