@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/NavBar.css";
-
+//import { useState } from "react";
+import SavedFlightsModal from "../components/SavedFlightsModal";
 export default function Navbar() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showSavedFlights, setShowSavedFlights] = useState(false);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -18,6 +20,7 @@ export default function Navbar() {
     localStorage.removeItem("user");
     setUser(null);
     navigate("/");
+    setShowSavedFlights(false);
   };
 
   const getUsername = () => {
@@ -27,28 +30,47 @@ export default function Navbar() {
 
   return (
     <div className="navbar">
+      {showSavedFlights && (
+  <SavedFlightsModal onClose={() => setShowSavedFlights(false)} />
+)}
       <div className="nav-right">
 
-        {user ? (
-          <>
-            <span className="welcome-text">
-              Welcome {getUsername()}!
-            </span>
-
-            <button
-              className="sign-in-btn"
-              onClick={handleLogout}
-            >
-              Log Out
-            </button>
-          </>
-        ) : (
+        {!user ? (
           <button
             className="sign-in-btn"
             onClick={() => navigate("/login")}
           >
             Sign In
           </button>
+        ) : (
+          <div
+            className="user-menu"
+            onMouseEnter={() => setShowDropdown(true)}
+            onMouseLeave={() => setShowDropdown(false)}
+          >
+            <span className="welcome-text">
+              {getUsername()}
+            </span>
+            
+            {showDropdown && (
+              <div className="dropdown-menu">
+                <div onClick={() => navigate("/profile")}>
+                  Profile
+                </div>
+
+                <div onClick={() => {
+                            setShowSavedFlights(true);
+                            setShowDropdown(false);
+                            }}>
+                  View Saved Flights
+                </div>
+
+                <div onClick={handleLogout}>
+                  Sign Out
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
       </div>
