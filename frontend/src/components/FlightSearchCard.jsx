@@ -148,10 +148,16 @@ export default function FlightSearchCard({ onSubmit }) {
       backgroundColor: user ? "#1a73e8" : "#ccc",
       cursor: user ? "pointer" : "not-allowed"
     }}
+    disabled={!user}
   >
     Search
   </button>
 
+  {!user && (
+    <span style={signinHintStyle}>
+      Please sign in
+    </span>
+  )}
 </div>
         </div>
       </form>
