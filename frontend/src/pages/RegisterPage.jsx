@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://localhost:5001/api";
+const API_BASE = import.meta.env.VITE_API_URL || "";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ export default function RegisterPage() {
     try {
       setLoading(true); // Start loading
 
-      const res = await fetch(`${API_BASE}/auth/register`, {
+      const res = await fetch('${API_BASE}/api/auth/register', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

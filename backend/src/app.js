@@ -10,11 +10,20 @@ import cors from "cors";
 
 const app = express();
 
-// Configure CORS
+const allowedOrigins = [
+  'http://localhost:5173',                   
+  'https://term-project-group-5-front.onrender.com' 
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true 
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('CORS policy blocked this origin'), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
 }));
 
 app.use(express.json());
