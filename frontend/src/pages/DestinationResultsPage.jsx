@@ -16,6 +16,8 @@ export default function DestinationResultsPage() {
   const adults = Number(searchParams.get("travelers")) || 1;
   const searchType = searchParams.get("search");
   const location = useLocation();
+  const API_BASE = import.meta.env.VITE_API_URL || "";
+
   let results = [];
 
   const sortedFlights = useMemo(() => {
@@ -45,7 +47,7 @@ export default function DestinationResultsPage() {
         return;
       }
   
-      const res = await fetch("/api/flights/save", {
+      const res = await fetch(`${API_BASE}/api/flights/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,7 +151,7 @@ useEffect(() => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("/api/flights/search", {
+      const res = await fetch(`${API_BASE}/api/flights/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

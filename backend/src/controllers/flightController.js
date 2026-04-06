@@ -103,3 +103,18 @@ export async function saveFlight (req, res) {
   }
 };
 
+export async function getSavedFlights(req, res) {
+  try {
+
+    const savedFlights = await SavedFlight.find({ userId: req.user._id })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(savedFlights);
+
+  } catch (error) {
+    console.error("Error retrieving saved flights:", error);
+    res.status(500).json({ 
+      message: "Server error while fetching your saved flights." 
+    });
+  }
+}
