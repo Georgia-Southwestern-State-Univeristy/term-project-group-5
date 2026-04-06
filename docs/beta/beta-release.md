@@ -29,3 +29,5 @@
 - Users have to refresh to be able to access guest user blocked features after logging in. This may cause confusion for users that still can't access blocked features after logging in.
 
 ## Link to release page:
+
+https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/releases/tag/v2.0.0
