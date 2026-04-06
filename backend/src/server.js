@@ -27,8 +27,14 @@ app.use('/api/attributes/', attributeRoutes);
 app.use('/api/search/', destinationRoutes);
 
 app.use(globalErrorHandler);*/
+app.get("/health", (req, res) => {
+  res.status(200).json({ 
+    status: "UP", 
+    timestamp: new Date().toISOString() 
+  });
+});
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log('Server running on PORT: ', PORT);
 });
 
