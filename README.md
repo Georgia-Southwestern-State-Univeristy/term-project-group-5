@@ -1,6 +1,10 @@
 # term-project-group-5
 
+## Project Overview
 This repository contains a Dockerized MERN-stack prototype for a flight aggregation platform that allows users to search and compare flights. Booking and payment are out of scope.
+
+## Core Value Proposition
+Let us do the research and upfront work to help you figure out your next travel destination! All you have to do is provide us your preferences such as your prefered vibe and budget.
 
 ## Prerequisites
 
@@ -54,7 +58,7 @@ Services will be available at:
 
 MVP FEATURE : http://localhost:5173/attributes
 
-## Verify it works
+## Verify It Works
 
 1.  Check containers:
 
@@ -99,16 +103,25 @@ docker compose down
 docker compose up --build
 ```
 
-## Repo layout
+## Main Tech Stack
+- Database: MongoDB
+- Backend: Node + Express API
+- Frontend: React UI
+- Container: Docker
 
-backend/ Node + Express API
+## Current Feature Summary
+- Flight search and browsing: Users can search for flights on the homepage by inputting departure city or airport, destination city or airport, departure date, return date, and number of travelers. Search results display multiple flight options with key comparison details such as price, airline, duration, and number of stops.
+- Destination suggestion: Users can access the flight destination suggestion feature from the homepage by clicking on the Start Here button. This takes user to a new page with a form to enter travel preferences such as destination vibes and budget. Submitting this form takes users to a new page with returned destination suggestions that match their inputted preferences.
+- Filter results: Users can filter flights by price, duration, number of stops, or airline.
+- User account registration: Users can create an account and securely log in
+- User authentication: Users with a registered account can log into their account to access special features.
+- Saved searches: Logged-in users can save selected flight searches for future reference. Saved searches allow users to revisit the website and compare options at any time in the future without needing to re-enter search criteria.
 
-frontend/ React UI
+## Beta Scope
+The following are intentionally not finished to focus on quality improvement and end-to-end integration between frontend and backend for our must-have features mentioned under Current Feature Summary:
+- Previous search retrieval by user: Users can recall previous searches to not have to refill out information.
+- Backend optimization: Website performs better or has stronger features in the backend.
 
-docs/ ADRs and team docs
+Deployment link: https://term-project-group-5-front.onrender.com
 
-docker-compose.yml
 
-.env.example
-
-README.md

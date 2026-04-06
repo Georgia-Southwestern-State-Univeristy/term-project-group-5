@@ -1,6 +1,7 @@
 import { useSearchParams, useLocation, useNavigate} from "react-router-dom";
 import { useState, useEffect , useMemo} from "react";
 import FlightSearchCard from "../components/FlightSearchCard";
+import Navbar from "../components/NavBar";
 export default function DestinationResultsPage() {
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("price");
@@ -15,6 +16,8 @@ export default function DestinationResultsPage() {
   const adults = Number(searchParams.get("travelers")) || 1;
   const searchType = searchParams.get("search");
   const location = useLocation();
+  const API_BASE = import.meta.env.VITE_API_URL || "";
+
   let results = [];
 
   const sortedFlights = useMemo(() => {
@@ -44,7 +47,7 @@ export default function DestinationResultsPage() {
         return;
       }
   
-      const res = await fetch("/api/flights/save", {
+      const res = await fetch(`${API_BASE}/api/flights/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +151,7 @@ useEffect(() => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("/api/flights/search", {
+      const res = await fetch(`${API_BASE}/api/flights/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -187,8 +190,15 @@ useEffect(() => {
   fetchFlights();
 }, [searchType, originCode, destinationCode, departureDate, returnDate, adults]);
   return (
+   
+          
   <div style={pageWrapperStyle}>
-    
+    {/* ===== Reusable Navigation Bar ===== */}
+          <>
+            <Navbar />
+            {/* Existing Homepage Navigation Bar */}
+          </>
+          
     {/* Search Card Section */}
     <div style={searchSectionStyle}>
       <FlightSearchCard

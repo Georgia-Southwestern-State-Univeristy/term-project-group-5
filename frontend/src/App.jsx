@@ -20,6 +20,7 @@ function App() {
         <Route path="/flights" element={<FlightResultsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        
       </Routes>
     </AuthProvider>
   );

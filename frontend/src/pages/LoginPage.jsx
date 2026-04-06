@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/authContext.jsx";
 
-const API_BASE = "http://localhost:5001/api";
+const API_BASE = import.meta.env.VITE_API_URL || "";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { setUser } = useAuth();
   // Success message from RegisterPage.jsx
   const successMessage = location.state?.message;
 
@@ -23,7 +24,7 @@ export default function LoginPage() {
       return;
     }
 
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -41,8 +42,14 @@ export default function LoginPage() {
       throw new Error("Login failed. No token returned");
     }
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify({ email }));
+     localStorage.setItem("token", data.token);
+
+      const userData = data.user || { email };
+
+      localStorage.setItem("user", JSON.stringify(userData));
+
+
+      setUser(userData);
 
       navigate("/");
     } catch (err) {
