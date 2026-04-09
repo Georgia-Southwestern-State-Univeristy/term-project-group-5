@@ -4,7 +4,7 @@ import { vi } from "vitest";
 import { AuthProvider } from "../context/authContext";
 import { MemoryRouter} from "react-router-dom";
 import * as AuthContext from "../context/authContext";
-import HomePage from "../pages/HomePage";
+import HomePage from "../pages/Homepage";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 

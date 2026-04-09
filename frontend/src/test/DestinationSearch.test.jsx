@@ -1,7 +1,7 @@
 
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
-import HomePage from "../pages/HomePage";
+import HomePage from "../pages/Homepage";
 import * as AuthContext from "../context/authContext";
 import { vi } from "vitest";
 import { cleanup } from "@testing-library/react";
