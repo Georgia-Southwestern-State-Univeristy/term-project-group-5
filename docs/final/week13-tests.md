@@ -97,7 +97,7 @@ All tests are passing in CI:
 - ✔ Frontend: Vitest (React Testing Library)
 - ✔ Backend: Jest + Supertest
 
-👉 CI Run Link: *(Add your GitHub Actions link here)*
+👉 CI Run Link: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/actions/runs/24212309064
 
 ---
 
