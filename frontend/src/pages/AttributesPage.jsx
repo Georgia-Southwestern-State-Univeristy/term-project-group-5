@@ -49,21 +49,31 @@ export default function AttributesPage() {
       return;
     }
 
-    try {
-      const response = await fetch(`${API_BASE}/api/search`, {
+    
+      const user = JSON.parse(localStorage.getItem("user"));
+
+
+
+    if (!user || !user.token) {
+    setError("Please log in to search destinations.");
+    return;
+  }
+  try {    
+  const response = await fetch(`${API_BASE}/api/search`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`
         },
         body: JSON.stringify({
           attribute_ids: attributeIds
         })
       });
-
+      console.log("RESPONSE STATUS:", response.status);
       if (!response.ok) {
         throw new Error("Search failed");
       }
-
+      
       const data = await response.json();
 
       // results
@@ -71,7 +81,8 @@ export default function AttributesPage() {
       state: { results: data.results }
       });
 
-    } catch {
+    } catch (err){
+      console.error(err);
       setError("Unable to process search.");
     }
   };
