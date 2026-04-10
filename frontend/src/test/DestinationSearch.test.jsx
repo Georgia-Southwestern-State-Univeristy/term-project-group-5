@@ -88,36 +88,48 @@ test("Start Here navigation updates immediately on logout and login", () => {
     user: mockUser,
   }));
 
-  const renderApp = () =>
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<div>Login Page</div>} />
-          <Route path="/attributes" element={<div>Attributes Page</div>} />
-        </Routes>
-      </MemoryRouter>
-    );
+  const { rerender } = render(
+    <MemoryRouter key={mockUser ? "logged-in" : "logged-out"} initialEntries={["/"]}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<div>Login Page</div>} />
+        <Route path="/attributes" element={<div>Attributes Page</div>} />
+      </Routes>
+    </MemoryRouter>
+  );
 
-
-  cleanup();
-  renderApp();
   fireEvent.click(screen.getByRole("button", { name: /start here/i }));
   expect(screen.getByText("Attributes Page")).toBeInTheDocument();
 
   // 🔄 logout
   mockUser = null;
 
-  cleanup();
-  renderApp();
+  rerender(
+    <MemoryRouter key={mockUser ? "logged-in" : "logged-out"} initialEntries={["/"]}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<div>Login Page</div>} />
+        <Route path="/attributes" element={<div>Attributes Page</div>} />
+      </Routes>
+    </MemoryRouter>
+  );
+
   fireEvent.click(screen.getByRole("button", { name: /start here/i }));
   expect(screen.getByText("Login Page")).toBeInTheDocument();
 
   // 🔄 login again
   mockUser = { email: "test@test.com" };
 
-  cleanup();
-  renderApp();
+  rerender(
+    <MemoryRouter key={mockUser ? "logged-in" : "logged-out"} initialEntries={["/"]}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<div>Login Page</div>} />
+        <Route path="/attributes" element={<div>Attributes Page</div>} />
+      </Routes>
+    </MemoryRouter>
+  );
+
   fireEvent.click(screen.getByRole("button", { name: /start here/i }));
   expect(screen.getByText("Attributes Page")).toBeInTheDocument();
 });

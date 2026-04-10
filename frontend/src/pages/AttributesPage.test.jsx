@@ -60,7 +60,11 @@ describe("AttributesPage Tests", () => {
         });
       }
     });
-
+    
+localStorage.setItem("user", JSON.stringify({
+  email: "test@test.com",
+  token: "fake-token"
+}));
     render(
       <MemoryRouter>
         <AttributesPage />
@@ -76,12 +80,14 @@ describe("AttributesPage Tests", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /find my destination/i }));
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search",
-      expect.objectContaining({
-        method: "POST"
-      })
-    );
+    await waitFor(() => {
+  expect(global.fetch).toHaveBeenLastCalledWith(
+    "/api/search",
+    expect.objectContaining({
+      method: "POST"
+    })
+  );
+});
   });
 
   /* 
