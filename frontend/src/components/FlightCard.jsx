@@ -74,7 +74,7 @@ const FlightCard = ({ flight, onSave }) => {
 
                 style={saveBtnOverride}
 
-                onClick={() => handleSaveFlight(flight)}
+                onClick={() => onSave(flight)}
 
               >
 
