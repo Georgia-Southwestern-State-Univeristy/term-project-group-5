@@ -54,16 +54,17 @@ export default function AttributesPage() {
 
 
 
-    if (!user || !user.token) {
-    setError("Please log in to search destinations.");
-    return;
-  }
+    if (!user) {
+      setError("Please log in to search destinations.");
+      return;
+    }
   try {    
-  const response = await fetch(`${API_BASE}/api/search`, {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${API_BASE}/api/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           attribute_ids: attributeIds

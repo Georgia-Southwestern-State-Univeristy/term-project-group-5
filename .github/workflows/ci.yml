@@ -5,6 +5,9 @@ on:
     branches:
       - test
       - main
+  push:
+    branches:
+      - week13/refactoring
 
 jobs:
   build-deploy:
@@ -50,7 +53,6 @@ jobs:
           cd frontend
           npm run build
 
-      
       - name: Build Docker Images
         run: docker compose -f docker-compose.yml build
 
