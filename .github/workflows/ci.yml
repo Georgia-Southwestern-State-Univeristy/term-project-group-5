@@ -57,16 +57,15 @@ jobs:
 
       - name: Wait for Health Check
         run: |
-          timeout 60s bash -c 'until curl -s http://localhost:5001/api/attributes; do sleep 5; done'
-
-      - name: Run API Smoke Test
+          timeout 60s bash -c 'until curl -s http://localhost:5001/api/health; do sleep 5; done'
+      - name: Verify Attributes API
         run: |
           RESPONSE=$(curl -s http://localhost:5001/api/attributes)
           if [[ $RESPONSE == *"["* ]]; then
-            echo "Success: API returned an array of attributes."
+            echo "Success: Attributes API returned data."
           else
             docker compose -f docker-compose.yml logs backend --tail 50
-            echo "Failure: API response was unexpected: $RESPONSE"
+            echo "Failure: Attributes API response invalid: $RESPONSE"
             exit 1
           fi
 

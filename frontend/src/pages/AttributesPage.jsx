@@ -22,6 +22,7 @@ export default function AttributesPage() {
   const [selected, setSelected] = useState({});
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   useEffect(() => {
     fetch(`${API_BASE}/api/attributes`)
       .then((res) => {
@@ -35,8 +36,8 @@ export default function AttributesPage() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
-        setError("Unable to load attributes.");
+        console.error("FETCH_ATTRIBUTES_ERROR:", err);
+        setError("Unable to load preferences. Please try again.");
         setLoading(false);
       });
   }, []); 
@@ -48,6 +49,9 @@ export default function AttributesPage() {
       setShowModal(true);
       return;
     }
+
+    setSubmitting(true);
+    setError(null);
 
     try {
       const response = await fetch(`${API_BASE}/api/search`, {
@@ -61,7 +65,14 @@ export default function AttributesPage() {
       });
 
       if (!response.ok) {
-        throw new Error("Search failed");
+        if (response.status === 401) {
+          setError("Please log in to search.");
+        } else if (response.status === 400) {
+          setError("Invalid search request. Please check your selection.");
+        } else {
+          setError("Server error. Please try again later.");
+        }
+        return;
       }
 
       const data = await response.json();
@@ -71,14 +82,28 @@ export default function AttributesPage() {
       state: { results: data.results }
       });
 
-    } catch {
-      setError("Unable to process search.");
+    } catch (err) {
+      console.error("SEARCH_ERROR:", err);
+      setError("Unable to process search. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
   if (loading) return <p style={{ padding: "2rem" }}>Loading...</p>;
   if (error) return <p style={{ padding: "2rem", color: "red" }}>{error}</p>;
 
+
+  if (error && attributes.length === 0) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>
+        <p style={{ color: "red" }}>{error}</p>
+        <button onClick={() => window.location.reload()}>
+          Retry
+        </button>
+      </div>
+    );
+  }
   // Dynamically group attributes by "type"
   const groupedAttributes = attributes.reduce((acc, attr) => {
     if (!acc[attr.type]) {
@@ -101,6 +126,12 @@ return (
         
       <div style={cardStyle}>
         <h2 style={titleStyle}>Search Preferences</h2>
+
+        {attributes.length === 0 && (
+            <p style={{ textAlign: "center", color: "#666" }}>
+              No preferences available at the moment.
+            </p>
+          )}
 
         {Object.entries(groupedAttributes).map(([type, values]) => (
           <div key={type} style={sectionStyle}>
@@ -126,9 +157,20 @@ return (
           </div>
         ))}
 
-        <button style={submitButtonStyle} onClick={handleSubmit}>
-          Find My Destination
-        </button>
+        {error && (
+            <p style={{ color: "red", marginTop: "1rem" }}>
+              {error}
+            </p>
+          )}
+
+        <button
+            style={submitButtonStyle}
+            onClick={handleSubmit}
+            disabled={submitting}
+          >
+            {submitting ? "Searching..." : "Find My Destination"}
+          </button>
+
       </div>
     </div>
 
