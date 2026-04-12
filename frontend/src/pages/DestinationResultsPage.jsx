@@ -21,8 +21,11 @@ export default function DestinationResultsPage() {
   return (
     <div style={pageWrapperStyle}>
       <Navbar />
-      <FlightSearchCard onSubmit={(data) => navigate(`/results?search=flight&${new URLSearchParams(data)}`)} />
-      
+      <FlightSearchCard 
+        onSubmit={(data) => navigate(`/results?search=flight&${new URLSearchParams(data)}`)}
+        suggestions={destinationResults}
+      />
+
       <div style={resultsSectionStyle}>
         <ResultsHeader searchType={searchType} count={searchType === "flight" ? sortedFlights.length : destinationResults.length} onBack={() => navigate(-1)}/>
         

@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/authContext.jsx";
 import { useNavigate } from "react-router-dom";
-export default function FlightSearchCard({ onSubmit }) {
+export default function FlightSearchCard({ onSubmit, suggestions = [] }) {
   const location = useLocation();
   const { user } = useAuth();
-
+  const hasSuggestions = suggestions && suggestions.length > 0;
   const emptyForm = {
     departure: "",
     destination: "",
@@ -13,6 +13,25 @@ export default function FlightSearchCard({ onSubmit }) {
     returnDate: "",
     travelers: 1
   };
+
+  const cityToIata = {
+    "Rio de Janeiro": "GIG",
+    "Cairo": "CAI",
+    "Rome": "FCO",
+    "Reykjavik": "KEF",
+    "Dubrovnik": "DBV",
+    "New York City": "JFK",
+    "San Juan": "SJU",
+    "Bali": "DPS",
+    "Lisbon": "LIS",
+    "Tokyo": "NRT",
+    "Paris": "CDG",
+    "Sydney": "SYD",
+    "Santorini": "JTR",
+    "Bangkok": "BKK",
+    "Cape Town": "CPT"
+  };
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem("flightSearch");
@@ -98,13 +117,34 @@ export default function FlightSearchCard({ onSubmit }) {
           </Field>
 
           <Field label="Destination">
-            <input
-              name="destination"
-              value={formData.destination}
-              onChange={handleChange}
-              placeholder="City or airport"
-              style={inputStyle}
-            />
+            {hasSuggestions ? (
+              /* RENDER DROPDOWN IF SUGGESTIONS EXIST */
+              <select
+                name="destination"
+                value={formData.destination}
+                onChange={handleChange}
+                style={inputStyle}
+              >
+                <option value="">Select a destination</option>
+                {suggestions.map((dest) => (
+                  <option 
+                    key={dest.id} 
+                    value={cityToIata[dest.name] || dest.name}
+                  >
+                    {dest.name} ({cityToIata[dest.name] || "Code TBD"})
+                  </option>
+                ))}
+              </select>
+            ) : (
+              /* RENDER REGULAR INPUT ON HOMEPAGE */
+              <input
+                name="destination"
+                value={formData.destination}
+                onChange={handleChange}
+                placeholder="City or airport"
+                style={inputStyle}
+              />
+            )}
           </Field>
         </div>
 
