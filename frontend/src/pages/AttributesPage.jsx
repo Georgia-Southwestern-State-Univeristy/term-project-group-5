@@ -50,20 +50,27 @@ export default function AttributesPage() {
       return;
     }
 
-    setSubmitting(true);
-    setError(null);
+    
+      const user = JSON.parse(localStorage.getItem("user"));
 
-    try {
-      const response = await fetch(`${API_BASE}/api/search`, {
+
+
+    if (!user || !user.token) {
+    setError("Please log in to search destinations.");
+    return;
+  }
+  try {    
+  const response = await fetch(`${API_BASE}/api/search`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`
         },
         body: JSON.stringify({
           attribute_ids: attributeIds
         })
       });
-
+      console.log("RESPONSE STATUS:", response.status);
       if (!response.ok) {
         if (response.status === 401) {
           setError("Please log in to search.");
@@ -74,7 +81,7 @@ export default function AttributesPage() {
         }
         return;
       }
-
+      
       const data = await response.json();
 
       // results
@@ -82,11 +89,9 @@ export default function AttributesPage() {
       state: { results: data.results }
       });
 
-    } catch (err) {
-      console.error("SEARCH_ERROR:", err);
-      setError("Unable to process search. Please try again.");
-    } finally {
-      setSubmitting(false);
+    } catch (err){
+      console.error(err);
+      setError("Unable to process search.");
     }
   };
 

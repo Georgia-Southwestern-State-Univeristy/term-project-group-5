@@ -14,6 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create dummy .env
+        run: |
+          echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" > .env
+          echo "PORT=5001" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "RAPIDAPI_KEY=${{ secrets.RAPIDAPI_KEY }}" >> .env
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -43,12 +50,7 @@ jobs:
           cd frontend
           npm run build
 
-      - name: Create dummy .env
-        run: |
-          echo "MONGO_URI=mongodb://mongodb:27017/reactandnode" > .env
-          echo "PORT=5001" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          echo "RAPIDAPI_KEY=${{ secrets.RAPIDAPI_KEY }}" >> .env
+      
       - name: Build Docker Images
         run: docker compose -f docker-compose.yml build
 

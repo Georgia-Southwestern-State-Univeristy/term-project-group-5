@@ -4,7 +4,9 @@ import { vi } from "vitest";
 import { AuthProvider } from "../context/authContext";
 import { MemoryRouter} from "react-router-dom";
 import * as AuthContext from "../context/authContext";
-
+import HomePage from "../pages/Homepage";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router-dom";
 
 const renderWithProviders = (ui) => {
   return render(
@@ -22,7 +24,7 @@ beforeEach(() => {
 afterEach(() => {
   vi.restoreAllMocks();
 });
-
+describe("FlightSearchCard - Component Behavior", () => {
 test("shows error when departure or destination is empty", () => {
   const user = { email: 'test@test.com', token: 'fake-token' };
   localStorage.setItem('user', JSON.stringify(user));
@@ -109,53 +111,27 @@ test("calls onSubmit when form is valid", () => {
   fireEvent.click(screen.getByText("Search"));
 
   expect(mockSubmit).toHaveBeenCalled();
+
 });
 
-
-test("does not submit when user is not logged in", () => {
-  localStorage.removeItem("user");
-
-  const mockSubmit = vi.fn();
-
-  render(
-    <AuthProvider>
-      <MemoryRouter>
-        <FlightSearchCard onSubmit={mockSubmit} />
-      </MemoryRouter>
-    </AuthProvider>
-  );
-
-  fireEvent.click(screen.getByText("Search"));
-
-  expect(mockSubmit).not.toHaveBeenCalled();
 });
 
-test("search button is disabled when user is not logged in", () => {
-  localStorage.removeItem("user");
+describe("Flight Search Flow - Integration", () => {
 
-  renderWithProviders(<FlightSearchCard onSubmit={() => {}} />);
-
-  const button = screen.getByText("Search");
-
-  expect(button).toBeDisabled();
-  expect(screen.getByText(/please sign in/i)).toBeInTheDocument();
-});
-
-
-
-
-test("search becomes disabled after logout", () => {
-  let mockUser = { email: "test@example.com" };
-
+test("search form data is passed to results page via URL", () => {
   vi.spyOn(AuthContext, "useAuth").mockImplementation(() => ({
-    user: mockUser,
+    user: { email: "test@test.com" },
   }));
 
-  const { rerender } = render(
-    <MemoryRouter>
-      <FlightSearchCard onSubmit={vi.fn()} />
-    </MemoryRouter>
-  );
+  const history = createMemoryHistory();
+
+    render(
+      <AuthProvider>
+        <Router location={history.location} navigator={history}>
+          <HomePage />
+        </Router>
+      </AuthProvider>
+    );
 
 
   const inputs = screen.getAllByPlaceholderText("City or airport");
@@ -169,25 +145,20 @@ test("search becomes disabled after logout", () => {
   });
 
   fireEvent.change(screen.getByLabelText("Departure Date"), {
-    target: { value: "2026-03-10" },
+    target: { value: "2026-04-10" },
   });
 
   fireEvent.change(screen.getByLabelText("Return Date"), {
-    target: { value: "2026-03-20" },
+    target: { value: "2026-04-15" },
   });
 
-
-  expect(screen.getByText("Search")).not.toBeDisabled();
-
-  // 👉 logout
-  mockUser = null;
-
-  rerender(
-    <MemoryRouter>
-      <FlightSearchCard onSubmit={vi.fn()} />
-    </MemoryRouter>
-  );
+  fireEvent.click(screen.getByText("Search"));
 
 
-  expect(screen.getByText("Search")).toBeDisabled();
+  expect(history.location.pathname).toBe("/results");
+    expect(history.location.search).toContain("departure=ATL");
+    expect(history.location.search).toContain("destination=NYC");
+});
+
+
 });

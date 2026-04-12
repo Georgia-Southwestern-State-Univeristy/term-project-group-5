@@ -42,11 +42,14 @@ export default function LoginPage() {
       throw new Error("Login failed. No token returned");
     }
 
-     localStorage.setItem("token", data.token);
+     const userData = {
+  email: data.user.email,
+  id: data.user.id,
+  token: data.token   
+};
 
-      const userData = data.user || { email };
+localStorage.setItem("user", JSON.stringify(userData));
 
-      localStorage.setItem("user", JSON.stringify(userData));
 
 
       setUser(userData);
