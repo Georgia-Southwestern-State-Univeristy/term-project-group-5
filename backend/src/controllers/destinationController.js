@@ -111,18 +111,6 @@ export async function searchDestinations(req, res, next) {
         }
       },
       {
-        $project: {
-          name: 1,
-          country: 1,
-          description: 1,
-          image_url: 1,
-          airportCodes: 1,
-          attributes: 1,
-          createdAt: 1,
-          matchCount: 1
-        }
-      },
-      {
         $sort: {
           matchCount: -1,
           createdAt: -1

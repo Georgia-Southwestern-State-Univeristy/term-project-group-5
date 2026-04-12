@@ -98,7 +98,7 @@ export default function DestinationResultsPage() {
         JSON.stringify(destinationOptions)
       );
     }
-  }, [searchType, results]);
+  }, [searchType, results]);    
 
   //const [searchParams] = useSearchParams();
   //const queryObject = Object.fromEntries(searchParams.entries());
