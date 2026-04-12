@@ -69,7 +69,7 @@ export default function DestinationResultsPage() {
           price: flight.price,
           duration: flight.duration,
           segments: flight.segments
-        })
+        }) // Sends the entire flight object
       });
 
       const data = await res.json();
@@ -77,6 +77,7 @@ export default function DestinationResultsPage() {
       if (res.ok) {
         alert("Flight saved to your profile!");
       } else {
+        // Handles the 400 "already saved" or 500 errors from your controller
         alert(data.message || "Failed to save flight.");
       }
     } catch (err) {
@@ -98,6 +99,69 @@ export default function DestinationResultsPage() {
       );
     }
   }, [searchType, results]);
+
+  //const [searchParams] = useSearchParams();
+  //const queryObject = Object.fromEntries(searchParams.entries());
+  /*const attributeMap = {
+    Budget: {
+        "1": "Low",
+        "2": "Medium",
+        "3": "High"
+    },
+    Vibe: {
+        "4": "Relaxing",
+        "5": "Adventure"
+    },
+    Season: {
+        "6": "Summer",
+        "7": "Winter"
+    }
+  };
+  const readableFilters = Object.entries(queryObject).map(
+  ([key, value]) => ({
+    key,
+    label: attributeMap[key]?.[value] || value
+  })
+  );*/
+  /* Mock
+  const mockResults = [
+  {
+    id: "1",
+    name: "Hawaii",
+    description: "Warm beaches and relaxing atmosphere.",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    attributes: { Budget: "2", Vibe: "4", Season: "6" }
+  },
+  {
+    id: "2",
+    name: "Switzerland",
+    description: "Mountain adventure and fresh air.",
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+    attributes: { Budget: "3", Vibe: "5", Season: "7" }
+  },
+  {
+    id: "3",
+    name: "Japan",
+    description: "Cultural exploration and amazing food.",
+    image: "https://images.unsplash.com/photo-1505060894824-8443e82d2e1c",
+    attributes: { Budget: "2", Vibe: "5", Season: "6" }
+  },
+  {
+    id: "4",
+    name: "Bali",
+    description: "Tropical paradise with peaceful vibes.",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    attributes: { Budget: "1", Vibe: "4", Season: "6" }
+  }
+  ];
+
+
+  const filteredResults = mockResults.filter((dest) => {
+    return Object.entries(queryObject).every(([key, value]) => {
+      return dest.attributes[key] === value;
+    });
+  });
+*/
 
   useEffect(() => {
     if (searchType !== "flight") return;
@@ -153,10 +217,13 @@ export default function DestinationResultsPage() {
 
   return (
     <div style={pageWrapperStyle}>
+      {/* ===== Reusable Navigation Bar ===== */}
       <>
         <Navbar />
+        {/* Existing Homepage Navigation Bar */}
       </>
 
+      {/* Search Card Section */}
       <div style={searchSectionStyle}>
         <FlightSearchCard
           onSubmit={(data) => {
@@ -165,6 +232,8 @@ export default function DestinationResultsPage() {
           }}
         />
       </div>
+
+      {/* Results Section */}
 
       <div style={resultsSectionStyle}>
         <button onClick={() => navigate(-1)} style={backButtonStyle}>
@@ -283,3 +352,116 @@ export default function DestinationResultsPage() {
     </div>
   );
 }
+
+/* ===== Page Layout ===== */
+
+const pageWrapperStyle = {
+  maxWidth: "1200px",
+  margin: "2rem auto",
+  padding: "0 1rem"
+};
+
+const searchSectionStyle = {
+  marginBottom: "3rem"
+};
+
+const resultsSectionStyle = {
+  backgroundColor: "#f8f9fa",
+  padding: "2rem",
+  borderRadius: "16px"
+};
+
+/* ===== Header ===== */
+
+const headerRowStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: "2rem"
+};
+
+const resultCountStyle = {
+  fontSize: "0.9rem",
+  color: "#666"
+};
+
+const backButtonStyle = {
+  marginBottom: "1.5rem",
+  background: "none",
+  border: "none",
+  color: "#1a73e8",
+  cursor: "pointer",
+  fontWeight: "500"
+};
+
+/* ===== Empty State ===== */
+
+const emptyStateStyle = {
+  textAlign: "center",
+  padding: "2rem",
+  color: "#777"
+};
+
+/* ===== Grid ===== */
+
+const gridStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+  gap: "1.5rem"
+};
+
+/* ===== Card ===== */
+
+const cardStyle = {
+  backgroundColor: "white",
+  borderRadius: "16px",
+  overflow: "hidden",
+  boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+  display: "flex",
+  flexDirection: "column",
+  transition: "transform 0.2s ease"
+};
+
+const imageStyle = {
+  width: "100%",
+  height: "180px",
+  objectFit: "cover"
+};
+
+const descriptionStyle = {
+  color: "#555",
+  fontSize: "0.9rem",
+  lineHeight: "1.4"
+};
+
+const viewButtonStyle = {
+  padding: "0.6rem",
+  backgroundColor: "#1a73e8",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontWeight: "500"
+};
+const buttonGroupStyle = {
+  display: "flex",
+  gap: "0.5rem",
+  marginTop: "1rem",
+  padding: "0 1rem 1rem 1rem" 
+};
+
+const viewBtnOverride = {
+  flex: 1, 
+  backgroundColor: "#f1f3f4",
+  color: "#3c4043",
+  border: "1px solid #dadce0",
+  margin: 0
+};
+
+const saveBtnOverride = {
+  flex: 1, 
+  backgroundColor: "#1a73e8",
+  color: "white",
+  border: "none",
+  margin: 0
+};
