@@ -8,7 +8,7 @@ export function useFlightSearch(searchParams) {
   const API_BASE = import.meta.env.VITE_API_URL || "";
 
 
-  // 1. Centralized Parameter Parsing (Internal to the hook)
+  // Centralized Parameter Parsing (Internal to the hook)
   const searchConfig = useMemo(() => ({
     originCode: searchParams.get("departure"),
     destinationCode: searchParams.get("destination"),
@@ -18,7 +18,7 @@ export function useFlightSearch(searchParams) {
     searchType: searchParams.get("search")
   }), [searchParams]);
 
-  // 2. The Fetch Logic
+  // The Fetch Logic
   useEffect(() => {
     if (searchConfig.searchType !== "flight") return;
 
@@ -54,39 +54,22 @@ export function useFlightSearch(searchParams) {
 const sortedFlights = useMemo(() => {
 
     const sorted = [...flights];
-
     return sorted.sort((a, b) => {
-
       if (sortBy === "price") {
-
         return parseFloat(a.price.total) - parseFloat(b.price.total);
-
       }
-
       if (sortBy === "duration") {
-
         return a.duration.localeCompare(b.duration);
-
       }
-
       if (sortBy === "stops") {
-
         return (a.segments[0]?.numberOfStops || 0) - (b.segments[0]?.numberOfStops || 0);
-
       }
-
       if (sortBy === "airline") {
-
         return a.airline.localeCompare(b.airline);
-
       }
-
       return 0;
-
     });
-
   }, [flights, sortBy]);
-
 
   const handleSaveFlight = async (flight) => {
     try {

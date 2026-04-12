@@ -2,7 +2,6 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { useFlightSearch } from '../hooks/useFlightSearch.js';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-// 1. Mock Global Dependencies
 global.fetch = vi.fn();
 const mockSearchParams = new URLSearchParams({
   departure: "JFK",
@@ -46,7 +45,6 @@ describe('useFlightSearch Refactor Test', () => {
 
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    // Assert: Error state is populated correctly
     expect(result.current.error).toBe("Unable to load flight offers.");
     expect(result.current.flights).toHaveLength(0);
   });

@@ -1,89 +1,47 @@
 import React from "react";
 
-// Standardize styles here or move to a CSS module
 const FlightCard = ({ flight, onSave }) => {
-  // Destructure for cleaner JSX
   const segment = flight.segments?.[0];
-  const departureTime = new Date(segment?.departure?.at).toLocaleString();
-  const arrivalTime = new Date(segment?.arrival?.at).toLocaleString();
 
   return (
     <div className="flight-card" key={flight.id}>
 
             <h3>{flight.airline}</h3>
-
-
-
             <p>
-
               <strong>Route:</strong>{" "}
-
               {segment?.departure?.iataCode} → {segment?.arrival?.iataCode}
-
             </p>
 
-
-
             <p>
-
               <strong>Departure:</strong>{" "}
-
               {new Date(segment?.departure?.at).toLocaleString()}
-
             </p>
-
-
 
             <p>
-
               <strong>Arrival:</strong>{" "}
-
               {new Date(segment?.arrival?.at).toLocaleString()}
-
             </p>
-
-
 
             <p><strong>Duration:</strong> {flight.duration}</p>
-
             <p><strong>Stops:</strong> {segment?.numberOfStops}</p>
 
-
-
             <p className="price">
-
               {flight.price.currency} {flight.price.total}
-
             </p>
 
-
-
             <div style={buttonGroupStyle}>
-
               <button className="details-btn" style={viewBtnOverride}>
-
                 View Details
-
               </button>
-
-
 
               <button
-
                 className="details-btn"
-
                 style={saveBtnOverride}
-
                 onClick={() => onSave(flight)}
-
               >
-
                 Save Flight
-
               </button>
-
             </div>
-
           </div>
   );
 };

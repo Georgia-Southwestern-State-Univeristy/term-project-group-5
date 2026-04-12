@@ -28,13 +28,15 @@ UI Modularization: Created FlightResultsView.jsx and DestinationResultsView.jsx 
 
 Component Atomicity: Created a FlightCard.jsx to encapsulate individual flight data and a ResultsHeader.jsx to handle dynamic title/count logic.
 
-How the new structure is better
+## How the new structure is better
+
 Improved Maintainability: The main page is now 40-50 lines of declarative code. It simply "orchestrates" which modules to show.
 
 Enhanced Defense: By separating the sorting logic into a hook, we can now protect that logic with headless unit tests (Vitest), ensuring that UI changes never break the core search math.
 
-3. Regression Protection + PR Links
-   Relevant PRs: [Link to your Refactor PR]
+##### 3. Regression Protection + PR Links
+
+Relevant PRs:
 
 Tests Added to Protect Refactor:
 
