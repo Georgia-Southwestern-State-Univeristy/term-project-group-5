@@ -1,27 +1,36 @@
 import mongoose from 'mongoose';
 
 const destinationSchema = new mongoose.Schema(
-  {                                      
+  {
     name: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
+    },
     country: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
+    },
     description: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
+    },
     image_url: {
+      type: String,
+      required: true,
+    },
+    airportCodes: [
+      {
         type: String,
-        required: true,
-      },
-      attributes: [{
+        uppercase: true,
+        trim: true,
+      }
+    ],
+    attributes: [
+      {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Attribute',
-      }]
+      }
+    ]
   },
   { timestamps: true }
 );
