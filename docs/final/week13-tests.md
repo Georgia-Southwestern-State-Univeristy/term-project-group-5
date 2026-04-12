@@ -75,7 +75,7 @@ Guarantees backend security enforcement even if frontend UI fails.
 
 ---
 
-### 5. Refactor Test (useFlightSearch.test.js):
+### 5. Refactor Test (hookRefactorTest.test.js):
 
 **What it protects**
 

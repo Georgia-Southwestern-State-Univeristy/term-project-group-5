@@ -40,6 +40,6 @@ Relevant PRs:
 
 Tests Added to Protect Refactor:
 
-Unit Test (useFlightSearch.test.js): Specifically verifies that the sortedFlights logic correctly orders flights by price (cheapest first). This ensures that the refactoring didn't break the established logic.
+Unit Test (hookRefactorTest.test.js): Specifically verifies that the sortedFlights logic correctly orders flights by price (cheapest first). This ensures that the refactoring didn't break the established logic.
 
-Reliability Test: Verified that the hook catches 500 errors and updates the error state instead of crashing.
+Reliability Test (hookRefactorTest.test.js): Verified that the hook catches 500 errors and updates the error state instead of crashing.
