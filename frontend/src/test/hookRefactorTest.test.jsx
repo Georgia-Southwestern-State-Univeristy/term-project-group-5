@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { useFlightSearch } from './hooks/useFlightSearch';
+import { useFlightSearch } from '../hooks/useFlightSearch.js';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 // 1. Mock Global Dependencies
