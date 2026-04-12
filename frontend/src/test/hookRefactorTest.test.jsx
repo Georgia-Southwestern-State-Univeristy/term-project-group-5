@@ -17,7 +17,6 @@ describe('useFlightSearch Refactor Test', () => {
   });
 
   it('should correctly sort flights by price (Cheapest First)', async () => {
-    // Mock successful API response
     const mockFlights = [
       { id: '1', price: { total: "500.00" }, airline: "Delta", segments: [{ numberOfStops: 1 }] },
       { id: '2', price: { total: "200.00" }, airline: "United", segments: [{ numberOfStops: 0 }] }
@@ -28,24 +27,19 @@ describe('useFlightSearch Refactor Test', () => {
       json: async () => mockFlights,
     });
 
-    // Render the refactored hook
     const { result } = renderHook(() => useFlightSearch(mockSearchParams));
 
-    // Wait for the useEffect fetch to complete
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    // Act: Set sort to price
     act(() => {
       result.current.setSortBy("price");
     });
 
-    // Assert: Check if United (200.00) is now at index 0
     expect(result.current.sortedFlights[0].id).toBe('2');
     expect(result.current.sortedFlights[1].id).toBe('1');
   });
 
   it('should handle API errors gracefully (Reliability Test)', async () => {
-    // Mock a failed API response
     fetch.mockResolvedValue({ ok: false });
 
     const { result } = renderHook(() => useFlightSearch(mockSearchParams));

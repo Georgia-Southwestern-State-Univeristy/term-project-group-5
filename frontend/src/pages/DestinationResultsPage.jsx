@@ -12,10 +12,9 @@ export default function DestinationResultsPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // All logic is now one line:
+  //all logic is now in one line.
   const { sortedFlights, loading, error, sortBy, setSortBy, searchType , handleSaveFlight} = useFlightSearch(searchParams);
 
-  // Simple derivation for destination mode
   const destinationResults = searchType === "destination" ? (location.state?.results || []) : [];
 
   return (
