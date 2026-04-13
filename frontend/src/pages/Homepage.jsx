@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import FlightSearchCard from "../components/FlightSearchCard";
 import Navbar from "../components/NavBar";
+import { useAuth } from "../context/authContext";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { user } = useAuth(); 
 
   const handleSearch = (data) => {
     const query = new URLSearchParams(data).toString();
@@ -43,19 +45,31 @@ export default function HomePage() {
         </p>
 
         <button
+          
           style={{
             padding: "0.8rem 2rem",
-            backgroundColor: "#28a745",
+            backgroundColor:"#28a745", 
             color: "white",
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
             fontSize: "1rem"
           }}
-          onClick={() => navigate("/attributes")}
+          onClick={() => {
+            if (!user) {
+              navigate("/login");
+            } else {
+              navigate("/attributes");
+            }     
+          }}
         >
           Start Here
         </button>
+        {!user && (
+          <p style={{ marginTop: "0.5rem", color: "gray" }}>
+            Please sign in to explore destinations
+          </p>
+        )}
       </div>
     </div>
   );

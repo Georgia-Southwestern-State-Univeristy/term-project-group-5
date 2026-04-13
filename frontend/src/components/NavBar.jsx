@@ -52,9 +52,7 @@ export default function Navbar() {
             
             {showDropdown && (
               <div className="dropdown-menu">
-                <div onClick={() => navigate("/profile")}>
-                  Profile
-                </div>
+                
 
                 <div onClick={() => {
                             setShowSavedFlights(true);

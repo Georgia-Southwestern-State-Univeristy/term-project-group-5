@@ -1,13 +1,28 @@
 import Destination from '../models/Destination.js';
 import SearchRequest from '../models/SearchRequest.js';
 import mongoose from 'mongoose';
-import { logInfo, logWarn } from '../../utils/logger.js';
+import { logInfo, logWarn, logError } from '../../utils/logger.js';
 
 export async function getDestinations(req, res, next) {
+  const startTime = Date.now();
+
+  logInfo("DESTINATION_FETCH_REQUEST", req.requestId, {
+    endpoint: req.originalUrl,
+    method: req.method
+  });
   try {
     const destinations = await Destination.find();
+
+    logInfo("DESTINATION_FETCH_SUCCESS", req.requestId, {
+      statusCode: 200,
+      resultCount: destinations.length,
+      durationMs: Date.now() - startTime
+    });
+
+
     res.status(200).json(destinations);
   } catch (error) {
+    logError("DESTINATION_FETCH_ERROR", req.requestId, error);
       next(error);
     }
 }
@@ -53,6 +68,7 @@ export async function searchDestinations(req, res, next) {
     if (!attribute_ids || !Array.isArray(attribute_ids) || attribute_ids.length === 0) {
 
       logWarn("DESTINATION_SEARCH_VALIDATION_FAILED", req.requestId, {
+        statusCode: 400,
         reason: "attribute_ids missing or empty"
       });
 
@@ -63,6 +79,11 @@ export async function searchDestinations(req, res, next) {
     // Validate ObjectId format first
     for (const id of attribute_ids) {
       if (!mongoose.Types.ObjectId.isValid(id)) {
+        logWarn("DESTINATION_SEARCH_INVALID_ID", req.requestId, {
+          statusCode: 400,
+          invalidId: id
+      });
+
         return res.status(400).json({
          message: "Invalid attribute ID format."
         });
@@ -103,6 +124,7 @@ export async function searchDestinations(req, res, next) {
     ]);
 
     logInfo("DESTINATION_SEARCH_SUCCESS", req.requestId, {
+      statusCode: 201,
       resultCount: rankedDestinations.length,
       durationMs: Date.now() - startTime
     });
@@ -113,7 +135,7 @@ export async function searchDestinations(req, res, next) {
     });
 
   } catch (error) {
-
+    logError("DESTINATION_SEARCH_ERROR", req.requestId, error);
     next(error);
   }
 }

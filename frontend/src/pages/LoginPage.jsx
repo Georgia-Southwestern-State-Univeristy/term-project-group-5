@@ -20,9 +20,9 @@ export default function LoginPage() {
       setError(null);
       
       if (!email || !password) {
-      setError("Please enter both email and password");
-      return;
-    }
+        setError("Please enter both email and password");
+        return;
+      }
 
       const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
@@ -35,20 +35,16 @@ export default function LoginPage() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-      throw new Error(data.message || "Login failed");
-    }
+        throw new Error(data.message || "Login failed");
+      }
 
-    if (!data.token) {
-      throw new Error("Login failed. No token returned");
-    }
+      if (!data.token) {
+        throw new Error("Login failed. No token returned");
+      }
 
-     localStorage.setItem("token", data.token);
-
+      localStorage.setItem("token", data.token);
       const userData = data.user || { email };
-
       localStorage.setItem("user", JSON.stringify(userData));
-
-
       setUser(userData);
 
       navigate("/");
