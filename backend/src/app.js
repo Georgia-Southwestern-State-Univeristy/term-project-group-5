@@ -7,6 +7,8 @@ import authRoutes from "./routes/authRoutes.js"
 import { v4 as uuidv4 } from "uuid";
 import { globalErrorHandler } from "./middleware/errorMiddleware.js";
 import cors from "cors";
+import healthRoutes from "./routes/healthRoutes.js";
+
 
 const app = express();
 
@@ -40,7 +42,7 @@ app.use("/api/attributes", attributeRoutes);
 app.use("/api/search", destinationRoutes);
 app.use("/api/flights", flightRoutes);
 app.use("/api/auth", authRoutes);
-
+app.use("/api", healthRoutes);
 // Global error handler
 app.use(globalErrorHandler);
 
