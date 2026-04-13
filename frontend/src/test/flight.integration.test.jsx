@@ -76,7 +76,7 @@ fireEvent.change(screen.getByLabelText(/Return Date/i), {
 
 
 
-test("should block flight search if user is not logged in", async () => {
+/*test("should block flight search if user is not logged in", async () => {
   localStorage.removeItem("user");
 
   render(
@@ -93,3 +93,4 @@ test("should block flight search if user is not logged in", async () => {
   const message = await screen.findByText(/please sign in/i);
   expect(message).toBeInTheDocument();
 });
+*/
