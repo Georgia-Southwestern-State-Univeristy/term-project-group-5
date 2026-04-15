@@ -59,6 +59,8 @@ paths:
     post:
       summary: Submit search criteria and get matching destinations
       description: Creates a SEARCH_REQUEST and returns destinations matching selected ATTRIBUTEs.
+      security:
+        - MongoAuth: []
       requestBody:
         required: true
         content:
@@ -95,21 +97,20 @@ paths:
           description: Invalid input (e.g., empty attribute list)
   /flights/search:
     post:
-      summary: Get real-time flight offers (RapidAPI Version)
-      description: Connects to Flights Scraper Sky to return options. Note: Backend now handles IATA-to-EntityID mapping.
-      security:
-        - MongoAuth: []
+      summary: Get real-time round-trip flight offers
+      description: Connects to Flights Scraper Sky. Note: Backend maps IATA to EntityID.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [originCode, destinationCode, departureDate]
+              required: [originCode, destinationCode, departureDate, returnDate]
               properties:
                 originCode: { type: string, example: "JFK" }
-                destinationCode: { type: string, example: "PARI" }
+                destinationCode: { type: string, example: "LAX" }
                 departureDate: { type: string, format: date, example: "2026-06-15" }
+                returnDate: { type: string, format: date, example: "2026-06-22" }
                 adults: { type: integer, default: 1 }
       responses:
         '200':
@@ -120,6 +121,58 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FlightOffer'
+        '400':
+          description: Validation Error (Missing fields/invalid dates)
+        '502':
+          description: Upstream Provider Error
+  /flights/save:
+    post:
+      summary: Save a flight to user profile
+      description: Stores a specific flight offer in the user's personal collection.
+      security:
+        - MongoAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightOffer'
+      responses:
+        '201':
+          description: Flight saved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "Flight saved successfully!" }
+                  data: { $ref: '#/components/schemas/SavedFlight' }
+        '400':
+          description: Validation error or flight already saved (Duplicate entry)
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '500':
+          description: Server error
+
+  /flights/saved:
+    get:
+      summary: Retrieve all saved flights
+      description: Returns a list of flights saved by the authenticated user, sorted by most recent.
+      security:
+        - MongoAuth: []
+      responses:
+        '200':
+          description: A list of saved flights
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SavedFlight'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
           
   /auth/login:
     post:
@@ -199,43 +252,22 @@ components:
             items:
               type: string 
             example: ["64a7b1...", "64a7b2..."]
+
     FlightOffer:
       type: object
       properties:
-        id:
-          type: string
-        airline:
-          type: string
-          description: Full name of the airline (mapped from carrierCode)
-          example: "Lufthansa"
-        airlineCode:
-          type: string
-          example: "LH"
+        id: { type: string }
+        airline: { type: string, example: "Delta" }
         price:
           type: object
           properties:
-            total:
-              type: string
-              example: "450.50"
-            currency:
-              type: string
-              example: "EUR"
-        itineraries:
+            total: { type: number, example: 450.50 } 
+            currency: { type: string, example: "USD" }
+        duration: { type: string, example: "5h 30m" }
+        segments:
           type: array
           items:
-            type: object
-            properties:
-              duration:
-                type: string
-                description: Formatted duration (e.g., 8h 15m)
-                example: "8h 15m"
-              segments:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FlightSegment'
-        numberOfBookableSeats:
-          type: integer
-          example: 5
+            $ref: '#/components/schemas/FlightSegment'
 
     FlightSegment:
       type: object
@@ -243,20 +275,25 @@ components:
         departure:
           type: object
           properties:
-            iataCode: { type: string, example: "JFK" }
-            at: { type: string, format: date-time, example: "2026-06-15T14:30:00" }
+            iataCode: { type: string }
+            at: { type: string, format: date-time }
         arrival:
           type: object
           properties:
-            iataCode: { type: string, example: "FRA" }
-            at: { type: string, format: date-time, example: "2026-06-16T05:45:00" }
-        blacklistedInEU:
-          type: boolean
-        numberOfStops:
-          type: integer
-          example: 0
+            iataCode: { type: string }
+            at: { type: string, format: date-time }
+        numberOfStops: { type: integer }
 
-  #placeholder
+    SavedFlight:
+      allOf:
+        - $ref: '#/components/schemas/FlightOffer'
+        - type: object
+          properties:
+            _id: { type: string, example: "60f7c1..." }
+            userId: { type: string, example: "60f7b9..." }
+            savedAt: { type: string, format: date-time }
+            __v: { type: integer }
+
   securitySchemes:
     MongoAuth:
       type: http
