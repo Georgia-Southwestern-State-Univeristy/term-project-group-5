@@ -105,7 +105,7 @@ export default function FlightSearchCard({ onSubmit, suggestions = [] }) {
               name="departure"
               value={formData.departure}
               onChange={handleChange}
-              placeholder="Airport Code (ex. 'JFK', 'PARI')"
+              placeholder="City or airport"
               style={inputStyle}
             />
           </Field>
@@ -135,7 +135,7 @@ export default function FlightSearchCard({ onSubmit, suggestions = [] }) {
                 name="destination"
                 value={formData.destination}
                 onChange={handleChange}
-                placeholder="Airport Code (ex. 'JFK', 'PARI')"
+                placeholder="City or airport"
                 style={inputStyle}
               />
             )}
