@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import CompareFlightsModal from "./CompareFlightsModal";
 
 export default function SavedFlightsModal({ onClose }) {
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [compareFlights, setCompareFlights] = useState([]);
+  const [showCompare, setShowCompare] = useState(false);
+  
   const API_BASE = import.meta.env.VITE_API_URL || "";
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
 
-
+    const stored = JSON.parse(localStorage.getItem("compareFlights")) || [];
+        setCompareFlights(stored);
     const fetchSavedFlights = async () => {
        setLoading(true);
        setError("");
@@ -102,15 +108,54 @@ export default function SavedFlightsModal({ onClose }) {
 
     fetchSavedFlights();
   }, [token]);
- 
 
+  const getId = (f) => f.id || f._id;
+
+  const isSelected = (flight) =>
+  compareFlights.some(f => getId(f) === getId(flight));
+
+  
+
+  const handleAddToCompare = (flight) => {
+  const existing = [...compareFlights];
+ 
+  if (existing.length >= 2) {
+    alert("You can only compare up to 2 flights.");
+    return;
+  }
+
+  const alreadyAdded = existing.some(
+    f => getId(f) === getId(flight)
+  );
+
+  if (alreadyAdded) return;
+
+  const updated = [...existing, flight];
+  setCompareFlights(updated);
+  localStorage.setItem("compareFlights", JSON.stringify(updated));
+};
   // ===== UI =====
   return (
+    
     <div style={overlayStyle} onClick={onClose}>
       <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
 
         <button onClick={onClose} style={closeBtnStyle}>✕</button>
+        <div style={compareBarStyle}>
+      <span>{compareFlights.length}/2 flights selected</span>
 
+      <button
+        style={{
+          ...compareActionBtn,
+          backgroundColor: compareFlights.length === 2 ? "#06ea21" : "#ccc",
+          cursor: compareFlights.length === 2 ? "pointer" : "not-allowed"
+        }}
+        disabled={compareFlights.length !== 2}
+        onClick={() => setShowCompare(true)}
+      >
+        Compare Flights
+      </button>
+    </div>
         <h2>Saved Flights</h2>
 
         {loading && <p>Loading...</p>}
@@ -124,7 +169,7 @@ export default function SavedFlightsModal({ onClose }) {
         )}
 
         {!loading && !error && flights.map((flight) => (
-          <div key={flight.id} style={cardStyle}>
+          <div key={flight.id || flight._id} style={cardStyle}>
             <h3>{flight.airline}</h3>
 
             <p>
@@ -139,16 +184,72 @@ export default function SavedFlightsModal({ onClose }) {
                   ✈ {seg.departure.iataCode} → {seg.arrival.iataCode}
                 </div>
               ))}
+             <button
+              style={{
+                ...compareBtnStyle,
+                backgroundColor: isSelected(flight) ? "#6c757d" : "#007bff"
+              }}
+              onClick={() => handleAddToCompare(flight)}
+              disabled={isSelected(flight)}
+              >
+                {isSelected(flight) ? "Added" : "Add to Compare"}
+              </button>
             </div>
           </div>
         ))}
-
+      
       </div>
+      {showCompare && (
+        <CompareFlightsModal
+        onClose={() => setShowCompare(false)}
+        compareFlights={compareFlights}
+        setCompareFlights={setCompareFlights}
+        />
+      )}
     </div>
   );
+  
 }
 
 /* ===== Styles ===== */
+const compareBtnStyle = {
+  marginTop: "10px",
+  padding: "6px 10px",
+  border: "none",
+  borderRadius: "6px",
+  backgroundColor: "#007bff",
+  color: "white",
+  cursor: "pointer"
+};
+
+const compareOpenBtn = {
+  marginBottom: "15px",
+  padding: "8px 12px",
+  backgroundColor: "#28a745",
+  color: "white",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer"
+};
+
+const compareBarStyle = {
+  position: "sticky",
+  top: 0,
+  background: "white",
+  padding: "10px 15px",
+  borderBottom: "1px solid #ddd",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  zIndex: 10
+};
+
+const compareActionBtn = {
+  padding: "8px 12px",
+  border: "none",
+  borderRadius: "6px",
+  color: "white"
+};
 
 const overlayStyle = {
   position: "fixed",
@@ -195,3 +296,4 @@ const segmentStyle = {
   fontSize: "0.9rem",
   color: "#555"
 };
+
