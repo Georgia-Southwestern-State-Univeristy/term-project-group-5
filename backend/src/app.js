@@ -1,5 +1,4 @@
 import express from "express";
-import notesRoutes from "./routes/notesRoutes.js";
 import attributeRoutes from "./routes/attributeRoutes.js";
 import destinationRoutes from "./routes/destinationRoutes.js";
 import flightRoutes from "./routes/flightRoutes.js";
@@ -37,7 +36,6 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use("/api/notes", notesRoutes);
 app.use("/api/attributes", attributeRoutes);
 app.use("/api/search", destinationRoutes);
 app.use("/api/flights", flightRoutes);
