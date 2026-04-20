@@ -41,7 +41,7 @@ Discovering destination suggestion feature:
 7) View the destination suggestions on a new page
 
 Find, view, and save flight search based on destination suggestion feature:
-1) Follow steps 1 through 3b in the "Discovering destination suggestion feature" section above
+1) Follow steps 1 through 7 in the "Discovering destination suggestion feature" section above
 2) Enter the Departure location, Departure Date, Return Date, and Travelers fields in the flight search form at the top of the destination suggestions page
 3) Select the desired destination suggestion from the Destination drop-down field of the flight search form
 4) Click the Search button
@@ -50,7 +50,13 @@ Find, view, and save flight search based on destination suggestion feature:
 View saved flights feature:
 1) Follow steps 1 through 3b in the "Discovering destination suggestion feature" section above
 2) Click on the drop-down arrow or menu at the top right corner of any page that is next to the username (or email address before the '@' symbol)
-3) Click on the View Saved Flights option in the drop-down menu to access a pop-up with saved flight results 
+3) Click on the View Saved Flights option in the drop-down menu to access a pop-up with saved flight results
+
+Compare saved flights feature (for at least two saved flights):
+1) Follow steps 1 through 3 in the "View saved flights feature" section above to save at least two flight results
+2) Click on the Add to Compare button for at least two saved flights
+3) Click on the Compare Flights button at the top right corner of the Saved Flights pop-up window
+4) View the Compare Flights pop-up window to compare airlines, price, duration, and stops side-by-side
 
 ## Known Limitations or Expected Constraints
 The following are our system's known limitations or expected constraints:
