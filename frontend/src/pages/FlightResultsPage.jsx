@@ -1,3 +1,5 @@
+// DEPRECATED PAGE
+
 import FlightSearchCard from "../components/FlightSearchCard";
 import React, { useState , useMemo} from "react";
 import "../FlightResults.css";
