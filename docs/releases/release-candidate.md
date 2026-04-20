@@ -1,6 +1,6 @@
 ## Release Tag - Date
 
-rc-v0.1 -
+rc-v0.1 - 04/19/2026
 
 ## Core workflows
 
@@ -29,3 +29,5 @@ rc-v0.1 -
 - Comparing saved flights (In progress)
 
 ## Release Artifact Link
+
+https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/releases/tag/rc-v1.0.0
