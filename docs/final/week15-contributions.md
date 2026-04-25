@@ -21,12 +21,12 @@ Major contributions since Beta:
 
 Relevant PRs / Commits / Docs / Reviews:
 
-PR (for refactoring and error fixing): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes
-PR (for API and RC documentation and out of use endpoints): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/113/changes
-Commit (for dropdown): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes/c8b6806b32d876949c990b1017c3f98c5540f7b4
-Doc (for refactoring): docs/final/week13-refactoring.md
-Doc (for API documentation): docs/api/openapi.yaml
-Doc (release candidate): docs/release/release-candidate.md
+- PR (for refactoring and error fixing): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes
+- PR (for API and RC documentation and out of use endpoints): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/113/changes
+- Commit (for dropdown): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes/c8b6806b32d876949c990b1017c3f98c5540f7b4
+- Doc (for refactoring): docs/final/week13-refactoring.md
+- Doc (for API documentation): docs/api/openapi.yaml
+- Doc (release candidate): docs/release/release-candidate.md
 
 
 Speaking points during the final presentation:
