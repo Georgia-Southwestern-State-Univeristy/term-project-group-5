@@ -26,10 +26,37 @@ Speaking points during the final presentation:
 ### Zengtao Wu
 Role: DevOps/QA 
 
-Major contributions since Beta:
+### Major Contributions Since Beta
 
-Relevant PRs / Commits / Docs / Reviews:
+- Led testing strategy and expanded automated test coverage across the system
+- Implemented validation, authentication, and integration tests to ensure system reliability
+- Stabilized CI pipeline by resolving test failures and improving test consistency
+- Verified end-to-end workflows (login → search → results → saved flights → compare)
+- Improved frontend-backend integration and ensured correct data flow through URL parameters and API calls
+- Enhanced user-facing error handling and validation to prevent invalid operations
+- Contributed to system observability and debugging through structured logging and test validation
 
-Speaking points during the final presentation:
-- Final system overview
-- Testing / CI / deployment summary
+---
+
+### Relevant PRs / Commits / Docs / Reviews
+
+- PR #93 Add Saved Flights modal (API + Navbar integration) 
+- PR #103 – Additional test coverage and integration testing
+- PR #104 – Observability and error handling improvements
+- PR #112 – UI improvements and add compare flights feature
+  
+---
+
+### Speaking Points During Final Presentation
+
+Final system overview
+
+-Our system is a MERN-based flight search platform that allows users to search destinations, view flight results, and manage saved flights. After the Beta release, our focus was ensuring the system is stable, testable, and ready for demonstration through improved testing and validation.
+
+Testing / CI / deployment summary
+
+- Explain how testing ensures system stability and correctness
+- Walk through integration test covering full user flow (search → results)
+- Describe how authentication enforcement is validated
+- Explain how frontend and backend interact via API and URL parameters
+- Highlight how system handles invalid input and external API failures
