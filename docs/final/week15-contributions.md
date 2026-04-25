@@ -6,7 +6,28 @@ Role: Lead/Architect
 
 Major contributions since Beta:
 
+- Refactored major page file (Technical Debt)
+  - Refactored DestinationResultsPage
+  - Seperated the two core views of this page into two seperate view components.
+  - Created a Flight Card component for further scalabilty.
+  - Seperated the fetching and sorting into its own hook file top ensure seperation of problems.
+  - Implemented a test (hookRefactorTest.test.js) that validates the refactor by ensuring already established logic still functions properly and the API handles errors gracefully.
+- Implemented a dropdown field that populates when users get destination suggestions, ensuring users can quickly see flights from their airport to several proposed destinations.
+- Fixed an error in logic from adding protection to the PUT api/search endpoint.
+- Implemented CI fixes after refactoring
+- Designed API contract documentation to match current system
+- Created Release Candidate and documentation to match
+- Deleted out of use endpoints
+
 Relevant PRs / Commits / Docs / Reviews:
+
+PR (for refactoring and error fixing): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes
+PR (for API and RC documentation and out of use endpoints): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/113/changes
+Commit (for dropdown): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes/c8b6806b32d876949c990b1017c3f98c5540f7b4
+Doc (for refactoring): docs/final/week13-refactoring.md
+Doc (for API documentation): docs/api/openapi.yaml
+Doc (release candidate): docs/release/release-candidate.md
+
 
 Speaking points during the final presentation:
 - Live demo of the primary workflow
