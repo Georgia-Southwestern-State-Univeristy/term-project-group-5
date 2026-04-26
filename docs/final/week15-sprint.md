@@ -2,7 +2,7 @@
 
 By Sunday, our final readiness includes a fix to our system's primary remaining defect causing a lag in the population of flight results in the destination suggestion workflow, final QA checklist and demo path verification, completed presentation structure and plan, and finalized draft of the hand-off document.
 
-## Committed Items (Ranked):
+## Committed Items (Ranked)
 1. Fix initial lag in the population of flight results in the destination suggestion workflow
 - Acceptance criteria: Users can access their flight results immediately after clicking on the "Search" button in the flight search form of the destination suggestion workflow, instead of receiving an error message when they first click on the "Search" button, and then having to click the "Back to Search" button and then enter their search request again. 
 - Owner: Keenan
