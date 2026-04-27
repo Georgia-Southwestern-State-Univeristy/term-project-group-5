@@ -21,8 +21,8 @@ Major contributions since Beta:
 - Deleted out of use endpoints
 
 Relevant PRs / Commits / Docs / Reviews:
-- PR for refactoring and error fixing: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes
-- PR for API and RC documentation and out of use endpoints: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/113/changes
+- Refactoring and error fixing: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes
+- API and RC documentation and out of use endpoints: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/113/changes
 - Commit for dropdown: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes/c8b6806b32d876949c990b1017c3f98c5540f7b4
 - Doc for refactoring: docs/final/week13-refactoring.md
 - Doc for API documentation: docs/api/openapi.yaml
@@ -82,10 +82,10 @@ Major contributions since Beta:
 - Contributed to system observability and debugging through structured logging and test validation
 
 Relevant PRs / Commits / Docs / Reviews:
-- PR #93 - Add Saved Flights modal (API + Navbar integration) 
-- PR #103 – Additional test coverage and integration testing
-- PR #104 – Observability and error handling improvements
-- PR #112 – UI improvements and add compare flights feature
+- Added Saved Flights modal (API + Navbar integration): https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/93
+- Additional test coverage and integration testing: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/103
+- Observability and error handling improvements: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/104
+- UI improvements and add compare flights feature: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/112
   
 Speaking points during the final presentation:
 - Final system overview
