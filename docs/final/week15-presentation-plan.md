@@ -1,3 +1,4 @@
+[Presentation Notes.pdf](https://github.com/user-attachments/files/27111260/Presentation.Notes.pdf)
 ## Presentation Title
 CTRL + ALT + ELITE's (Group Five) Travel Planning Website
 
