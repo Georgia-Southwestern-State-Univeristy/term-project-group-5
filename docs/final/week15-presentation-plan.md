@@ -1,4 +1,3 @@
-[Presentation Notes.pdf](https://github.com/user-attachments/files/27111260/Presentation.Notes.pdf)
 ## Presentation Title
 CTRL + ALT + ELITE's (Group Five) Travel Planning Website
 
@@ -31,3 +30,5 @@ We have 2 backup plans if the live demo partially fails:
 ---
 
 Attached is our presentation notes.
+
+[Presentation Notes.pdf](https://github.com/user-attachments/files/27111260/Presentation.Notes.pdf)
