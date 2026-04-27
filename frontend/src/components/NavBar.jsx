@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 import { useAuth } from "../context/authContext.jsx";
 import "../styles/NavBar.css";
 //import { useState } from "react";
@@ -31,6 +31,12 @@ export default function Navbar() {
       {showSavedFlights && (
   <SavedFlightsModal onClose={() => setShowSavedFlights(false)} />
 )}
+      <div className="nav-left">
+        <Link to="/" className="logo">
+          <span className="logo-blue">Travel</span>
+          <span className="logo-dark">Guru</span>
+        </Link>
+      </div>
       <div className="nav-right">
 
         {!user ? (
