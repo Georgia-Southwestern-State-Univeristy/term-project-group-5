@@ -99,14 +99,15 @@ The following is the exact demo flow planned for final presentation:
 
 - Verified frontend validation prevents invalid input before submission
 - Confirmed backend validation handles incorrect or missing data safely
-- Ensed consistent navigation and state persistence across pages
+- Ensured consistent navigation and state persistence across pages
 - Improved clarity of user-facing messages for better usability
 
 ---
 
 ## 4. High-Priority Fixes (PR References)
 
-- PR #135 – - Improved global navigation by adding a persistent logo link for quick return to homepage, enhancing usability and consistency across pages
+- PR #135 - Improved global navigation by adding a persistent logo link for quick return to homepage, enhancing usability and consistency across pages
+- Issue #128 - Fix initial lag in the population of flight results in the destination suggestion workflow 
 
 ---
 
