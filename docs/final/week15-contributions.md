@@ -40,6 +40,7 @@ Role: PM/Scrum and Docs Lead
 Major contributions since Beta:
 - Scheduled and led team meetings
 - Ensured weekly developments and deliverables are in alignment with scope and deadlines
+- Managed project risks and unblocked team by owning risk management and conflict resolution for both internal and external conflicts 
 - Created and tracked weekly sprint goals and committed backlogs
 - Developed user registration page
 - Developed user sign-in page
