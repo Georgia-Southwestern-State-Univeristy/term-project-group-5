@@ -4,6 +4,16 @@ Our system contains a dockerized MERN-stack prototype for a flight aggregation p
 Furthermore, users can create an account and log in to access exclusive features such as the suggestions destination form.
 Filling out this form based on the user's selected preferences allows a return of destination suggestions. From here, users can search flights based on the suggested destinations. Booking and payment are out of scope.
 
+## Architecture Snapshot
+
+Current architecture snapshot:
+
+![Architecture Diagram](<../../images/Blank%20diagram%20(2).jpeg>)
+
+or
+
+[View Current Architecture](<../../images/Blank%20diagram%20(2).jpeg>)
+
 ## Stack and Tool Choices
 
 - Database: MongoDB
@@ -203,3 +213,31 @@ The following are our recommended next steps for a future team:
 - Investigate issue #1
 - Optimize frontend so that the website subjectively performs and looks better
 - Optimize backend so that the system is more scalabale
+
+## User/Admin references
+
+User:
+
+How to register: On entering the site, click the button "Sign In" in the top right corner. Click the "Create an Account" button. Fill out the required fields. Press "Create An Account"
+
+How to login: On entering the site, click the button "Sign In" in the top right corner. Fill out the form. Click "Sign In".
+
+How to get destination suggestions: You must be signed in for this feature. After signing in, click "Start here". Fill out the form to your preference. Click the submit button. Destinations should be listed in the next few seconds
+
+How to retrieve flights: From the homepage or the destination suggestion page, fill out the form at the top with the departure and date fields. Click Search. Flights should be listed on the next page after a short wait.
+
+How to save flights: After searching flights, you should see flight cards with a blue "Save Flight" button. To interact with this button, you must be logged in. Press this button to save a flight.
+
+How to retrieve saved flights: You must be logged into an account with saved flights attached to it. From the homepage, you should see a dropdown menu with your profile name. After clicking, press "View Saved Flights". The saved flights attached to that account should be shown after a short wait.
+
+## ADMIN
+
+API Documentation - docs/api/openapi.yaml
+
+Architecture Decision Records - docs/adr/\*
+
+Data Model - docs/data/model.md
+
+Live deployment website service - https://render.com/?_gl=1*14fug9y*_gcl_au*ODU1MzA2MjQ1LjE3NzUwMDI1NzYuMTQ0MzA1Mzk4My4xNzc1MDAzOTMwLjE3NzUwMDQyMjE.*_ga*MTIxMzUzNzg1My4xNzc1MDAyNTc2*_ga_QK9L9QJC5N*czE3NzcyNTg2NzQkbzYkZzAkdDE3NzcyNTg2NzQkajYwJGwwJGgw
+
+Security Documentation: docs/security
