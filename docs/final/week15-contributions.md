@@ -21,12 +21,12 @@ Major contributions since Beta:
 - Deleted out of use endpoints
 
 Relevant PRs / Commits / Docs / Reviews:
-- Refactoring and error fixing: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes
-- API and RC documentation and out of use endpoints: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/113/changes
-- Commit for dropdown: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105/changes/c8b6806b32d876949c990b1017c3f98c5540f7b4
-- Doc for refactoring: docs/final/week13-refactoring.md
-- Doc for API documentation: docs/api/openapi.yaml
-- Doc release candidate: docs/release/release-candidate.md
+- Refactoring and error fixing: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105 
+- API and RC documentation and out of use endpoints: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/113
+- Commit for dropdown: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/105
+- Doc for refactoring: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/blob/main/docs/final/week13-refactoring.md
+- Doc for API documentation: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/blob/main/docs/api/openapi.yaml
+- Doc release candidate: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/blob/main/docs/releases/release-candidate.md
 
 Speaking points during the final presentation:
 - Live demo of the primary workflow
