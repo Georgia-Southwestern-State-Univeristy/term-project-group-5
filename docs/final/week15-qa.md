@@ -106,7 +106,7 @@ The following is the exact demo flow planned for final presentation:
 
 ## 4. High-Priority Fixes (PR References)
 
-- PR #XX – - Improved global navigation by adding a persistent logo link for quick return to homepage, enhancing usability and consistency across pages
+- PR #135 – - Improved global navigation by adding a persistent logo link for quick return to homepage, enhancing usability and consistency across pages
 
 ---
 
