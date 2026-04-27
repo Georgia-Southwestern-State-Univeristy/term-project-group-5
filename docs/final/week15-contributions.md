@@ -38,13 +38,30 @@ Speaking points during the final presentation:
 Role: PM/Scrum and Docs Lead
 
 Major contributions since Beta:
+- Scheduled and led team meetings
+- Ensured weekly developments and deliverables are in alignment with scope and deadlines
 - Created and tracked weekly sprint goals and committed backlogs
 - Developed user registration page
 - Developed user sign-in page
-- Developed home page for logged-in users
-
+- Developed welcome display for logged-in users
+- Beta retrospective document
+- User guide
+- Admin/maintenance guide
+- Ensured README and Beta documentation alignment
+- Polished repo
+- Created and structured presentation plan
 
 Relevant PRs / Commits / Docs / Reviews:
+- Developed user registration page, user sign-in page, and welcome display for logged-in users: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/69
+- Beta sprint 2: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/76
+- Beta sprint 3: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/88
+- Beta retrospective and final sprint plan: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/97
+- README and Beta documentation alignment: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/99
+- Final sprint 1: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/108
+- Hand-off document draft: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/110
+- User guide: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/124
+- Admin/maintenance guide: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/116
+- Documentation alignment and repo polish: https://github.com/Georgia-Southwestern-State-Univeristy/term-project-group-5/pull/120
 
 Speaking points during the final presentation:
 - Problem and target users
@@ -65,7 +82,7 @@ Major contributions since Beta:
 - Contributed to system observability and debugging through structured logging and test validation
 
 Relevant PRs / Commits / Docs / Reviews:
-- PR #93 Add Saved Flights modal (API + Navbar integration) 
+- PR #93 - Add Saved Flights modal (API + Navbar integration) 
 - PR #103 – Additional test coverage and integration testing
 - PR #104 – Observability and error handling improvements
 - PR #112 – UI improvements and add compare flights feature
