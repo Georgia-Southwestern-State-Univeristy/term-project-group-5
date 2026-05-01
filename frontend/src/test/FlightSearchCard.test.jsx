@@ -50,7 +50,7 @@ test("shows error when return date is before departure date", () => {
         <FlightSearchCard onSubmit={() => {}} />
       </MemoryRouter>
     </AuthProvider>);
-  const inputs = screen.getAllByPlaceholderText("City or airport");
+  const inputs = screen.getAllByPlaceholderText("Airport Code");
 
   fireEvent.change(inputs[0], {
     target: { value: "ATL" },
@@ -89,7 +89,7 @@ test("calls onSubmit when form is valid", () => {
     </AuthProvider>
   );
 
-  const inputs = screen.getAllByPlaceholderText("City or airport");
+  const inputs = screen.getAllByPlaceholderText("Airport Code");
 
   fireEvent.change(inputs[0], {
     target: { value: "ATL" },
@@ -134,7 +134,7 @@ test("search form data is passed to results page via URL", () => {
     );
 
 
-  const inputs = screen.getAllByPlaceholderText("City or airport");
+  const inputs = screen.getAllByPlaceholderText("Airport Code");
 
   fireEvent.change(inputs[0], {
     target: { value: "ATL" },
