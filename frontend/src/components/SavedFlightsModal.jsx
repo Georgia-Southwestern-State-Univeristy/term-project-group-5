@@ -201,7 +201,11 @@ export default function SavedFlightsModal({ onClose }) {
       </div>
       {showCompare && (
         <CompareFlightsModal
-        onClose={() => setShowCompare(false)}
+        onClose={() => {
+            setShowCompare(false);
+            localStorage.removeItem("compareFlights");
+          }
+        }
         compareFlights={compareFlights}
         setCompareFlights={setCompareFlights}
         />
