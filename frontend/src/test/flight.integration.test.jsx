@@ -51,7 +51,7 @@ test("integration: authenticated user can search and navigate to results", async
   );
 
   
-  const inputs = screen.getAllByPlaceholderText("City or airport");
+  const inputs = screen.getAllByPlaceholderText("Airport Code");
 
 fireEvent.change(inputs[0], { target: { value: "ATL" } });
 fireEvent.change(inputs[1], { target: { value: "LAX" } });
